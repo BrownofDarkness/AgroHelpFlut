@@ -136,7 +136,7 @@ class SingInPage extends StatelessWidget {
                   ),
                   children: [
                     TextSpan(
-                        recognizer: TapGestureRecognizer()..onTap=()=>Get.to(()=>SingUpPage(), transition: Transition.fade),
+                        recognizer: TapGestureRecognizer()..onTap=()=>Get.toNamed(RouteHelper.getRegister()),
                         text: "Create",
                         style: TextStyle(
                             color: Appcolors.mainBlackColor,
