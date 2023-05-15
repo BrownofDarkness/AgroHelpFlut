@@ -1,7 +1,11 @@
+import 'package:agrohelp/pages/home/search_page.dart';
+import 'package:agrohelp/pages/home/user_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:agrohelp/pages/order/order_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import '../../utils/dimentions.dart';
+import '../drawer/Drawer_page.dart';
 import 'main_food_page.dart';
 import 'package:agrohelp/pages/account/account_page.dart';
 import 'package:agrohelp/pages/auth/sing_up_page.dart';
@@ -18,12 +22,18 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   // late PersistentTabController _controller;
 
+  List title_page = [
+    "Home",
+    "Search",
+    "Favorites",
+    "Forum",
+  ];
 
   List page = [
-    MainFoodPage(),
-    OrderPage(),
-    Container(child: Center(child: Text("Next next page")),),
-    AccountPage()
+    UserHomePage(),
+    SearchPage(),
+    Container(child: Center(child: Text("favorites page")),),
+    Container(child: Center(child: Text("Forum page ")),),
   ];
   void onTapNav(int index){
     setState(() {
@@ -38,6 +48,46 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFF025592),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu, color: Colors.white54,size: Dimensions.height30(context),),
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // Ouvre le drawer
+              },
+            );
+          },
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(title_page[_selectedIndex],
+                  style: TextStyle(
+                    fontFamily: 'Chakra_Petch',
+                    color: Colors.white60,
+                    fontSize: Dimensions.height20(context),
+                  ),
+                  overflow: TextOverflow.visible,
+                ),
+
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerRight,
+              width: Dimensions.width30(context)*3,
+              child: Icon(Icons.notifications, color: Colors.white54,size: Dimensions.height30(context),),
+            ),
+          ],
+        ),
+      ),
+      drawer: DrawerPage(),
       body: page[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Appcolors.mainColor,
@@ -52,16 +102,16 @@ class _HomePageState extends State<HomePage> {
             label: "home",
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.archive),
-            label: "history",
+              icon: Icon(Icons.manage_search, size: Dimensions.height30(context),),
+            label: "search",
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart),
-            label: "cart",
+              icon: Icon(Icons.star),
+            label: "favorites",
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-            label: "me",
+              icon: Icon(Icons.forum),
+            label: "forum",
           ),
         ],
       ),

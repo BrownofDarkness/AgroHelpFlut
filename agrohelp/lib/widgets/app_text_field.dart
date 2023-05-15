@@ -5,13 +5,19 @@ import '../../utils/dimentions.dart';
 
 import '../../utils/colors.dart';
 
-class AppTextField extends StatelessWidget {
+class AppTextField extends StatefulWidget {
   final TextEditingController textController;
   final String hintText;
   final IconData icon;
   final bool isObscur;
-  const AppTextField({Key? key, required this.textController, required this.hintText, required this.icon, this.isObscur=false}) : super(key: key);
+  String content;
+  AppTextField({Key? key, required this.textController, required this.hintText, required this.icon, this.isObscur=false,required this.content}) : super(key: key);
 
+  @override
+  State<AppTextField> createState() => _AppTextFieldState();
+}
+
+class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
 
@@ -36,11 +42,28 @@ class AppTextField extends StatelessWidget {
           ]
       ),
       child: TextField(
-        obscureText: isObscur?true:false,
-        controller: textController,
+        onChanged: (value){
+          widget.content = value;
+        },
+        textInputAction: TextInputAction.next,
+        onEditingComplete: () {
+
+          // Réaffectez la valeur saisie au champ de texte
+          setState(() {
+            widget.textController.text = widget.content;
+          });
+        },
+        onSubmitted: (value){
+          setState(() {
+            print(widget.textController.text);
+            widget.textController.text = widget.content;
+          });
+        },
+        obscureText: widget.isObscur?true:false,
+        controller: widget.textController,
         decoration: InputDecoration(
-          hintText: hintText,
-          prefixIcon: Icon(icon, color: Colors.black,),
+          hintText: widget.hintText,
+          prefixIcon: Icon(widget.icon, color: Colors.black,),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radius20(context))*0.5,
               borderSide: BorderSide(

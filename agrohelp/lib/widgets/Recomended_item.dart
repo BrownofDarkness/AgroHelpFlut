@@ -75,9 +75,10 @@ class _RecommendedItemState extends State<RecommendedItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    clipper(15,"crop Name hjshdjsd jshdjsdsjgeytezzte qgdgdsfyds ",Dimensions.width30(context)*1.5),
+                    clipper(Dimensions.width30(context).toInt(),"crop Name hjshdjsd jshdjsdsjgeytezzte qgdgdsfyds ",Dimensions.width30(context)*1.5),
                     maxLines: 1,
                     style: TextStyle(
+                      fontFamily: 'Chakra_Petch',
                       fontSize: Dimensions.height15(context)*1.2,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
@@ -85,9 +86,11 @@ class _RecommendedItemState extends State<RecommendedItem> {
                   ),
                   SizedBox(height: Dimensions.height20(context),),
                   Text(
-                    clipper(35, "Cropskdhsjhdjshdjdsdjssjsdhjsdhjsdhsdjssdjsjsgdhgsgdhgsdgshdgshdgsg", Dimensions.width30(context)*1.5),
+                    clipper((Dimensions.width30(context)*2).toInt(), "Cropskdhsjhdjshdjdsdjssjsdhjsdhjsdhsdjssdjsjsgdhgsgdhgsdgshdgshdgsg", Dimensions.width30(context)*2.3),
                     maxLines: 1,
                     style: TextStyle(
+                      fontFamily: 'Chakra_Petch',
+                      fontSize: Dimensions.height15(context),
                       overflow: TextOverflow.visible,
                       fontWeight: FontWeight.w500,
                       color: Colors.white,

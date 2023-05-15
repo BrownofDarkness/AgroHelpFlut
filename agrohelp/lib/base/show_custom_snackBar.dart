@@ -5,7 +5,7 @@ import '../widgets/big_text.dart';
 
 void ShowCustomSnackBar (String message, {bool isError=true, String title ='Error'}){
   Get.snackbar(title, message,
-    titleText: BigText(text: isError?title:'success', color: Colors.white,),
+    titleText: BigText(text: title, color: Colors.white,),
     messageText: Text(message, style: const TextStyle(
       color: Colors.white,
       ),

@@ -14,17 +14,20 @@ import '../../utils/colors.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/big_text.dart';
 
-class SingInPage extends StatelessWidget {
+class SingInPage extends StatefulWidget {
   const SingInPage({Key? key}) : super(key: key);
 
+  @override
+  State<SingInPage> createState() => _SingInPageState();
+}
 
-
+class _SingInPageState extends State<SingInPage> {
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var emailfocus = FocusNode();
+  var passwordfocus = FocusNode();
   @override
   Widget build(BuildContext context) {
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
-    var nameController = TextEditingController();
-    var phoneController = TextEditingController();
 
     void _login(AuthController authController){
       String password = passwordController.text.trim();
@@ -48,6 +51,115 @@ class SingInPage extends StatelessWidget {
         });
       }
     }
+
+    List<FocusNode> focusNodes = [
+      emailfocus,
+      passwordfocus,
+    ];
+
+    List<bool> obscured = [
+      false,
+      true,
+    ];
+
+    List<String> hintTexts = [
+      "Email",
+      "Password",
+    ];
+
+    List<IconData> icons = [
+      Icons.person_outline,
+      Icons.alternate_email,
+      Icons.lock_outlined,
+
+    ];
+
+
+    List<TextEditingController> textControllers = [
+      emailController,
+      passwordController,
+      // Ajoutez autant de TextEditingController que nécessaire pour chaque champ de texte
+    ];
+
+    List<Widget> textFields = [];
+    for (int i = 0; i < focusNodes.length; i++) {
+      TextInputAction textInputAction = i < focusNodes.length - 1
+          ? TextInputAction.next
+          : TextInputAction.done;
+
+      textFields.add(
+        Container(
+          margin: EdgeInsets.only(left: Dimensions.height20(context)*2, right: Dimensions.height20(context)*2),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Dimensions.radius20(context)*0.5),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0xFF02690C),
+                  blurRadius: 6,
+                  offset: Offset(0, 3), // décalage vers le bas et la droite
+
+                ),
+                BoxShadow(
+                  color: Colors.white,
+                  blurRadius: 5,
+                  offset: Offset(-2, -2), // décalage vers le haut et la gauche
+                  spreadRadius: 0, // ne pas étendre l'ombre
+                ),
+              ]
+          ),
+          child: TextField(
+            obscureText: obscured[i],
+            focusNode: focusNodes[i],
+            textInputAction: textInputAction,
+            controller: textControllers[i],
+            onEditingComplete: () {
+              setState(() {
+                if (i < focusNodes.length - 1) {
+                  focusNodes[i].unfocus();
+                  // Déplacez le focus vers le champ de texte suivant
+                  FocusScope.of(context).requestFocus(focusNodes[i + 1]);
+                } else {
+                  // Vous avez atteint le dernier champ de texte
+                  // Effectuez une action finale ici (par exemple, soumettre le formulaire)
+                }
+              });
+            },
+            decoration: InputDecoration(
+              hintText: hintTexts[i],
+              prefixIcon: Icon(icons[i], color: Colors.black,),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radius20(context))*0.5,
+                  borderSide: BorderSide(
+                    width: 2.0,
+                    color: Colors.white,
+                  )
+              ),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radius30(context)),
+                  borderSide: BorderSide(
+                    width: 1.0,
+                    color: Colors.white,
+                  )
+              ),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radius30(context)),
+                  borderSide: BorderSide(
+                    width: 1.0,
+                    color: Colors.white,
+                  )
+              ),
+            ),
+          ),
+        ),
+      );
+      if (i < focusNodes.length - 1) {
+        textFields.add(
+          SizedBox(height: Dimensions.height30(context)*1.5,), // Ajoutez le SizedBox entre les champs de texte
+        );
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: GetBuilder<AuthController>(builder: (authcontroller){
@@ -78,21 +190,9 @@ class SingInPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: Dimensions.height20(context)*2,),
-              // your email
-              AppTextField(
-                textController: emailController,
-                hintText: "Email",
-                icon: Icons.alternate_email_rounded,
-              ),
-              SizedBox(height: Dimensions.screenHeight(context)*0.05,),
-              // your password
-              AppTextField(
-                textController: passwordController,
-                hintText: "Password",
-                icon: Icons.lock_outlined,
-                isObscur: true,
-              ),
-
+             Column(
+               children: textFields,
+             ),
               SizedBox(height: Dimensions.screenHeight(context)*0.08,),
               GestureDetector(
                 onTap: (){

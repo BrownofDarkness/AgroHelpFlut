@@ -30,7 +30,7 @@ class RouteHelper{
     GetPage(name: splashPage, page: ()=>SplashScreen()),
     GetPage(name: login, page: ()=>SingInPage(), transition: Transition.fadeIn),
     GetPage(name: register, page: ()=>SingUpPage(), transition: Transition.fadeIn),
-    GetPage(name: initial, page: ()=>AgroHome()),
+    GetPage(name: initial, page: ()=>HomePage()),
     GetPage(name: userHome, page: ()=>UserHomePage()),
     GetPage(name: popularFood, page: (){
       var pageId = Get.parameters['pageId'];

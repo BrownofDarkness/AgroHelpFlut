@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.lightGreen,
       ),
       //home: SingInPage(),
-      home: AgroHome(),
-      initialRoute: RouteHelper.getUserHome(),
+      //home: AgroHome(),
+      initialRoute: RouteHelper.getInitial(),
       getPages: RouteHelper.routes,
     );
   }

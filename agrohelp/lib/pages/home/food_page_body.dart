@@ -47,7 +47,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
     return Column(
       children: [
         GetBuilder<PopularProductController>(builder: (popularProducts){
-          //CircularProgressIndicator() pour le loading avec utilistaion d'une condition isloaded
+          //CircularProgressIndicator() pour le loading avec utilisation d'une condition isloaded
           return Container(
             height: Dimensions.Pageview(context),
             child: PageView.builder(

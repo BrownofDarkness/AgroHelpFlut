@@ -24,12 +24,28 @@ class SingUpPage extends StatefulWidget {
 }
 
 class _SingUpPageState extends State<SingUpPage> {
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var nameController = TextEditingController();
+  var emailfocus = FocusNode();
+  var namefocus = FocusNode();
+  var passwordfocus = FocusNode();
+  var type;
+  String email = '',password = '',name = '';
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    passwordController.dispose();
+    emailfocus.dispose();
+    namefocus.dispose();
+    passwordfocus.dispose();
+    type;
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
-    var nameController = TextEditingController();
-    var phoneController = TextEditingController();
     var singUpImage = [
       "twitter.png",
       "facebook.png",
@@ -50,12 +66,13 @@ class _SingUpPageState extends State<SingUpPage> {
       String name = nameController.text.trim();
       String password = passwordController.text.trim();
       String email = emailController.text.trim();
-      String type = selectedOption;
+      type = selectedOption;
       if(name.isEmpty){
-        ShowCustomSnackBar("type in your name", title: "Name");
+        ShowCustomSnackBar("type in your username", title: "Username");
       }else if(email.isEmpty){
         ShowCustomSnackBar("type in your email adress", title: "Email adress");
       }else if(!GetUtils.isEmail(email)){
+        print(email);
         ShowCustomSnackBar("type in a valid email adress", title: "Email adress");
       }else if(password.isEmpty){
         ShowCustomSnackBar("type in your password", title: "Password");
@@ -64,7 +81,7 @@ class _SingUpPageState extends State<SingUpPage> {
       }else if(type.isEmpty){
         ShowCustomSnackBar("the type is empty please choose one", title: "Type");
       }else{
-        ShowCustomSnackBar("All  informations was sent", title: "Perfect", isError: false);
+        ShowCustomSnackBar("All  informations was typed", title: "Perfect", isError: false);
         SingUpModel signUpModel = SingUpModel(
             username: name,
             email: email,
@@ -82,6 +99,120 @@ class _SingUpPageState extends State<SingUpPage> {
         authController.hello();
       }
     }
+
+    List<FocusNode> focusNodes = [
+      namefocus,
+      emailfocus,
+      passwordfocus,
+    ];
+
+    List<bool> obscured = [
+      false,
+      false,
+      true,
+    ];
+
+    List<String> hintTexts = [
+      "Username",
+      "Email",
+      "Password",
+    ];
+
+    List<IconData> icons = [
+      Icons.person_outline,
+      Icons.alternate_email,
+      Icons.lock_outlined,
+
+    ];
+
+
+    List<TextEditingController> textControllers = [
+      nameController,
+      emailController,
+      passwordController,
+      // Ajoutez autant de TextEditingController que nécessaire pour chaque champ de texte
+    ];
+
+    List<Widget> textFields = [];
+    for (int i = 0; i < focusNodes.length; i++) {
+      TextInputAction textInputAction = i < focusNodes.length - 1
+          ? TextInputAction.next
+          : TextInputAction.done;
+
+      textFields.add(
+        Container(
+          margin: EdgeInsets.only(left: Dimensions.height20(context)*2, right: Dimensions.height20(context)*2),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Dimensions.radius20(context)*0.5),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0xFF02690C),
+                  blurRadius: 6,
+                  offset: Offset(0, 3), // décalage vers le bas et la droite
+
+                ),
+                BoxShadow(
+                  color: Colors.white,
+                  blurRadius: 5,
+                  offset: Offset(-2, -2), // décalage vers le haut et la gauche
+                  spreadRadius: 0, // ne pas étendre l'ombre
+                ),
+              ]
+          ),
+          child: TextField(
+            obscureText: obscured[i],
+            focusNode: focusNodes[i],
+            textInputAction: textInputAction,
+            controller: textControllers[i],
+            onEditingComplete: () {
+              setState(() {
+                if (i < focusNodes.length - 1) {
+                  focusNodes[i].unfocus();
+                  // Déplacez le focus vers le champ de texte suivant
+                  FocusScope.of(context).requestFocus(focusNodes[i + 1]);
+                } else {
+                  // Vous avez atteint le dernier champ de texte
+                  // Effectuez une action finale ici (par exemple, soumettre le formulaire)
+                }
+              });
+            },
+            decoration: InputDecoration(
+              hintText: hintTexts[i],
+              prefixIcon: Icon(icons[i], color: Colors.black,),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radius20(context))*0.5,
+                  borderSide: BorderSide(
+                    width: 2.0,
+                    color: Colors.white,
+                  )
+              ),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radius30(context)),
+                  borderSide: BorderSide(
+                    width: 1.0,
+                    color: Colors.white,
+                  )
+              ),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radius30(context)),
+                  borderSide: BorderSide(
+                    width: 1.0,
+                    color: Colors.white,
+                  )
+              ),
+            ),
+          ),
+        ),
+      );
+      if (i < focusNodes.length - 1) {
+        textFields.add(
+          SizedBox(height: Dimensions.height20(context),), // Ajoutez le SizedBox entre les champs de texte
+        );
+      }
+    }
+
+
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -113,26 +244,8 @@ class _SingUpPageState extends State<SingUpPage> {
                 ),
               ),
               SizedBox(height: Dimensions.height20(context),),
-              // your username
-              AppTextField(
-                textController: nameController,
-                hintText: "Username",
-                icon: Icons.person_outline,
-              ),
-              SizedBox(height: Dimensions.height20(context),),
-              // your email
-              AppTextField(
-                textController: emailController,
-                hintText: "Email",
-                icon: Icons.alternate_email,
-              ),
-              SizedBox(height: Dimensions.height20(context),),
-              // your password
-              AppTextField(
-                textController: passwordController,
-                hintText: "Password",
-                icon: Icons.lock_outlined,
-                isObscur: true,
+              Column(
+                children: textFields,
               ),
               SizedBox(height: Dimensions.height20(context),),
               // your phone number
@@ -169,6 +282,7 @@ class _SingUpPageState extends State<SingUpPage> {
                   items: dropdownOptions,
                   onChanged: (String? value) {
                     selectedOption = value.toString().isEmpty?selectedOption: value.toString();
+                    type = selectedOption;
                     print(selectedOption);
                   },
                 ),
