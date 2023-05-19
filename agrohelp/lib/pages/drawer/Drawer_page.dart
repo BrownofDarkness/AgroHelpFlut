@@ -1,7 +1,9 @@
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../helper/text_cliper.dart';
+import '../../routes/route_helper.dart';
 import '../../utils/colors.dart';
 import '../../widgets/app_icon.dart';
 
@@ -55,7 +57,7 @@ class DrawerPage extends StatelessWidget {
                               maxLines: 1,
                               style: TextStyle(
                                 fontFamily: 'Chakra_Petch',
-                                fontSize: Dimensions.height20(context),
+                                fontSize: Dimensions.height20(context)*0.8,
                                 overflow: TextOverflow.visible,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -84,7 +86,8 @@ class DrawerPage extends StatelessWidget {
               ),
               onTap: () {
                 // Action à effectuer lorsque l'option Accueil est sélectionnée
-                Navigator.pop(context); // Ferme le Drawer
+                Navigator.pop(context);// Ferme le Drawer
+                Get.toNamed(RouteHelper.getProfile());
                 // Ajoutez votre logique de navigation ici
               },
             ),
@@ -109,7 +112,8 @@ class DrawerPage extends StatelessWidget {
               ),
               onTap: () {
                 // Action à effectuer lorsque l'option Accueil est sélectionnée
-                Navigator.pop(context); // Ferme le Drawer
+                Navigator.pop(context);
+                Get.toNamed(RouteHelper.getaddParcelPage());// Ferme le Drawer
                 // Ajoutez votre logique de navigation ici
               },
             ),

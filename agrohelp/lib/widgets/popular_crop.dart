@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../helper/text_cliper.dart';
+import '../routes/route_helper.dart';
 import '../utils/dimentions.dart';
 
 class PopularCrop extends StatefulWidget {
   late  bool isStared;
-  PopularCrop({Key? key,required this.isStared}) : super(key: key);
+  final int id;
+  PopularCrop({Key? key,required this.isStared, required this.id}) : super(key: key);
 
   @override
   State<PopularCrop> createState() => _PopularCropState();
@@ -28,6 +31,7 @@ class _PopularCropState extends State<PopularCrop> {
           GestureDetector(
             onTap: (){
               print("object");
+              Get.toNamed(RouteHelper.getCropDetail(widget.id));
             },
             child: Container(
               height: Dimensions.height30(context)*6,
@@ -75,7 +79,7 @@ class _PopularCropState extends State<PopularCrop> {
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(height: Dimensions.height10(context),),
+                        SizedBox(height: Dimensions.height10(context)*0.5,),
                         Text(
                           clipper(15, "Cropskdhsjhdjshdjdsdjssjs dhjsdhjsdhsdjssdjsjsgdhgsgdhgsdgshdgshdgsg", Dimensions.width30(context)*0.1),
                           maxLines: 1,
@@ -99,10 +103,87 @@ class _PopularCropState extends State<PopularCrop> {
                       ),
                       child: GestureDetector(
                           onTap: (){
-                            setState(() {
-                              widget.isStared = !widget.isStared;
-                              print(widget.isStared);
-                            });
+                            if (!widget.isStared){
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Mon pop-up'),
+                                    content: Text('Contenu du pop-up'),
+                                    actions: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('Cancel', style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),),
+                                        style: ElevatedButton.styleFrom(
+
+                                          backgroundColor: Colors.red, // Couleur de fond du bouton
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          setState(() {
+                                            widget.isStared = true;
+                                            print(widget.isStared);
+                                          });
+                                        },
+                                        child: Text('add', style: TextStyle(
+                                          color: Colors.green,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }else{
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Mon pop-up'),
+                                    content: Text('Contenu du pop-up'),
+                                    actions: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('Cancel', style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red, // Couleur de fond du bouton
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          setState(() {
+                                            widget.isStared = false;
+                                            print(widget.isStared);
+                                          });
+                                        },
+                                        child: Text('remove', style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+
                           },
                           child:widget.isStared? Icon(Icons.star, color: Colors.redAccent,size: Dimensions.width30(context)*1.7,): Icon(Icons.star_border_purple500_outlined, color: Colors.grey,size: Dimensions.width30(context)*2,)
                       ),

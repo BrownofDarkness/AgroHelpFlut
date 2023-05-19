@@ -20,7 +20,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
   bool hiddenText = true;
 
   double textHeight(BuildContext context) =>
-      Dimensions.screenHeight(context)/5.63;
+      (Dimensions.screenHeight(context)/5.63).toDouble();
 
   @override
   void initState(){

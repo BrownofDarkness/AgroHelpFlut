@@ -13,7 +13,7 @@ class AccountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: Dimensions.width10(context),
+      padding: EdgeInsets.only(left: Dimensions.width10(context)*1.2,
       top: Dimensions.height10(context),
       bottom: Dimensions.height10(context)
       ),

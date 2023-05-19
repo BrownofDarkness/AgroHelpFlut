@@ -19,9 +19,9 @@ class BigText extends StatelessWidget {
       overflow: TextOverflow.clip,
       style: TextStyle(
         decoration: TextDecoration.none,
-        fontFamily: 'Roboto',
+        fontFamily: 'Chakra_Petch',
+        fontWeight: FontWeight.w700,
         color: color,
-        fontWeight: FontWeight.w400,
         fontSize: size==0?Dimensions.font20(context):size,
       ),
     );

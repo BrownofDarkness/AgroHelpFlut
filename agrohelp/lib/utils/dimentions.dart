@@ -74,7 +74,7 @@ class Dimensions{
   //popular food
   //static double popularFoodImageSize= screenHeight/2.41;
   static double popularFoodImageSize(BuildContext context) =>
-      screenHeight(context)/2.41;
+      screenHeight(context)/2.7;
 
   static pageViewTextContainer(BuildContext context) {}
 

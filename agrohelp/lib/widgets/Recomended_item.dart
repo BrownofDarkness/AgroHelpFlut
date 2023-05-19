@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../helper/text_cliper.dart';
+import '../routes/route_helper.dart';
 import '../utils/dimentions.dart';
 import 'app_column.dart';
 
 class RecommendedItem extends StatefulWidget {
   late bool isStared;
-  RecommendedItem({Key? key, required this.isStared}) : super(key: key);
+  final int id;
+  RecommendedItem({Key? key, required this.isStared, required this.id}) : super(key: key);
 
   @override
   State<RecommendedItem> createState() => _RecommendedItemState();
@@ -40,6 +43,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
             child: GestureDetector(
               onTap: (){
                 print("object");
+                Get.toNamed(RouteHelper.getCropDetail(widget.id));
               },
               child: Container(
                 height: Dimensions.pageViewContainer(context),
@@ -57,10 +61,87 @@ class _RecommendedItemState extends State<RecommendedItem> {
           right: Dimensions.width20(context)*3.5,
           child: GestureDetector(
               onTap: (){
-                setState(() {
-                  widget.isStared = !widget.isStared;
-                  print(widget.isStared);
-                });
+                if (!widget.isStared){
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Mon pop-up'),
+                        content: Text('Contenu du pop-up'),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Cancel', style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),),
+                            style: ElevatedButton.styleFrom(
+
+                              backgroundColor: Colors.red, // Couleur de fond du bouton
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              setState(() {
+                                widget.isStared = true;
+                                print(widget.isStared);
+                              });
+                            },
+                            child: Text('add', style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }else{
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Mon pop-up'),
+                        content: Text('Contenu du pop-up'),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Cancel', style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red, // Couleur de fond du bouton
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              setState(() {
+                                widget.isStared = false;
+                                print(widget.isStared);
+                              });
+                            },
+                            child: Text('remove', style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+
               },
               child:widget.isStared? Icon(Icons.star, color: Colors.yellowAccent,size: Dimensions.width30(context)*1.7,): Icon(Icons.star_border_purple500_outlined, color: Colors.white,size: Dimensions.width30(context)*1.8,)
           ),
@@ -84,7 +165,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: Dimensions.height20(context),),
+                  SizedBox(height: Dimensions.height10(context),),
                   Text(
                     clipper((Dimensions.width30(context)*2).toInt(), "Cropskdhsjhdjshdjdsdjssjsdhjsdhjsdhsdjssdjsjsgdhgsgdhgsdgshdgshdgsg", Dimensions.width30(context)*2.3),
                     maxLines: 1,

@@ -155,6 +155,7 @@ class _UserHomePageState extends State<UserHomePage> {
             Expanded(
 
               child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
                 child: Container(
                   padding: EdgeInsets.only(left: Dimensions.width20(context)),
                   child: Column(
@@ -163,10 +164,10 @@ class _UserHomePageState extends State<UserHomePage> {
                       for (int i = 0; i < 5; i += 2)...[
                         Row(
                           children: [
-                            PopularCrop(isStared: false),
+                            PopularCrop(isStared: false, id: i),
                             if (i+1 < 5)...[
                               SizedBox(width: Dimensions.width20(context)*1.2,),
-                              PopularCrop(isStared: false),
+                              PopularCrop(isStared: false, id: i+1),
                             ]
                           ],
                         ),
@@ -259,31 +260,30 @@ class _UserHomePageState extends State<UserHomePage> {
       ),
     );
   }
-  Widget _buildPageItem(int index){
-    Matrix4 matrix = new Matrix4.identity();
-    if(index == _currPagevalue.floor()){
-      var currScale = 1- (_currPagevalue-index)*(1-_scaleFactor);
-      var currTrans = _height(context)*(1-currScale)/2;
-      matrix = Matrix4.diagonal3Values(1, currScale, 1)..setTranslationRaw(0, currTrans, 0);
+  Widget _buildPageItem(int index) {
+    Matrix4 matrix = Matrix4.identity();
+    double currScale, currTrans;
 
-    }else if (index == _currPagevalue.floor()+1){
-      var currScale = _scaleFactor+(_currPagevalue-index+1)*(1-_scaleFactor);
-      var currTrans = _height(context)*(1-currScale)/2;
-      matrix = Matrix4.diagonal3Values(1, currScale, 1);
-      matrix = Matrix4.diagonal3Values(1, currScale, 1)..setTranslationRaw(0, currTrans, 0);
-    }else if (index == _currPagevalue.floor()-1){
-      var currScale = 1-(_currPagevalue-index)*(1-_scaleFactor);
-      var currTrans = _height(context)*(1-currScale)/2;
-      matrix = Matrix4.diagonal3Values(1, currScale, 1);
-      matrix = Matrix4.diagonal3Values(1, currScale, 1)..setTranslationRaw(0, currTrans, 0);
-    }else{
-      var currScale = 0.8;
-      matrix = Matrix4.diagonal3Values(1, currScale, 1)..setTranslationRaw(0, _height(context), 0);
+    if (index == _currPagevalue.floor()) {
+      currScale = 1 - (_currPagevalue - index) * (1 - _scaleFactor);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else if (index == _currPagevalue.floor() + 1) {
+      currScale = _scaleFactor + (_currPagevalue - index + 1) * (1 - _scaleFactor);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else if (index == _currPagevalue.floor() - 1) {
+      currScale = 1 - (_currPagevalue - index) * (1 - _scaleFactor);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else {
+      currScale = 0.8;
+      currTrans = _height(context) * (1 - currScale) / 2;
     }
+
+    matrix = Matrix4.diagonal3Values(1, currScale, 1);
+    matrix.setTranslationRaw(0, currTrans, 0);
+
     return Transform(
       transform: matrix,
-      child: RecommendedItem(isStared: false,),
+      child: RecommendedItem(isStared: false, id: index),
     );
-
   }
 }

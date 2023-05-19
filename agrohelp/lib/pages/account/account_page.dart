@@ -15,6 +15,9 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Color(0xFF025592), // Couleur de la flèche
+        ),
         backgroundColor: Appcolors.mainColor,
         title: Center(
           child: BigText(
@@ -47,18 +50,7 @@ class AccountPage extends StatelessWidget {
                         iconsize: Dimensions.height10(context)*5/2,
                         size: Dimensions.height10(context)*5,
                       ),
-                      bigText: BigText(text: "Ahmed",),
-                    ),
-                    SizedBox(height: Dimensions.height30(context),),
-                    AccountWidget(
-                      appIcon: AppIcon(
-                        icon: Icons.phone,
-                        backgroundColor: Appcolors.yellowColor,
-                        iconColor: Colors.white,
-                        iconsize: Dimensions.height10(context)*5/2,
-                        size: Dimensions.height10(context)*5,
-                      ),
-                      bigText: BigText(text: "656614565",),
+                      bigText: BigText(text: "wilbrown",),
                     ),
                     SizedBox(height: Dimensions.height30(context),),
                     AccountWidget(
@@ -74,46 +66,24 @@ class AccountPage extends StatelessWidget {
                     SizedBox(height: Dimensions.height30(context),),
                     AccountWidget(
                       appIcon: AppIcon(
-                        icon: Icons.location_on,
-                        backgroundColor: Appcolors.yellowColor,
+                        icon: Icons.type_specimen_outlined,
+                        backgroundColor: Appcolors.paraColor,
                         iconColor: Colors.white,
                         iconsize: Dimensions.height10(context)*5/2,
                         size: Dimensions.height10(context)*5,
                       ),
-                      bigText: BigText(text: "Fill in your adress",),
+                      bigText: BigText(text: "type de votre compte",),
                     ),
                     SizedBox(height: Dimensions.height30(context),),
                     AccountWidget(
                       appIcon: AppIcon(
-                        icon: Icons.message_outlined,
+                        icon: Icons.tips_and_updates_outlined,
                         backgroundColor: Colors.redAccent,
                         iconColor: Colors.white,
                         iconsize: Dimensions.height10(context)*5/2,
                         size: Dimensions.height10(context)*5,
                       ),
-                      bigText: BigText(text: "Ahmed",),
-                    ),
-                    SizedBox(height: Dimensions.height30(context),),
-                    AccountWidget(
-                      appIcon: AppIcon(
-                        icon: Icons.message_outlined,
-                        backgroundColor: Colors.redAccent,
-                        iconColor: Colors.white,
-                        iconsize: Dimensions.height10(context)*5/2,
-                        size: Dimensions.height10(context)*5,
-                      ),
-                      bigText: BigText(text: "Ahmed",),
-                    ),
-                    SizedBox(height: Dimensions.height30(context),),
-                    AccountWidget(
-                      appIcon: AppIcon(
-                        icon: Icons.message_outlined,
-                        backgroundColor: Colors.redAccent,
-                        iconColor: Colors.white,
-                        iconsize: Dimensions.height10(context)*5/2,
-                        size: Dimensions.height10(context)*5,
-                      ),
-                      bigText: BigText(text: "Ahmed",),
+                      bigText: BigText(text: "update your profile",),
                     ),
                     SizedBox(height: Dimensions.height30(context),),
                   ],
