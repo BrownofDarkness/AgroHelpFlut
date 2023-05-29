@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../../model/response_model.dart';
 import '../../model/signUp_model.dart';
+import '../../model/user_model.dart';
 import '../repository/auth_repo.dart';
 
 class AuthController extends GetxController implements GetxService{
@@ -11,6 +12,12 @@ class AuthController extends GetxController implements GetxService{
 
   bool _isloading = false;
   bool get isloading => _isloading;
+
+  bool _isconnected = false;
+  bool get isconnected => _isconnected;
+
+  dynamic _user;
+  dynamic get user => _user;
 
   Future<ResponseModel> registration(SingUpModel signUpModel) async {
     _isloading = true;
@@ -37,14 +44,19 @@ class AuthController extends GetxController implements GetxService{
     _isloading = true;
     Response response = await authRepo.login(email, password);
     late ResponseModel responseModel;
-
+    print("1: ${response.statusCode}");
     if(response.statusCode == 200){
-      authRepo.saveToken(response.body["Token"]);
-      responseModel = ResponseModel(true, response.body["Token"]);
+      print(response.body["token"]);
+      print(_isconnected);
+      authRepo.saveToken(response.body["token"]);
+      responseModel = ResponseModel(true, response.body["token"]);
+      _isconnected = true;
     }else{
       responseModel = ResponseModel(false, response.statusText!);
+      print(response.body);
     }
-    _isloading = true;
+
+    _isloading = false;
     update();
     return responseModel;
   }
@@ -53,8 +65,21 @@ class AuthController extends GetxController implements GetxService{
     authRepo.saveNumberAndPassword(number, password);
   }
 
+Future<void> getUserToken() async {
+    String val = await authRepo.getUserToken();
+  }
 
   bool clearSharedData(){
+    _isconnected = false;
+    update();
     return authRepo.clearSharedData();
   }
+
+Future <void> getUser() async{
+  Response response = await authRepo.me();
+  print(response.body[0]);
+  _user = User.fromJson(response.body[0]);
+  update();
 }
+}
+

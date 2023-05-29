@@ -1,8 +1,11 @@
+import 'package:agrohelp/data/controllers/culture_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../data/controllers/auth_controller.dart';
+import '../../model/cultures_model.dart';
 import '../../routes/route_helper.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimentions.dart';
@@ -12,7 +15,8 @@ import '../../widgets/big_text.dart';
 
 class CropDetailPage extends StatefulWidget {
   final int id;
-  const CropDetailPage({Key? key, required this.id}) : super(key: key);
+  final String side;
+  const CropDetailPage({Key? key, required this.id, required this.side}) : super(key: key);
 
   @override
   State<CropDetailPage> createState() => _CropDetailPageState();
@@ -33,7 +37,9 @@ class _CropDetailPageState extends State<CropDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
+      body: GetBuilder<CultureController>(builder: (cultures){
+        Map culture = widget.side == "r"?cultures.recommendedcultureList[widget.id]:cultures.popularcultureList[widget.id];
+        return Stack(
         children: [
           //background Image
           Positioned(
@@ -45,9 +51,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(
-                      "assets/images/funfood.jpeg",
-                    ),
+                    image: NetworkImage(culture['culture'].photo),
                   ),
                 ),
               )),
@@ -86,8 +90,8 @@ class _CropDetailPageState extends State<CropDetailPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    BigText(text: "Cacao (Theobroma cacao)", size: Dimensions.font20(context), ),
-                    BigText(text: "Culture commerciale", size: Dimensions.font16(context), ),
+                    BigText(text: culture['culture'].name, size: Dimensions.font20(context), ),
+                    BigText(text: culture['culture'].category, size: Dimensions.font16(context), ),
                     SizedBox(height: Dimensions.height10(context),),
                     Expanded(
                         child: Container(
@@ -102,7 +106,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                     BigText(text: "Informations générales", size: Dimensions.font20(context), ),
                                     Container(
                                       child:  BigText(
-                                        text: "\t\t\tLe cacao est cultivé pour ses fèves, qui sont essentielles pour la production de chocolat. Les arbres de cacao sont originaires des régions tropicales et subtropicales et se développent dans des sols riches en matière organique et bien drainés.\nLes fèves de cacao sont récoltées des cabosses, qui sont des fruits allongés. Après fermentation et séchage, les fèves sont transformées en poudre de cacao et en beurre de cacao, utilisés dans la fabrication de chocolat et d'autres produits à base de cacao.",
+                                        text: "\t\t\t${culture['culture'].description}",
                                         size: Dimensions.font16(context)*0.8,
                                       ),
                                     ),
@@ -229,7 +233,8 @@ class _CropDetailPageState extends State<CropDetailPage> {
               )
           )
         ],
-      ),
+      );
+      })
     );
   }
 }

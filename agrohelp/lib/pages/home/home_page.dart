@@ -2,14 +2,20 @@ import 'package:agrohelp/pages/home/search_page.dart';
 import 'package:agrohelp/pages/home/user_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+
 import 'package:agrohelp/pages/order/order_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import '../../data/controllers/auth_controller.dart';
+import '../../data/controllers/culture_controller.dart';
 import '../../utils/dimentions.dart';
 import '../drawer/Drawer_page.dart';
 import 'main_food_page.dart';
 import 'package:agrohelp/pages/account/account_page.dart';
 import 'package:agrohelp/pages/auth/sing_up_page.dart';
 import 'package:agrohelp/utils/colors.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,6 +25,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  Future<void> _loadressource() async {
+    await Get.find<CultureController>().getRecommendedList();
+    await Get.find<CultureController>().getPopularCultureList();
+    await Get.find<AuthController>().getUser();
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadressource();
+  }
   int _selectedIndex = 0;
   // late PersistentTabController _controller;
 

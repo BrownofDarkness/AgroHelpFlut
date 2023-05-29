@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:agrohelp/routes/route_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../data/controllers/auth_controller.dart';
+import '../../data/controllers/culture_controller.dart';
 import '../../data/controllers/popular_product_controller.dart';
+import '../../utils/app_constants.dart';
 import '../../utils/dimentions.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,15 +23,13 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin{
   late Animation<double> animation;
   late AnimationController controller;
+  late bool ok;
 
-  Future<void> _loadressource() async {
-     await Get.find<PopularProductController>().getPopularProductsList();
-  }
+
 
   @override
   void initState(){
     super.initState();
-    _loadressource();
     controller = AnimationController(
         vsync: this,
         duration: const Duration(seconds: 2)
@@ -36,9 +38,10 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         parent: controller,
         curve: Curves.linear
     );
+
     Timer(
       const Duration(seconds: 3),
-        ()=> Get.offNamed(RouteHelper.getInitial()),
+        ()=> Get.offNamed(RouteHelper.getInitial())
     );
   }
 
@@ -46,14 +49,16 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ScaleTransition(scale: animation,
-            child: Center(child: Image.asset("assets/images/logo.png", width: Dimensions.width20(context)*15,))
-          ),
-          Center(child: Image.asset("assets/images/bestfood2.jpeg", width: Dimensions.width20(context)*15,)),
-        ],
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ScaleTransition(scale: animation,
+              child: Center(child: Image.asset("assets/images/logo.png", width: Dimensions.width20(context)*15,))
+            ),
+            Center(child: Image.asset("assets/images/bestfood2.jpeg", width: Dimensions.width20(context)*15,)),
+          ],
+        )
       ),
     );
   }

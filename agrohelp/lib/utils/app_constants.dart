@@ -5,7 +5,10 @@ class AppConstants {
 
   static const String BASE_URL = "http://localhost:8000";
   static const String POPULAR_PRODUCT_URI = "/api/v1/products/popular";
+  static const String CULTURE_URI = "/api/core/culture/";
   static const String RECOMMENDED_PRODUCT_URI = "/api/v1/products/recommended";
+  static const String RECOMMENDED_CULTURE_URI = "/api/core/culture/recommended/";
+  static const String POPULAR_CULTURE_URI = "/api/core/culture/populars/";
 
   //auth endpoints
   static const String USER_URI = "/api/account/user/";
@@ -15,4 +18,5 @@ class AppConstants {
   static const String TOKEN = "";
   static const String PHONE = "";
   static const String PASSWORD = "";
+  
 }

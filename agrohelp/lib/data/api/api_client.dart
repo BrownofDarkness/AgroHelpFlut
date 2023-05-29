@@ -19,6 +19,7 @@ class ApiClient extends GetConnect implements GetxService{
       'Content-type' : 'application/json; charset=UTF-8',
     };
     if (token.isNotEmpty) {
+      print("token: ${sharedPreferences.getString(AppConstants.TOKEN)??"lol"}");
       _mainHeaders['Authorization'] = 'token $token';
     }
   }

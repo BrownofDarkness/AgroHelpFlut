@@ -1,3 +1,4 @@
+import 'package:agrohelp/model/cultures_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,9 +9,9 @@ import '../utils/dimentions.dart';
 import 'app_column.dart';
 
 class RecommendedItem extends StatefulWidget {
-  late bool isStared;
-  final int id;
-  RecommendedItem({Key? key, required this.isStared, required this.id}) : super(key: key);
+  final index;
+  final Map culture;
+  RecommendedItem({Key? key, required this.culture, required this.index}) : super(key: key);
 
   @override
   State<RecommendedItem> createState() => _RecommendedItemState();
@@ -31,8 +32,8 @@ class _RecommendedItemState extends State<RecommendedItem> {
             image: DecorationImage(
               fit: BoxFit.cover,
               // ici on devrait utiliser NetworkImage si elle vienne du serveur
-              image: AssetImage(
-                  "assets/images/sunfood.jpeg"
+              image: NetworkImage(
+                widget.culture["culture"].photo,
               ),
             ),
           ),
@@ -43,7 +44,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
             child: GestureDetector(
               onTap: (){
                 print("object");
-                Get.toNamed(RouteHelper.getCropDetail(widget.id));
+                Get.toNamed(RouteHelper.getCropDetail(widget.index,"r"));
               },
               child: Container(
                 height: Dimensions.pageViewContainer(context),
@@ -61,7 +62,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
           right: Dimensions.width20(context)*3.5,
           child: GestureDetector(
               onTap: (){
-                if (!widget.isStared){
+                if (!widget.culture["favorite"]){
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -87,8 +88,8 @@ class _RecommendedItemState extends State<RecommendedItem> {
                             onPressed: () {
                               Navigator.of(context).pop();
                               setState(() {
-                                widget.isStared = true;
-                                print(widget.isStared);
+                                widget.culture["favorite"] = true;
+                                print(widget.culture["favorite"]);
                               });
                             },
                             child: Text('add', style: TextStyle(
@@ -126,8 +127,8 @@ class _RecommendedItemState extends State<RecommendedItem> {
                             onPressed: () {
                               Navigator.of(context).pop();
                               setState(() {
-                                widget.isStared = false;
-                                print(widget.isStared);
+                                widget.culture["favorite"] = false;
+                                print(widget.culture["favorite"]);
                               });
                             },
                             child: Text('remove', style: TextStyle(
@@ -143,7 +144,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
                 }
 
               },
-              child:widget.isStared? Icon(Icons.star, color: Colors.yellowAccent,size: Dimensions.width30(context)*1.7,): Icon(Icons.star_border_purple500_outlined, color: Colors.white,size: Dimensions.width30(context)*1.8,)
+              child:widget.culture["favorite"]? Icon(Icons.star, color: Colors.yellowAccent,size: Dimensions.width30(context)*1.7,): Icon(Icons.star_border_purple500_outlined, color: Colors.white,size: Dimensions.width30(context)*1.8,)
           ),
         ),
         Positioned(
@@ -156,7 +157,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    clipper(Dimensions.width30(context).toInt(),"crop Name hjshdjsd jshdjsdsjgeytezzte qgdgdsfyds ",Dimensions.width30(context)*1.5),
+                    clipper(Dimensions.width30(context).toInt(),widget.culture["culture"].name,Dimensions.width30(context)*1.5),
                     maxLines: 1,
                     style: TextStyle(
                       fontFamily: 'Chakra_Petch',
@@ -167,7 +168,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
                   ),
                   SizedBox(height: Dimensions.height10(context),),
                   Text(
-                    clipper((Dimensions.width30(context)*2).toInt(), "Cropskdhsjhdjshdjdsdjssjsdhjsdhjsdhsdjssdjsjsgdhgsgdhgsdgshdgshdgsg", Dimensions.width30(context)*2.3),
+                    clipper((Dimensions.width30(context)*2).toInt(), widget.culture["culture"].description, Dimensions.width30(context)*2.3),
                     maxLines: 1,
                     style: TextStyle(
                       fontFamily: 'Chakra_Petch',

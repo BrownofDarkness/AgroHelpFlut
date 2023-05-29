@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:agrohelp/pages/auth/sing_up_page.dart';
 import 'package:get/get.dart';
 
 import '../../base/show_custom_snackBar.dart';
@@ -11,7 +10,6 @@ import '../../utils/dimentions.dart';
 
 import '../../utils/colors.dart';
 
-import '../../widgets/app_text_field.dart';
 import '../../widgets/big_text.dart';
 
 class SingInPage extends StatefulWidget {
@@ -44,7 +42,8 @@ class _SingInPageState extends State<SingInPage> {
         ShowCustomSnackBar("All went well", title: "Perfect");
         authController.login(email, password).then((status) {
           if(status.isSucess==true){
-            print("Success login");
+            ShowCustomSnackBar("user was successfully logged in ", title: "sing in", isError: false);
+            Get.toNamed(RouteHelper.getInitial());
           }else{
             ShowCustomSnackBar(status.message,);
           }

@@ -1,3 +1,4 @@
+import 'package:agrohelp/model/user_model.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -45,5 +46,10 @@ class AuthRepo extends GetxService{
   bool clearSharedData(){
     sharedPreferences.remove(AppConstants.TOKEN);
     return true;
+  }
+
+  Future<Response> me() async{
+    Response response = await apiClient.getData(AppConstants.USER_URI);
+    return response;
   }
 }

@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       //home: SingInPage(),
       //home: AgroHome(),
-      initialRoute: RouteHelper.getInitial(),
+      initialRoute: RouteHelper.getSplashPage(),
       getPages: RouteHelper.routes,
     );
   }

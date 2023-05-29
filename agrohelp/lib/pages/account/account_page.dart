@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:get/get.dart';
+
+import '../../data/controllers/auth_controller.dart';
 import '../../utils/dimentions.dart';
 import '../../utils/colors.dart';
 import '../../widgets/account_widget.dart';
@@ -16,7 +19,7 @@ class AccountPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Color(0xFF025592), // Couleur de la flèche
+          color: Color.fromARGB(255, 46, 121, 175), // Couleur de la flèche
         ),
         backgroundColor: Appcolors.mainColor,
         title: Center(
@@ -26,7 +29,10 @@ class AccountPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
+      
+      body: GetBuilder<AuthController>(builder: (authcontroller){
+        var user = authcontroller.user;
+        return Container(
         width: double.maxFinite,
         margin: EdgeInsets.only(top: Dimensions.height20(context)),
         child: Column(
@@ -50,7 +56,7 @@ class AccountPage extends StatelessWidget {
                         iconsize: Dimensions.height10(context)*5/2,
                         size: Dimensions.height10(context)*5,
                       ),
-                      bigText: BigText(text: "wilbrown",),
+                      bigText: BigText(text: user.username,),
                     ),
                     SizedBox(height: Dimensions.height30(context),),
                     AccountWidget(
@@ -61,7 +67,7 @@ class AccountPage extends StatelessWidget {
                         iconsize: Dimensions.height10(context)*5/2,
                         size: Dimensions.height10(context)*5,
                       ),
-                      bigText: BigText(text: "takoubrown@gmail.com",),
+                      bigText: BigText(text: user.email,),
                     ),
                     SizedBox(height: Dimensions.height30(context),),
                     AccountWidget(
@@ -72,7 +78,7 @@ class AccountPage extends StatelessWidget {
                         iconsize: Dimensions.height10(context)*5/2,
                         size: Dimensions.height10(context)*5,
                       ),
-                      bigText: BigText(text: "type de votre compte",),
+                      bigText: BigText(text: user.type,),
                     ),
                     SizedBox(height: Dimensions.height30(context),),
                     AccountWidget(
@@ -92,7 +98,8 @@ class AccountPage extends StatelessWidget {
             )
           ],
         ),
-      ),
+      );
+      }),
     );
   }
 }

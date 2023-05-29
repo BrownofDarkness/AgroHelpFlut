@@ -1,17 +1,21 @@
+import 'package:agrohelp/pages/home/initial.dart';
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../data/controllers/auth_controller.dart';
 import '../../helper/text_cliper.dart';
 import '../../routes/route_helper.dart';
 import '../../utils/colors.dart';
 import '../../widgets/app_icon.dart';
 
 class DrawerPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
+      child: GetBuilder<AuthController>(builder: (authcontroller){
+        return ListView(
         padding: EdgeInsets.zero,
         children: [
           Container(
@@ -42,7 +46,7 @@ class DrawerPage extends StatelessWidget {
                           children: [
                             SizedBox(height: Dimensions.height10(context),),
                             Text(
-                              clipper(15,"your username",Dimensions.width30(context)*2),
+                              clipper(15,authcontroller.user.username,Dimensions.width30(context)*2),
                               maxLines: 1,
                               style: TextStyle(
                                 fontFamily: 'Chakra_Petch',
@@ -53,7 +57,7 @@ class DrawerPage extends StatelessWidget {
                             ),
                             SizedBox(height: Dimensions.height10(context),),
                             Text(
-                              "Agriculteur",
+                              authcontroller.user.type??"agriculteur",
                               maxLines: 1,
                               style: TextStyle(
                                 fontFamily: 'Chakra_Petch',
@@ -161,27 +165,31 @@ class DrawerPage extends StatelessWidget {
             endIndent: Dimensions.width10(context), // Retrait de la ligne de séparation à droite
           ),
           Container(
-            height: Dimensions.height30(context)*1.6,
-            child: ListTile(
-              leading: Icon(Icons.logout_outlined, color: Colors.red, size: Dimensions.height30(context),),
-              title: Text(
-                'Logout',
-                style: TextStyle(
-                  fontSize: Dimensions.height20(context),
-                  fontFamily: 'Chakra_Petch',
-                  fontWeight: FontWeight.w700,
+              height: Dimensions.height30(context)*1.6,
+              child: ListTile(
+                leading: Icon(Icons.logout_outlined, color: Colors.red, size: Dimensions.height30(context),),
+                title: Text(
+                  'Logout',
+                  style: TextStyle(
+                    fontSize: Dimensions.height20(context),
+                    fontFamily: 'Chakra_Petch',
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
+                onTap: () {
+                  // Action à effectuer lorsque l'option Paramètres est sélectionnée
+                  Navigator.pop(context);  // Ferme le Drawer
+                  authcontroller.clearSharedData();
+                  Get.toNamed(RouteHelper.getInitial());
+                  // Ajoutez votre logique de navigation ici
+                },
               ),
-              onTap: () {
-                // Action à effectuer lorsque l'option Paramètres est sélectionnée
-                Navigator.pop(context); // Ferme le Drawer
-                // Ajoutez votre logique de navigation ici
-              },
             ),
-          ),
           // Ajoutez d'autres options de navigation ListTile ici
         ],
-      ),
+      );
+      }
+    )
     );
   }
 }

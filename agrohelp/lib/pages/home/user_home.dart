@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../data/controllers/culture_controller.dart';
 import '../../helper/text_cliper.dart';
 import '../../routes/route_helper.dart';
 import '../../utils/app_constants.dart';
@@ -24,7 +25,9 @@ class UserHomePage extends StatefulWidget {
 class _UserHomePageState extends State<UserHomePage> {
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPagevalue = 0.0;
+  late bool start = false;
   double _scaleFactor = 0.8;
+
 
   double _height(BuildContext context) =>
       Dimensions.pageViewContainer(context);
@@ -127,18 +130,23 @@ class _UserHomePageState extends State<UserHomePage> {
                 ),
               ],
             ),
+            
             SizedBox(height: Dimensions.height10(context),),
             //Page view for recommended crops
-            Container(
+            GetBuilder<CultureController>(builder: (cultures){
+              return cultures.isrecload?Center(
+                child: CircularProgressIndicator()
+              ) : Container(
               height: Dimensions.Pageview(context)*0.75,
               child: PageView.builder(
                 controller: pageController,
-                itemCount: 5,
+                itemCount: cultures.recommendedcultureList.length,
                 itemBuilder: (context, position){
-                return _buildPageItem(position);
+                return _buildPageItem(position,cultures.recommendedcultureList[position]);
                 }
               ),
-              ),
+              );
+            }),
             Container(
               padding: EdgeInsets.only(left: Dimensions.width20(context),top: Dimensions.width20(context)*0.2),
               child: Text(
@@ -260,7 +268,7 @@ class _UserHomePageState extends State<UserHomePage> {
       ),
     );
   }
-  Widget _buildPageItem(int index) {
+  Widget _buildPageItem(int index ,culture) {
     Matrix4 matrix = Matrix4.identity();
     double currScale, currTrans;
 
@@ -283,7 +291,7 @@ class _UserHomePageState extends State<UserHomePage> {
 
     return Transform(
       transform: matrix,
-      child: RecommendedItem(isStared: false, id: index),
+      child: RecommendedItem(culture: culture, index: index,),
     );
   }
 }
