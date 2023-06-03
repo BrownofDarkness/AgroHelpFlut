@@ -1,20 +1,19 @@
-
 import 'package:agrohelp/widgets/app_icon.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/dimentions.dart';
 
-class ViewItem extends StatefulWidget {
+class IllnessViewItem extends StatefulWidget {
+
   final index;
-  final Map fertlizer;
-  ViewItem({Key? key, required this.fertlizer, required this.index}) : super(key: key);
+  final Map illness;
+  const IllnessViewItem({super.key, required this.illness, required this.index});
 
   @override
-  State<ViewItem> createState() => _ViewItemState();
+  State<IllnessViewItem> createState() => _IllnessViewItemState();
 }
 
-class _ViewItemState extends State<ViewItem> {
+class _IllnessViewItemState extends State<IllnessViewItem> {
 
   String tronk(text, textHeight){
     String firstHalf;
@@ -25,6 +24,7 @@ class _ViewItemState extends State<ViewItem> {
       }
       return firstHalf;
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,7 +79,7 @@ class _ViewItemState extends State<ViewItem> {
                                   Container(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      '${widget.fertlizer["name"]}',
+                                      '${widget.illness["name"]}',
                                       style: TextStyle(
                                         fontFamily: 'Chakra_Petch',
                                         fontSize: Dimensions.height15(context)*1.2,
@@ -90,7 +90,7 @@ class _ViewItemState extends State<ViewItem> {
                                   ),
                                   SizedBox(height: Dimensions.height20(context),),
                                   Text(
-                                    'Engrai de type ${widget.fertlizer["type"]=="chemical"?"Chimique":"Organique"}',
+                                    'Engrai de type ${widget.illness["type"]=="chemical"?"Chimique":"Organique"}',
                                     style: TextStyle(
                                       fontFamily: 'Chakra_Petch',
                                       fontSize: Dimensions.height15(context)*1.2,
@@ -100,7 +100,7 @@ class _ViewItemState extends State<ViewItem> {
                                   ),
                                   SizedBox(height: Dimensions.height10(context),),
                                   Text(
-                                    'Composition : \n\t\t\t${widget.fertlizer["composition"]}',
+                                    'Composition : \n\t\t\t${widget.illness["composition"]}',
                                     style: TextStyle(
                                       fontFamily: 'Chakra_Petch',
                                       fontSize: Dimensions.height15(context)*1.2,
@@ -110,7 +110,7 @@ class _ViewItemState extends State<ViewItem> {
                                   ),
                                   SizedBox(height: Dimensions.height10(context),),
                                   Text(
-                                    'Description : \n\t\t\t${widget.fertlizer["description"]}',
+                                    'Description : \n\t\t\t${widget.illness["description"]}',
                                     style: TextStyle(
                                       fontFamily: 'Chakra_Petch',
                                       fontSize: Dimensions.height15(context)*1.2,
@@ -130,7 +130,7 @@ class _ViewItemState extends State<ViewItem> {
             },
             child: Text(
                       tronk(
-                        '${widget.fertlizer["name"]} | \n\nEngrais de type ${widget.fertlizer["type"]=="chemical"?"chimique":"organique"} | \n\n${widget.fertlizer["composition"]}',
+                        '${widget.illness["name"]} | \n\nEngrais de type ${widget.illness["type"]=="chemical"?"chimique":"organique"} | \n\n${widget.illness["composition"]}',
                         Dimensions.pageViewContainer(context)*0.7
                       ),
                       style: TextStyle(
@@ -157,5 +157,5 @@ class FullScreenDialog extends Dialog {
       constraints: BoxConstraints.expand(),
       child: content,
     );
-  }
+}
 }

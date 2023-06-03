@@ -1,3 +1,4 @@
+import 'package:agrohelp/routes/route_helper.dart';
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -127,6 +128,7 @@ class _ForumPageState extends State<ForumPage> {
                     return GestureDetector(
                       onTap: (){
                         print("go on forum details $index");
+                        Get.toNamed(RouteHelper.getForumDetails());
                       },
                       child: Container(
                         alignment: Alignment.center,

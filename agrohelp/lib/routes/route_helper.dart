@@ -1,5 +1,6 @@
 import 'package:agrohelp/pages/food/popular_food.dart';
 import 'package:agrohelp/pages/food/recommended_food_detail.dart';
+import 'package:agrohelp/pages/forum/forum_details.dart';
 import 'package:agrohelp/pages/home/main_food_page.dart';
 import 'package:get/get.dart';
 
@@ -24,6 +25,7 @@ class RouteHelper{
   static const String register = "/register";
   static const String addParcel = "/add-parcel";
   static const String userHome = "/user-home";
+  static const String forumDetails = "/forum-details";
   static const String popularFood = "/popular-food";
   static const String cropDetail = "/crop-detail";
   static const String recommendedFood = "/recommended-food";
@@ -36,6 +38,7 @@ class RouteHelper{
   static String getRegister() => "$register";
   static String getaddParcelPage() => "$addParcel";
   static String getUserHome() => "$userHome";
+  static String getForumDetails() => "$forumDetails";
   static String getInitial() => "$initial";
   static String getPopularFood(int pageId) => "$popularFood?pageId=$pageId";
   static String getCropDetail(int id, String side) => "$cropDetail?id=$id&&side=$side";
@@ -50,7 +53,8 @@ class RouteHelper{
     GetPage(name: register, page: ()=>SingUpPage(), transition: Transition.fadeIn),
     GetPage(name: initial, page: ()=>Initial()),
     GetPage(name: addParcel, page: ()=>AddParcelPage(), transition: Transition.fadeIn),
-    GetPage(name: userHome, page: ()=>HomePage()),
+    GetPage(name: userHome, page: ()=>HomePage(),transition: Transition.fadeIn),
+    GetPage(name: forumDetails, page: ()=>ForumDetailsPage(),transition: Transition.fadeIn),
     GetPage(name: popularFood, page: (){
       var pageId = Get.parameters['pageId'];
       return PopularFoodDetail(pageId: int.parse(pageId!),);

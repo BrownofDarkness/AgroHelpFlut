@@ -14,6 +14,7 @@ import '../../widgets/app_column.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
 import '../../widgets/fertlizer_view_item.dart';
+import '../../widgets/illness_view_item.dart';
 
 class CropDetailPage extends StatefulWidget {
   final int id;
@@ -26,16 +27,21 @@ class CropDetailPage extends StatefulWidget {
 
 class _CropDetailPageState extends State<CropDetailPage> {
   PageController fertiliseController = PageController(viewportFraction: 0.85);
+  PageController illnessController = PageController(viewportFraction: 0.85);
+  PageController soilsController = PageController(viewportFraction: 0.85);
   var _currPagevalue = 0.0;
   var _currpagevalue2 = 0.0;
+  var _currpagevalue3 = 0.0;
   late bool start = false;
   double _scaleFactor = 0.8;
+  double _scaleFactor2 = 0.8;
+  double _scaleFactor3 = 0.8;
 
   double _height(BuildContext context) =>
       Dimensions.pageViewContainer(context)*0.65;
   
    
-   PageController insectController = PageController(viewportFraction: 0.85);
+
    
   @override
   void initState(){
@@ -45,11 +51,25 @@ class _CropDetailPageState extends State<CropDetailPage> {
         _currPagevalue = fertiliseController.page!;
       });
     });
+
+    illnessController.addListener(() {
+      setState(() {
+        _currpagevalue2 = illnessController.page!;
+      });
+    });
+
+    soilsController.addListener(() {
+      setState(() {
+        _currpagevalue3 = soilsController.page!;
+      });
+    });
   }
 
   @override
   void dispose(){
     fertiliseController.dispose();
+    illnessController.dispose();
+    soilsController.dispose();
     super.dispose();
   }
    
@@ -67,7 +87,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
               right: 0,
               child: Container(
                 width: double.maxFinite,
-                height: Dimensions.popularFoodImageSize(context),
+                height: Dimensions.popularFoodImageSize(context)+ Dimensions.height30(context),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
@@ -92,7 +112,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                 ],
               )
           ),
-          // introduction of food
+          // introduction of culture
           Positioned(
               left: 0,
               right: 0,
@@ -102,8 +122,8 @@ class _CropDetailPageState extends State<CropDetailPage> {
                 padding: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context), top: Dimensions.height20(context)),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(Dimensions.radius20(context)),
-                      topLeft: Radius.circular(Dimensions.radius20(context))
+                      topRight: Radius.circular(Dimensions.radius30(context)),
+                      topLeft: Radius.circular(Dimensions.radius30(context))
                   ),
                   color: Colors.white,
                 ),
@@ -172,87 +192,34 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                       }
                                     ),
                                     ),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
-                                    Text("djjdfdfgdhgfdhf"),
+                                    SizedBox(height: Dimensions.height20(context),),
+                                    BigText(text: "Maladies", size: Dimensions.font20(context), ),
+                                    Text(""),
+                                    Container(
+                                    height: Dimensions.Pageview(context)*0.65,
+                                    child: PageView.builder(
+                                      controller: illnessController,
+                                      itemCount: cultures.cultureDetails['fertilizers'].length,
+                                      itemBuilder: (context, position){
+                                      return _buildPageItem2(position,cultures.cultureDetails['fertilizers'][position]);
+                                      }
+                                    ),
+                                    ),
+
+                                    SizedBox(height: Dimensions.height20(context),),
+                                    BigText(text: "Soles", size: Dimensions.font20(context), ),
+                                    Text(""),
+                                    Container(
+                                    height: Dimensions.Pageview(context)*0.65,
+                                    child: PageView.builder(
+                                      controller: soilsController,
+                                      itemCount: cultures.cultureDetails['fertilizers'].length,
+                                      itemBuilder: (context, position){
+                                      return _buildPageItem3(position,cultures.cultureDetails['fertilizers'][position]);
+                                      }
+                                    ),
+                                    ),
+                                    SizedBox(height: Dimensions.height10(context),)
                                   ],
                                 ),
                               )
@@ -268,7 +235,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
       })
     );
   }
-  Widget _buildPageItem(int index ,fertlise) {
+  Widget _buildPageItem(int index ,fertlise,) {
     Matrix4 matrix = Matrix4.identity();
     double currScale, currTrans;
 
@@ -280,6 +247,60 @@ class _CropDetailPageState extends State<CropDetailPage> {
       currTrans = _height(context) * (1 - currScale) / 2;
     } else if (index == _currPagevalue.floor() - 1) {
       currScale = 1 - (_currPagevalue - index) * (1 - _scaleFactor);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else {
+      currScale = 0.8;
+      currTrans = _height(context) * (1 - currScale) / 2;
+    }
+
+    matrix = Matrix4.diagonal3Values(1, currScale, 1);
+    matrix.setTranslationRaw(0, currTrans, 0);
+
+    return Transform(
+      transform: matrix,
+      child: ViewItem(fertlizer: fertlise, index: index,),
+    );
+  }
+
+  Widget _buildPageItem2(int index ,fertlise,) {
+    Matrix4 matrix = Matrix4.identity();
+    double currScale, currTrans;
+
+    if (index == _currpagevalue2.floor()) {
+      currScale = 1 - (_currpagevalue2 - index) * (1 - _scaleFactor2);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else if (index == _currpagevalue2.floor() + 1) {
+      currScale = _scaleFactor + (_currpagevalue2 - index + 1) * (1 - _scaleFactor2);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else if (index == _currpagevalue2.floor() - 1) {
+      currScale = 1 - (_currpagevalue2 - index) * (1 - _scaleFactor2);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else {
+      currScale = 0.8;
+      currTrans = _height(context) * (1 - currScale) / 2;
+    }
+
+    matrix = Matrix4.diagonal3Values(1, currScale, 1);
+    matrix.setTranslationRaw(0, currTrans, 0);
+
+    return Transform(
+      transform: matrix,
+      child: IllnessViewItem(illness: fertlise, index: index,),
+    );
+  }
+
+  Widget _buildPageItem3(int index ,fertlise,) {
+    Matrix4 matrix = Matrix4.identity();
+    double currScale, currTrans;
+
+    if (index == _currpagevalue3.floor()) {
+      currScale = 1 - (_currpagevalue3 - index) * (1 - _scaleFactor3);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else if (index == _currpagevalue3.floor() + 1) {
+      currScale = _scaleFactor + (_currpagevalue3 - index + 1) * (1 - _scaleFactor3);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else if (index == _currpagevalue3.floor() - 1) {
+      currScale = 1 - (_currpagevalue3 - index) * (1 - _scaleFactor3);
       currTrans = _height(context) * (1 - currScale) / 2;
     } else {
       currScale = 0.8;
