@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:agrohelp/utils/dimentions.dart';
-import 'package:agrohelp/utils/dimentions.dart';
 class BigText extends StatelessWidget {
   Color? color;
   final String text;

@@ -1,4 +1,4 @@
-import 'package:agrohelp/pages/home/agro_home.dart';
+import 'package:agrohelp/pages/parcel/view_parcel.dart';
 import 'package:agrohelp/routes/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.lightGreen,
       ),
       //home: SingInPage(),
-      //home: AgroHome(),
+      // home: ViewParcelList(),
       initialRoute: RouteHelper.getSplashPage(),
       getPages: RouteHelper.routes,
     );

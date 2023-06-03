@@ -9,9 +9,11 @@ import '../../model/cultures_model.dart';
 import '../../routes/route_helper.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimentions.dart';
+import '../../widgets/Recomended_item.dart';
 import '../../widgets/app_column.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
+import '../../widgets/fertlizer_view_item.dart';
 
 class CropDetailPage extends StatefulWidget {
   final int id;
@@ -23,16 +25,34 @@ class CropDetailPage extends StatefulWidget {
 }
 
 class _CropDetailPageState extends State<CropDetailPage> {
-   List<String> items = [
-     "Ombrage : Plantez des arbres d'ombrage pour protéger les jeunes plants de cacao du soleil direct.",
-     "Gestion de l'humidité : Assurez-vous que les plants de cacao reçoivent une irrigation adéquate et évitez les excès d'eau stagnante.",
-     "Pollinisation : Favorisez la pollinisation manuelle ou en encourageant la présence de pollinisateurs naturels, tels que les insectes et les abeilles.",
-     "Pollinisation manuelle : Dans certaines régions, la pollinisation manuelle peut être nécessaire pour augmenter le taux de nouaison des fleurs de cacao et assurer une meilleure production.",
-     "Contrôle des ravageurs : Surveillez et prenez des mesures de lutte contre les ravageurs tels que les ravageurs des capsules de cacao et les champignons pathogènes pour préserver la santé des arbres.",
-     "Fermentation des fèves : Après la récolte, fermez les fèves de cacao dans des sacs ou des caisses pendant quelques jours pour permettre la fermentation, ce qui améliore la saveur et le développement des arômes."
-   ];
-   PageController fertiliseController = PageController(viewportFraction: 0.85);
+  PageController fertiliseController = PageController(viewportFraction: 0.85);
+  var _currPagevalue = 0.0;
+  var _currpagevalue2 = 0.0;
+  late bool start = false;
+  double _scaleFactor = 0.8;
+
+  double _height(BuildContext context) =>
+      Dimensions.pageViewContainer(context)*0.65;
+  
+   
    PageController insectController = PageController(viewportFraction: 0.85);
+   
+  @override
+  void initState(){
+    super.initState();
+    fertiliseController.addListener(() {
+      setState(() {
+        _currPagevalue = fertiliseController.page!;
+      });
+    });
+  }
+
+  @override
+  void dispose(){
+    fertiliseController.dispose();
+    super.dispose();
+  }
+   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +77,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
               )),
           // icon widgets
           Positioned(
-              top: Dimensions.height20(context) + Dimensions.height15(context),
+              top: Dimensions.height20(context)*2.3,
               left: Dimensions.width20(context),
               right: Dimensions.width20(context),
               child: Row(
@@ -115,7 +135,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                     Container(
                                       child:Column(
                                         children: [
-                                          for (int i = 0; i<items.length;i++)...[
+                                          for (int i = 0; i<cultures.cultureDetails['practises'].length;i++)...[
                                             Container(
                                               width:double.maxFinite,
                                               child: Row(
@@ -128,7 +148,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                                   SizedBox(width: Dimensions.height10(context)*0.5),
                                                   Expanded(
                                                     child: BigText(
-                                                      text: items[i],
+                                                      text: "${cultures.cultureDetails['practises'][i]['name']} : ${cultures.cultureDetails['practises'][i]['practise']}",
                                                       size: Dimensions.font16(context)*0.8,
                                                     ),
                                                   ),
@@ -139,8 +159,19 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                           ]
                                         ],
                                       )
-                                      ),
-
+                                    ),
+                                    BigText(text: "Fertilisants", size: Dimensions.font20(context), ),
+                                    Text(""),
+                                    Container(
+                                    height: Dimensions.Pageview(context)*0.65,
+                                    child: PageView.builder(
+                                      controller: fertiliseController,
+                                      itemCount: cultures.cultureDetails['fertilizers'].length,
+                                      itemBuilder: (context, position){
+                                      return _buildPageItem(position,cultures.cultureDetails['fertilizers'][position]);
+                                      }
+                                    ),
+                                    ),
                                     Text("djjdfdfgdhgfdhf"),
                                     Text("djjdfdfgdhgfdhf"),
                                     Text("djjdfdfgdhgfdhf"),
@@ -235,6 +266,32 @@ class _CropDetailPageState extends State<CropDetailPage> {
         ],
       );
       })
+    );
+  }
+  Widget _buildPageItem(int index ,fertlise) {
+    Matrix4 matrix = Matrix4.identity();
+    double currScale, currTrans;
+
+    if (index == _currPagevalue.floor()) {
+      currScale = 1 - (_currPagevalue - index) * (1 - _scaleFactor);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else if (index == _currPagevalue.floor() + 1) {
+      currScale = _scaleFactor + (_currPagevalue - index + 1) * (1 - _scaleFactor);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else if (index == _currPagevalue.floor() - 1) {
+      currScale = 1 - (_currPagevalue - index) * (1 - _scaleFactor);
+      currTrans = _height(context) * (1 - currScale) / 2;
+    } else {
+      currScale = 0.8;
+      currTrans = _height(context) * (1 - currScale) / 2;
+    }
+
+    matrix = Matrix4.diagonal3Values(1, currScale, 1);
+    matrix.setTranslationRaw(0, currTrans, 0);
+
+    return Transform(
+      transform: matrix,
+      child: ViewItem(fertlizer: fertlise, index: index,),
     );
   }
 }

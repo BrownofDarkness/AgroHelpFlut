@@ -17,4 +17,12 @@ class CultureRepo extends GetxService{
   Future<Response> getCulture(int id) async {
     return await apiClient.getData("${AppConstants.CULTURE_URI}$id/");
   }
+
+  Future<Response> getCulturePractices(int id) async {
+    return await apiClient.getData("${AppConstants.CULTURE_URI}$id/practise/");
+  }
+
+  Future<Response> getCultureFertlizers(int id) async {
+    return await apiClient.getData("${AppConstants.CULTURE_URI}$id/fertilizers/");
+  }
 }

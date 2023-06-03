@@ -1,12 +1,13 @@
-import 'package:agrohelp/model/cultures_model.dart';
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../data/controllers/culture_controller.dart';
 import '../helper/text_cliper.dart';
 import '../routes/route_helper.dart';
 import '../utils/dimentions.dart';
-import 'app_column.dart';
 
 class RecommendedItem extends StatefulWidget {
   final index;
@@ -18,6 +19,11 @@ class RecommendedItem extends StatefulWidget {
 }
 
 class _RecommendedItemState extends State<RecommendedItem> {
+
+  Future<void> _loadressource(int id ) async {
+    await Get.find<CultureController>().getCulturedetails(id);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -44,6 +50,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
             child: GestureDetector(
               onTap: (){
                 print("object");
+                _loadressource(widget.culture["culture"].id);
                 Get.toNamed(RouteHelper.getCropDetail(widget.index,"r"));
               },
               child: Container(

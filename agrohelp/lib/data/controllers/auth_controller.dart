@@ -46,11 +46,12 @@ class AuthController extends GetxController implements GetxService{
     late ResponseModel responseModel;
     print("1: ${response.statusCode}");
     if(response.statusCode == 200){
-      print(response.body["token"]);
+      print(response.body);
       print(_isconnected);
       authRepo.saveToken(response.body["token"]);
       responseModel = ResponseModel(true, response.body["token"]);
       _isconnected = true;
+      update();
     }else{
       responseModel = ResponseModel(false, response.statusText!);
       print(response.body);
@@ -67,6 +68,12 @@ class AuthController extends GetxController implements GetxService{
 
 Future<void> getUserToken() async {
     String val = await authRepo.getUserToken();
+    print(val);
+    if(val != "None"){
+      _isconnected = true;
+    }
+    update();
+    
   }
 
   bool clearSharedData(){

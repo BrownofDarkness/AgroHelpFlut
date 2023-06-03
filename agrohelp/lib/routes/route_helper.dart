@@ -12,12 +12,14 @@ import '../pages/home/home_page.dart';
 import '../pages/home/initial.dart';
 import '../pages/home/user_home.dart';
 import '../pages/parcel/add_parcel_page.dart';
+import '../pages/parcel/view_parcel.dart';
 import '../pages/splash/splash_page.dart';
 class RouteHelper{
   static const String splashPage = "/splash-page";
   static const String initial = "/";
   static const String welcome = "/welcome";
   static const String login = "/login";
+  static const String parcelView = "/parcel-view";
   static const String profile = "/profile";
   static const String register = "/register";
   static const String addParcel = "/add-parcel";
@@ -29,6 +31,7 @@ class RouteHelper{
   static String getSplashPage() => "$splashPage";
   static String getWelcome() => "$welcome";
   static String getLogin() => "$login";
+  static String getParcelView() => "$parcelView";
   static String getProfile() => "$profile";
   static String getRegister() => "$register";
   static String getaddParcelPage() => "$addParcel";
@@ -42,11 +45,12 @@ class RouteHelper{
     GetPage(name: splashPage, page: ()=>SplashScreen()),
     GetPage(name: welcome, page: ()=>AgroHome()),
     GetPage(name: login, page: ()=>SingInPage(), transition: Transition.fadeIn),
+    GetPage(name: parcelView, page: ()=>ViewParcelList(), transition: Transition.fadeIn),
     GetPage(name: profile, page: ()=>AccountPage(), transition: Transition.fadeIn),
     GetPage(name: register, page: ()=>SingUpPage(), transition: Transition.fadeIn),
     GetPage(name: initial, page: ()=>Initial()),
     GetPage(name: addParcel, page: ()=>AddParcelPage(), transition: Transition.fadeIn),
-    GetPage(name: userHome, page: ()=>UserHomePage()),
+    GetPage(name: userHome, page: ()=>HomePage()),
     GetPage(name: popularFood, page: (){
       var pageId = Get.parameters['pageId'];
       return PopularFoodDetail(pageId: int.parse(pageId!),);

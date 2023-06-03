@@ -268,7 +268,7 @@ class _AddParcelPageState extends State<AddParcelPage> {
                                 color: Color(0xFF025592),
                               ),
                               child: GestureDetector(
-                                onTap: _determinePosition,
+                                // onTap: _determinePosition(),
                                 child: Text(
                                   "geolocation",
                                   style: TextStyle(
@@ -330,7 +330,7 @@ class _AddParcelPageState extends State<AddParcelPage> {
                                     if (_selectedPoint != LatLng(0, 0))
                                       Marker(
                                         point: _selectedPoint,
-                                        builder: (context) => Icon(Icons.location_on, color: Colors.red),
+                                        builder: (context) => Icon(Icons.location_on, color: Colors.green),
                                       ),
                                     if (_currentPosition != LatLng(0, 0))
                                       Marker(
@@ -346,7 +346,7 @@ class _AddParcelPageState extends State<AddParcelPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: Dimensions.screenHeight(context)*0.045,),
+                SizedBox(height: Dimensions.screenHeight(context)*0.035,),
                 GestureDetector(
                   onTap: (){
                     _login(authcontroller);

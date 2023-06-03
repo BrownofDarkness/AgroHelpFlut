@@ -29,6 +29,7 @@ class _UserHomePageState extends State<UserHomePage> {
   double _scaleFactor = 0.8;
 
 
+
   double _height(BuildContext context) =>
       Dimensions.pageViewContainer(context);
   @override
@@ -166,23 +167,25 @@ class _UserHomePageState extends State<UserHomePage> {
                 physics: BouncingScrollPhysics(),
                 child: Container(
                   padding: EdgeInsets.only(left: Dimensions.width20(context)),
-                  child: Column(
+                  child: GetBuilder<CultureController>(builder: (cultures){
+                    return Column(
                     children: [
                       SizedBox(height: Dimensions.height10(context),),
-                      for (int i = 0; i < 5; i += 2)...[
+                      for (int i = 0; i < cultures.popularcultureList.length; i += 2)...[
                         Row(
                           children: [
-                            PopularCrop(isStared: false, id: i),
+                            PopularCrop(index: i, culture: cultures.popularcultureList[i],),
                             if (i+1 < 5)...[
                               SizedBox(width: Dimensions.width20(context)*1.2,),
-                              PopularCrop(isStared: false, id: i+1),
+                              PopularCrop(index: i+1, culture: cultures.popularcultureList[i+1]),
                             ]
                           ],
                         ),
                         SizedBox(height: Dimensions.height10(context),)
                       ]
                     ],
-                  ),
+                  );
+                  }),
                 ),
               )
             )

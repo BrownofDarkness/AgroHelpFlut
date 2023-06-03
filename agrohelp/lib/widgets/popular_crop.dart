@@ -2,20 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../data/controllers/culture_controller.dart';
 import '../helper/text_cliper.dart';
 import '../routes/route_helper.dart';
 import '../utils/dimentions.dart';
 
 class PopularCrop extends StatefulWidget {
-  late  bool isStared;
-  final int id;
-  PopularCrop({Key? key,required this.isStared, required this.id}) : super(key: key);
+  final int index;
+  final Map culture;
+  PopularCrop({Key? key, required this.culture, required this.index}) : super(key: key);
 
   @override
   State<PopularCrop> createState() => _PopularCropState();
 }
 
 class _PopularCropState extends State<PopularCrop> {
+
+  Future<void> _loadressource(int id ) async {
+    await Get.find<CultureController>().getCulturedetails(id);
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +36,8 @@ class _PopularCropState extends State<PopularCrop> {
           GestureDetector(
             onTap: (){
               print("object");
-              Get.toNamed(RouteHelper.getCropDetail(widget.id, "p"));
+                _loadressource(widget.culture["culture"].id);
+              Get.toNamed(RouteHelper.getCropDetail(widget.index,"p"));
             },
             child: Container(
               height: Dimensions.height30(context)*6,
@@ -40,9 +46,9 @@ class _PopularCropState extends State<PopularCrop> {
                   color: Colors.green,
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage(
-                        "assets/images/sunfood.jpeg",
-                      )
+                      image: NetworkImage(
+                      widget.culture["culture"].photo,
+                    ),
                   ),
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(Dimensions.radius30(context)),topRight: Radius.circular(Dimensions.radius30(context)),)
               ),
@@ -70,7 +76,7 @@ class _PopularCropState extends State<PopularCrop> {
                       children: [
                         SizedBox(height: Dimensions.height10(context),),
                         Text(
-                          clipper(10,"crop Name hjshdjsd jshdjsdsjgeytezzte qgdgdsfyds ",Dimensions.width30(context)*2),
+                          clipper(10,widget.culture["culture"].name,Dimensions.width30(context)*2),
                           maxLines: 1,
                           style: TextStyle(
                             fontFamily: 'Chakra_Petch',
@@ -81,7 +87,7 @@ class _PopularCropState extends State<PopularCrop> {
                         ),
                         SizedBox(height: Dimensions.height10(context)*0.5,),
                         Text(
-                          clipper(15, "Cropskdhsjhdjshdjdsdjssjs dhjsdhjsdhsdjssdjsjsgdhgsgdhgsdgshdgshdgsg", Dimensions.width30(context)*0.1),
+                          clipper(15, widget.culture["culture"].description, Dimensions.width30(context)*0.1),
                           maxLines: 1,
                           style: TextStyle(
                             fontFamily: 'Chakra_Petch',
@@ -103,7 +109,7 @@ class _PopularCropState extends State<PopularCrop> {
                       ),
                       child: GestureDetector(
                           onTap: (){
-                            if (!widget.isStared){
+                            if (!widget.culture["favorite"]){
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -129,8 +135,8 @@ class _PopularCropState extends State<PopularCrop> {
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                           setState(() {
-                                            widget.isStared = true;
-                                            print(widget.isStared);
+                                            widget.culture["favorite"] = true;
+                                            print(widget.culture["favorite"]);
                                           });
                                         },
                                         child: Text('add', style: TextStyle(
@@ -168,8 +174,8 @@ class _PopularCropState extends State<PopularCrop> {
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                           setState(() {
-                                            widget.isStared = false;
-                                            print(widget.isStared);
+                                            widget.culture["favorite"] = false;
+                                            print(widget.culture["favorite"]);
                                           });
                                         },
                                         child: Text('remove', style: TextStyle(
@@ -185,7 +191,7 @@ class _PopularCropState extends State<PopularCrop> {
                             }
 
                           },
-                          child:widget.isStared? Icon(Icons.star, color: Colors.redAccent,size: Dimensions.width30(context)*1.7,): Icon(Icons.star_border_purple500_outlined, color: Colors.grey,size: Dimensions.width30(context)*2,)
+                          child:widget.culture["favorite"]? Icon(Icons.star, color: Colors.redAccent,size: Dimensions.width30(context)*1.7,): Icon(Icons.star_border_purple500_outlined, color: Colors.grey,size: Dimensions.width30(context)*2,)
                       ),
                     ),
                   )

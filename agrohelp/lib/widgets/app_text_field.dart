@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../utils/dimentions.dart';
 
-import '../../utils/colors.dart';
 
 class AppTextField extends StatefulWidget {
   final TextEditingController textController;
