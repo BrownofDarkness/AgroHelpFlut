@@ -10,6 +10,10 @@ class CultureRepo extends GetxService{
     return await apiClient.getData(AppConstants.RECOMMENDED_CULTURE_URI);
   }
 
+  Future<Response> getSuggestCulture(int id) async {
+    return await apiClient.getData("${AppConstants.PARCEL_URI}$id/suggest_culture/");
+  }
+
   Future<Response> getPopularCulture() async {
     return await apiClient.getData(AppConstants.POPULAR_CULTURE_URI);
   }
@@ -24,5 +28,9 @@ class CultureRepo extends GetxService{
 
   Future<Response> getCultureFertlizers(int id) async {
     return await apiClient.getData("${AppConstants.CULTURE_URI}$id/fertilizers/");
+  }
+
+  Future<Response> getCultureDiseases(int id) async {
+    return await apiClient.getData("${AppConstants.CULTURE_URI}$id/diseases/");
   }
 }

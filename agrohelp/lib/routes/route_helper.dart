@@ -1,7 +1,9 @@
 import 'package:agrohelp/pages/food/popular_food.dart';
 import 'package:agrohelp/pages/food/recommended_food_detail.dart';
 import 'package:agrohelp/pages/forum/forum_details.dart';
+import 'package:agrohelp/pages/home/forum_page.dart';
 import 'package:agrohelp/pages/home/main_food_page.dart';
+import 'package:agrohelp/pages/home/search_page.dart';
 import 'package:get/get.dart';
 
 import '../pages/account/account_page.dart';
@@ -22,9 +24,13 @@ class RouteHelper{
   static const String login = "/login";
   static const String parcelView = "/parcel-view";
   static const String profile = "/profile";
+  static const String userHome = "/user-home";
+  static const String searchpage = "/search-page";
+  static const String favorites = "/favorite-crops";
+  static const String forumPage = "/forum-page";
   static const String register = "/register";
   static const String addParcel = "/add-parcel";
-  static const String userHome = "/user-home";
+  static const String home = "/home";
   static const String forumDetails = "/forum-details";
   static const String popularFood = "/popular-food";
   static const String cropDetail = "/crop-detail";
@@ -34,10 +40,14 @@ class RouteHelper{
   static String getWelcome() => "$welcome";
   static String getLogin() => "$login";
   static String getParcelView() => "$parcelView";
+  static String getUserHome() => "$userHome";
+  static String getSearchpage() => "$searchpage";
+  static String getfavorites() => "$favorites";
+  static String getforumPage() => "$forumPage";
   static String getProfile() => "$profile";
   static String getRegister() => "$register";
   static String getaddParcelPage() => "$addParcel";
-  static String getUserHome() => "$userHome";
+  static String getHome(int id ) => "$home?parcel=$id";
   static String getForumDetails() => "$forumDetails";
   static String getInitial() => "$initial";
   static String getPopularFood(int pageId) => "$popularFood?pageId=$pageId";
@@ -48,12 +58,14 @@ class RouteHelper{
     GetPage(name: splashPage, page: ()=>SplashScreen()),
     GetPage(name: welcome, page: ()=>AgroHome()),
     GetPage(name: login, page: ()=>SingInPage(), transition: Transition.fadeIn),
+    GetPage(name: userHome, page: ()=>UserHomePage(), transition: Transition.fadeIn),
     GetPage(name: parcelView, page: ()=>ViewParcelList(), transition: Transition.fadeIn),
+    GetPage(name: searchpage, page: ()=>SearchPage(), transition: Transition.fadeIn),
+    GetPage(name: forumPage, page: ()=>ForumPage(), transition: Transition.fadeIn),
     GetPage(name: profile, page: ()=>AccountPage(), transition: Transition.fadeIn),
     GetPage(name: register, page: ()=>SingUpPage(), transition: Transition.fadeIn),
     GetPage(name: initial, page: ()=>Initial()),
     GetPage(name: addParcel, page: ()=>AddParcelPage(), transition: Transition.fadeIn),
-    GetPage(name: userHome, page: ()=>HomePage(),transition: Transition.fadeIn),
     GetPage(name: forumDetails, page: ()=>ForumDetailsPage(),transition: Transition.fadeIn),
     GetPage(name: popularFood, page: (){
       var pageId = Get.parameters['pageId'];
@@ -68,6 +80,11 @@ class RouteHelper{
       var id = Get.parameters['id'];
       var side = Get.parameters['side'];
       return CropDetailPage(id: int.parse(id!), side: side!.toString(),);
+    }, transition: Transition.fadeIn),
+
+    GetPage(name: home, page: () {
+      var id = Get.parameters['parcel'];
+      return HomePage(id: int.parse(id!));
     }, transition: Transition.fadeIn),
 
   ];

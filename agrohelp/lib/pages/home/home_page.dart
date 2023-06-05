@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:agrohelp/pages/home/forum_page.dart';
 import 'package:agrohelp/pages/home/search_page.dart';
 import 'package:agrohelp/pages/home/user_home.dart';
@@ -20,7 +22,8 @@ import 'package:agrohelp/utils/colors.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final int id;
+  const HomePage({Key? key, required this.id}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -31,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _loadressource() async {
     await Get.find<CultureController>().getRecommendedList();
     await Get.find<CultureController>().getPopularCultureList();
+    await Get.find<CultureController>().getSuggestList(widget.id);
     await Get.find<AuthController>().getUser();
   }
   @override
@@ -38,6 +42,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     _loadressource();
+    // Timer.periodic(Duration(seconds: 5), (timer) { _loadressource();});
   }
   int _selectedIndex = 0;
   // late PersistentTabController _controller;
@@ -50,7 +55,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   List page = [
-    UserHomePage(),
+    // UserHomePage(),
     SearchPage(),
     Container(child: Center(child: Text("favorites page")),),
     ForumPage(),

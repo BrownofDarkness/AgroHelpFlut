@@ -1,8 +1,10 @@
+import 'package:agrohelp/pages/drawer/Drawer_page.dart';
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../data/controllers/auth_controller.dart';
 import '../../data/controllers/culture_controller.dart';
 import '../../helper/text_cliper.dart';
 import '../../routes/route_helper.dart';
@@ -23,10 +25,18 @@ class UserHomePage extends StatefulWidget {
 }
 
 class _UserHomePageState extends State<UserHomePage> {
+  
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPagevalue = 0.0;
   late bool start = false;
   double _scaleFactor = 0.8;
+
+  Future<void> _loadressource() async {
+    await Get.find<CultureController>().getRecommendedList();
+    await Get.find<CultureController>().getPopularCultureList();
+    await Get.find<CultureController>().getSuggestList(Get.find<CultureController>().parcel);
+    await Get.find<AuthController>().getUser();
+  }
 
 
 
@@ -35,11 +45,13 @@ class _UserHomePageState extends State<UserHomePage> {
   @override
   void initState(){
     super.initState();
+    _loadressource();
     pageController.addListener(() {
       setState(() {
         _currPagevalue = pageController.page!;
       });
     });
+
   }
 
   @override
@@ -51,6 +63,46 @@ class _UserHomePageState extends State<UserHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFF025592),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu, color: Colors.white54,size: Dimensions.height30(context),),
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // Ouvre le drawer
+              },
+            );
+          },
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                child: Text("Home",
+                  style: TextStyle(
+                    fontFamily: 'Chakra_Petch',
+                    color: Colors.white60,
+                    fontSize: Dimensions.height20(context),
+                  ),
+                  overflow: TextOverflow.visible,
+                ),
+
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerRight,
+              width: Dimensions.width30(context)*3,
+              child: Icon(Icons.notifications, color: Colors.white54,size: Dimensions.height30(context),),
+            ),
+          ],
+        ),
+      ),
+      drawer: DrawerPage(),
       body: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,9 +193,9 @@ class _UserHomePageState extends State<UserHomePage> {
               height: Dimensions.Pageview(context)*0.75,
               child: PageView.builder(
                 controller: pageController,
-                itemCount: cultures.recommendedcultureList.length,
+                itemCount: cultures.suggestedcultureList.length,
                 itemBuilder: (context, position){
-                return _buildPageItem(position,cultures.recommendedcultureList[position]);
+                return _buildPageItem(position,cultures.suggestedcultureList[position]);
                 }
               ),
               );

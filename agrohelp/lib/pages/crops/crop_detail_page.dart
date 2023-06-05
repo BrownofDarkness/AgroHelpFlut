@@ -39,6 +39,10 @@ class _CropDetailPageState extends State<CropDetailPage> {
 
   double _height(BuildContext context) =>
       Dimensions.pageViewContainer(context)*0.65;
+
+  Future<void> _loadressource(int id ) async {
+    await Get.find<CultureController>().getCulturedetails(id);
+  }
   
    
 
@@ -78,7 +82,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: GetBuilder<CultureController>(builder: (cultures){
-        Map culture = widget.side == "r"?cultures.recommendedcultureList[widget.id]:cultures.popularcultureList[widget.id];
+        Map culture = widget.side == "r"?cultures.suggestedcultureList[widget.id]:cultures.popularcultureList[widget.id];
         return Stack(
         children: [
           //background Image
@@ -199,9 +203,9 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                     height: Dimensions.Pageview(context)*0.65,
                                     child: PageView.builder(
                                       controller: illnessController,
-                                      itemCount: cultures.cultureDetails['fertilizers'].length,
+                                      itemCount: cultures.cultureDetails['diseases'].length,
                                       itemBuilder: (context, position){
-                                      return _buildPageItem2(position,cultures.cultureDetails['fertilizers'][position]);
+                                      return _buildPageItem2(position,cultures.cultureDetails['diseases'][position]);
                                       }
                                     ),
                                     ),

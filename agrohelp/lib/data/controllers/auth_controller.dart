@@ -19,6 +19,12 @@ class AuthController extends GetxController implements GetxService{
   dynamic _user;
   dynamic get user => _user;
 
+  dynamic _parcel;
+  dynamic get parcel => _parcel;
+
+  List<Map> _parcelList = [];
+  List<Map> get parcelList => _parcelList;
+
   Future<ResponseModel> registration(SingUpModel signUpModel) async {
     _isloading = true;
     Response response = await authRepo.registration(signUpModel);
@@ -82,11 +88,45 @@ Future<void> getUserToken() async {
     return authRepo.clearSharedData();
   }
 
-Future <void> getUser() async{
-  Response response = await authRepo.me();
-  print(response.body[0]);
-  _user = User.fromJson(response.body[0]);
-  update();
-}
+  Future <void> getUser() async{
+    Response response = await authRepo.me();
+    print(response.body[0]);
+    _user = User.fromJson(response.body[0]);
+    update();
+  }
+
+  void setparcel(id){
+    _parcel = id;
+    update();
+  }
+
+  Future<void> getUserParcels() async {
+    _parcelList = [];
+    Response response =  await authRepo.getUserParcels();
+    response.body.forEach((item){
+        Map parcel = {
+        "id": item["id"],
+        "name": item["name"],
+        "area": item["area"],
+        "location": item["location"]["coordinates"],
+        };
+        if (check(parcel, _parcelList)){
+          _parcelList.add(parcel);
+        }
+    });
+    print(_parcelList);
+    update();
+  }
+
+  bool check(Map parcel, List<Map> list){
+    bool add = true;
+    for(int i=0;i < list.length;i++ ){
+      if (list[i]["id"] == parcel['id']){
+        add = false;
+        break;
+      }
+    }
+    return add;
+  }
 }
 

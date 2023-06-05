@@ -52,4 +52,8 @@ class AuthRepo extends GetxService{
     Response response = await apiClient.getData(AppConstants.USER_URI);
     return response;
   }
+
+  Future<Response> getUserParcels() async {
+    return await apiClient.getData("${AppConstants.PARCEL_URI}");
+  }
 }

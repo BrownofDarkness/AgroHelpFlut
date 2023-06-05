@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/app_icon.dart';
+import '../drawer/Drawer_page.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -32,6 +33,46 @@ class _SearchPageState extends State<SearchPage> {
     ))
         .toList();// liste des options
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFF025592),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu, color: Colors.white54,size: Dimensions.height30(context),),
+              onPressed: () {
+                Scaffold.of(context).openDrawer(); // Ouvre le drawer
+              },
+            );
+          },
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                child: Text("Search Page",
+                  style: TextStyle(
+                    fontFamily: 'Chakra_Petch',
+                    color: Colors.white60,
+                    fontSize: Dimensions.height20(context),
+                  ),
+                  overflow: TextOverflow.visible,
+                ),
+
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerRight,
+              width: Dimensions.width30(context)*3,
+              child: Icon(Icons.notifications, color: Colors.white54,size: Dimensions.height30(context),),
+            ),
+          ],
+        ),
+      ),
+      drawer: DrawerPage(),
       body: Container(
         height: double.maxFinite,
         child: Column(

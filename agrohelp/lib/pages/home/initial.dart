@@ -19,7 +19,6 @@ class _InitialState extends State<Initial> {
 
   Future<void> _loadressource() async {
     await Get.find<AuthController>().getUserToken();
-    
   }
 
   @override

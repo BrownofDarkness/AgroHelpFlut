@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:agrohelp/utils/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +18,17 @@ class ViewParcelList extends StatefulWidget {
 }
 
 class _ViewParcelListState extends State<ViewParcelList> {
+  Future<void> _loadressource() async {
+    await Get.find<AuthController>().getUserParcels();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadressource();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,15 +57,18 @@ class _ViewParcelListState extends State<ViewParcelList> {
                 physics: BouncingScrollPhysics(),
                 child: Container(
                   padding: EdgeInsets.only(left: Dimensions.width20(context)),
-                  child: GetBuilder<CultureController>(builder: (cultures){
+                  child: GetBuilder<AuthController>(builder: (authcontroller){
                     return Column(
                     children: [
                       SizedBox(height: Dimensions.height10(context),),
-                      for (int i = 0; i < 5; i += 2)...[
+                      for (int i = 0; i < authcontroller.parcelList.length; i += 2)...[
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                         GestureDetector(
                           onTap: () {
+                            authcontroller.setparcel(authcontroller.parcelList[i]["id"]) ;
+                            Get.find<CultureController>().setparcel(authcontroller.parcelList[i]["id"]);
                             Get.toNamed(RouteHelper.getUserHome());
                             print("object1");
                           },
@@ -70,7 +83,7 @@ class _ViewParcelListState extends State<ViewParcelList> {
                               color: Color.fromARGB(255, 51, 53, 133),
                             ),
                             child: Text(
-                              "Parcel $i",
+                              authcontroller.parcelList[i]["name"],
                               style: TextStyle(
                                 fontFamily: 'Chakra_Petch',
                                 fontSize: Dimensions.height20(context),
@@ -81,10 +94,11 @@ class _ViewParcelListState extends State<ViewParcelList> {
 
                           )
                         ),
-                        if (i+1 < 5)...[
-                          SizedBox(width: Dimensions.height10(context),),
+                        if (i+1 < authcontroller.parcelList.length)...[
                           GestureDetector(
                             onTap: () {
+                              authcontroller.setparcel(authcontroller.parcelList[i]["id"]) ;
+                              Get.find<CultureController>().setparcel(authcontroller.parcelList[i]["id"]);
                               Get.toNamed(RouteHelper.getUserHome());
                               print("object2");
                             },
@@ -95,11 +109,11 @@ class _ViewParcelListState extends State<ViewParcelList> {
                               padding: EdgeInsets.only(top: Dimensions.width20(context)*1.5, bottom: Dimensions.width20(context)*1.5,left: Dimensions.width15(context)*3, right: Dimensions.width10(context)*2),
                               width: Dimensions.pageViewContainer(context)*0.8,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(Dimensions.radius30(context)),
+                                borderRadius: BorderRadius.circular(Dimensions.radius30(context)),  
                                 color: Color.fromARGB(255, 51, 53, 133),
                               ),
                               child: Text(
-                              "Parcel ${i+1}",
+                              authcontroller.parcelList[i+1]['name'],
                               style: TextStyle(
                                 fontFamily: 'Chakra_Petch',
                                 fontSize: Dimensions.height20(context),

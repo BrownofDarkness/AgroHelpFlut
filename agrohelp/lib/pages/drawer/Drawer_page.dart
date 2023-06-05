@@ -118,6 +118,84 @@ class DrawerPage extends StatelessWidget {
               onTap: () {
                 // Action à effectuer lorsque l'option Accueil est sélectionnée
                 Navigator.pop(context);// Ferme le Drawer
+                Get.toNamed(RouteHelper.getUserHome());
+                // Ajoutez votre logique de navigation ici
+              },
+            ),
+          ),
+          Divider( // Ajoute une ligne de séparation avec une bordure en bas
+            color: Colors.grey, // Couleur de la ligne de séparation
+            thickness: Dimensions.height10(context)*0.1, // Épaisseur de la ligne de séparation
+            indent: Dimensions.width10(context), // Retrait de la ligne de séparation à gauche
+            endIndent: Dimensions.width10(context), // Retrait de la ligne de séparation à droite
+          ),
+          Container(
+            height: Dimensions.height30(context)*1.6,
+            child: ListTile(
+              leading: Icon(Icons.manage_search_outlined, size: Dimensions.height30(context),),
+              title: Text(
+                'Search Page',
+                style: TextStyle(
+                  fontSize: Dimensions.height20(context),
+                  fontFamily: 'Chakra_Petch',
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              onTap: () {
+                // Action à effectuer lorsque l'option Accueil est sélectionnée
+                Navigator.pop(context);
+                Get.toNamed(RouteHelper.getSearchpage());// Ferme le Drawer
+                // Ajoutez votre logique de navigation ici
+              },
+            ),
+          ),
+          Divider( // Ajoute une ligne de séparation avec une bordure en bas
+            color: Colors.grey, // Couleur de la ligne de séparation
+            thickness: Dimensions.height10(context)*0.1, // Épaisseur de la ligne de séparation
+            indent: Dimensions.width10(context), // Retrait de la ligne de séparation à gauche
+            endIndent: Dimensions.width10(context), // Retrait de la ligne de séparation à droite
+          ),
+          Container(
+            height: Dimensions.height30(context)*1.6,
+            child: ListTile(
+              leading: Icon(Icons.star, size: Dimensions.height30(context),),
+              title: Text(
+                'Favorites crops',
+                style: TextStyle(
+                  fontSize: Dimensions.height20(context),
+                  fontFamily: 'Chakra_Petch',
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              onTap: () {
+                // Action à effectuer lorsque l'option Accueil est sélectionnée
+                Navigator.pop(context);// Ferme le Drawer
+                // Ajoutez votre logique de navigation ici
+              },
+            ),
+          ),
+          Divider( // Ajoute une ligne de séparation avec une bordure en bas
+            color: Colors.grey, // Couleur de la ligne de séparation
+            thickness: Dimensions.height10(context)*0.1, // Épaisseur de la ligne de séparation
+            indent: Dimensions.width10(context), // Retrait de la ligne de séparation à gauche
+            endIndent: Dimensions.width10(context), // Retrait de la ligne de séparation à droite
+          ),
+          Container(
+            height: Dimensions.height30(context)*1.6,
+            child: ListTile(
+              leading: Icon(Icons.forum, size: Dimensions.height30(context),),
+              title: Text(
+                'Forum Page',
+                style: TextStyle(
+                  fontSize: Dimensions.height20(context),
+                  fontFamily: 'Chakra_Petch',
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              onTap: () {
+                // Action à effectuer lorsque l'option Accueil est sélectionnée
+                Navigator.pop(context);
+                Get.toNamed(RouteHelper.getforumPage());// Ferme le Drawer
                 // Ajoutez votre logique de navigation ici
               },
             ),
@@ -144,7 +222,6 @@ class DrawerPage extends StatelessWidget {
                 // Action à effectuer lorsque l'option Paramètres est sélectionnée
                 Navigator.pop(context); // Ferme le Drawer
 
-                Get.toNamed(RouteHelper.getaddParcelPage());
                 // Ajoutez votre logique de navigation ici
               },
             ),
@@ -182,7 +259,7 @@ class DrawerPage extends StatelessWidget {
             endIndent: Dimensions.width10(context), // Retrait de la ligne de séparation à droite
           ),
           Container(
-            height: Dimensions.height30(context)*12,
+            height: Dimensions.height30(context)*5.5,
             color: Colors.white,
             // Autres propriétés du Container
           ),

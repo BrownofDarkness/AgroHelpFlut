@@ -66,20 +66,31 @@ class _ViewItemState extends State<ViewItem> {
                             ],
                             )
                           ),
-                          Container(
-                          padding: EdgeInsets.only(left: Dimensions.width20(context)),
-                          height: Dimensions.screenHeight(context)*0.6,
-                          width: Dimensions.screenWidth(context),
-                          child: Container(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: Dimensions.height20(context),),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '${widget.fertlizer["name"]}',
+                          Expanded(
+                            child: Container(
+                            padding: EdgeInsets.only(left: Dimensions.width20(context)),
+                            height: Dimensions.screenHeight(context)*0.6,
+                            child: Container(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: Dimensions.height20(context),),
+                                    Container(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        '${widget.fertlizer["name"]}',
+                                        style: TextStyle(
+                                          fontFamily: 'Chakra_Petch',
+                                          fontSize: Dimensions.height15(context)*1.2,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: Dimensions.height20(context),),
+                                    Text(
+                                      'Engrai de type ${widget.fertlizer["type"]=="chemical"?"Chimique":"Organique"}',
                                       style: TextStyle(
                                         fontFamily: 'Chakra_Petch',
                                         fontSize: Dimensions.height15(context)*1.2,
@@ -87,42 +98,32 @@ class _ViewItemState extends State<ViewItem> {
                                         color: Colors.black,
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(height: Dimensions.height20(context),),
-                                  Text(
-                                    'Engrai de type ${widget.fertlizer["type"]=="chemical"?"Chimique":"Organique"}',
-                                    style: TextStyle(
-                                      fontFamily: 'Chakra_Petch',
-                                      fontSize: Dimensions.height15(context)*1.2,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
+                                    SizedBox(height: Dimensions.height10(context),),
+                                    Text(
+                                      'Composition : \n\t\t\t${widget.fertlizer["composition"]}',
+                                      style: TextStyle(
+                                        fontFamily: 'Chakra_Petch',
+                                        fontSize: Dimensions.height15(context)*1.2,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: Dimensions.height10(context),),
-                                  Text(
-                                    'Composition : \n\t\t\t${widget.fertlizer["composition"]}',
-                                    style: TextStyle(
-                                      fontFamily: 'Chakra_Petch',
-                                      fontSize: Dimensions.height15(context)*1.2,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
+                                    SizedBox(height: Dimensions.height10(context),),
+                                    Text(
+                                      'Description : \n\t\t\t${widget.fertlizer["description"]}',
+                                      style: TextStyle(
+                                        fontFamily: 'Chakra_Petch',
+                                        fontSize: Dimensions.height15(context)*1.2,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: Dimensions.height10(context),),
-                                  Text(
-                                    'Description : \n\t\t\t${widget.fertlizer["description"]}',
-                                    style: TextStyle(
-                                      fontFamily: 'Chakra_Petch',
-                                      fontSize: Dimensions.height15(context)*1.2,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  SizedBox(height: Dimensions.height10(context),),
-                              ]),
-                                                    )
+                                    SizedBox(height: Dimensions.height10(context),),
+                                ]),
                                                       )
-                        )
+                                                        )
+                                                  )
+                          )
                         ],)
                       );
                     }
