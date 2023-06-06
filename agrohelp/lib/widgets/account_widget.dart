@@ -1,3 +1,4 @@
+import 'package:agrohelp/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:agrohelp/widgets/app_icon.dart';
@@ -30,8 +31,8 @@ class AccountWidget extends StatelessWidget {
           BoxShadow(
             blurRadius: 1,
             offset: Offset(0, 2),
-            color: Colors.grey.withOpacity(0.2)
-          )
+            color: Appcolors.mainColor
+          ),
         ]
       ),
     );

@@ -1,10 +1,13 @@
+import 'package:agrohelp/model/forum_model.dart';
 import 'package:agrohelp/routes/route_helper.dart';
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ForumItem extends StatefulWidget {
-  const ForumItem({super.key});
+  final Forum question;
+  
+  const ForumItem({super.key, required this.question});
 
   @override
   State<ForumItem> createState() => _ForumItemState();
@@ -95,7 +98,7 @@ class _ForumItemState extends State<ForumItem> {
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.only(left: Dimensions.width10(context)),
-                        child: Text("the question's autor"),
+                        child: Text('${widget.question.author!.username!}'),
                       )
                     ),
                     Container(
@@ -117,16 +120,17 @@ class _ForumItemState extends State<ForumItem> {
                 ),
               ),
               Container(
+                alignment: Alignment.topLeft,
                 height: Dimensions.pageViewContainer(context)*0.55,
                 padding: EdgeInsets.only(left: Dimensions.width10(context), right: Dimensions.width10(context), top: Dimensions.width10(context)),
                 child: Text(
-                  tronk("kfhdfjvghjgfhjvgdhfvgdhjhfdjvfdgvhfvhfdHgsHsxgqxgsqhdhqdgshdfshdhjdghsdfsghdshgdfgsdfghdsgqsqvdhqvdhsdfshdsugzeuzgezgyzqxcqgfxcsqgfxcsxgfcgfcsfxgcsfgxcsgfxcqfgxscgfcsgfx", Dimensions.pageViewContainer(context)*0.55),
+                  tronk(widget.question.content, Dimensions.pageViewContainer(context)*0.55),
                   style: TextStyle(
-                        fontFamily: 'Chakra_Petch',
-                        fontSize: Dimensions.height15(context)*1.2,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
+                    fontFamily: 'Chakra_Petch',
+                    fontSize: Dimensions.height15(context)*1.2,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
                 ),
               ),
               Expanded(

@@ -50,8 +50,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
             child: GestureDetector(
               onTap: (){
                 print("object");
-                _loadressource(widget.culture["culture"].id);
-                Get.toNamed(RouteHelper.getCropDetail(widget.index,"r"));
+                Get.toNamed(RouteHelper.getCropDetail(widget.culture["culture"].id,"r",widget.index));
               },
               child: Container(
                 height: Dimensions.pageViewContainer(context),

@@ -17,9 +17,10 @@ import '../../widgets/fertlizer_view_item.dart';
 import '../../widgets/illness_view_item.dart';
 
 class CropDetailPage extends StatefulWidget {
+  final int index;
   final int id;
   final String side;
-  const CropDetailPage({Key? key, required this.id, required this.side}) : super(key: key);
+  const CropDetailPage({Key? key, required this.index, required this.id, required this.side}) : super(key: key);
 
   @override
   State<CropDetailPage> createState() => _CropDetailPageState();
@@ -50,6 +51,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
   @override
   void initState(){
     super.initState();
+    _loadressource(widget.id);
     fertiliseController.addListener(() {
       setState(() {
         _currPagevalue = fertiliseController.page!;
@@ -82,7 +84,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: GetBuilder<CultureController>(builder: (cultures){
-        Map culture = widget.side == "r"?cultures.suggestedcultureList[widget.id]:cultures.popularcultureList[widget.id];
+        Map culture = widget.side == "r"?cultures.suggestedcultureList[widget.index]:cultures.popularcultureList[widget.index];
         return Stack(
         children: [
           //background Image
@@ -91,7 +93,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
               right: 0,
               child: Container(
                 width: double.maxFinite,
-                height: Dimensions.popularFoodImageSize(context)+ Dimensions.height30(context),
+                height: Dimensions.popularFoodImageSize(context)+ Dimensions.height30(context)*2,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
@@ -126,15 +128,23 @@ class _CropDetailPageState extends State<CropDetailPage> {
                 padding: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context), top: Dimensions.height20(context)),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(Dimensions.radius30(context)),
-                      topLeft: Radius.circular(Dimensions.radius30(context))
+                      topRight: Radius.circular(Dimensions.radius30(context)*2),
+                      topLeft: Radius.circular(Dimensions.radius30(context)*2)
                   ),
                   color: Colors.white,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    BigText(text: culture['culture'].name, size: Dimensions.font20(context), ),
+                    Text(
+                      culture['culture'].name,
+                      style: TextStyle(
+                        fontFamily: 'Chakra_Petch',
+                        fontWeight: FontWeight.w700,
+                        fontSize: Dimensions.font20(context),
+                        color: Color.fromARGB(255, 15, 92, 17)
+                      ),
+                    ),
                     BigText(text: culture['culture'].category, size: Dimensions.font16(context), ),
                     SizedBox(height: Dimensions.height10(context),),
                     Expanded(
@@ -147,7 +157,15 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    BigText(text: "Informations générales", size: Dimensions.font20(context), ),
+                                    Text(
+                                      "Informations générales",
+                                      style: TextStyle(
+                                        fontFamily: 'Chakra_Petch',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: Dimensions.font20(context),
+                                        color: Color.fromARGB(255, 15, 92, 17)
+                                      ),
+                                    ),
                                     Container(
                                       child:  BigText(
                                         text: "\t\t\t${culture['culture'].description}",
@@ -155,7 +173,15 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                       ),
                                     ),
                                     SizedBox(height: Dimensions.height10(context),),
-                                    BigText(text: "Pratiques agricole", size: Dimensions.font20(context), ),
+                                    Text(
+                                      "Pratiques agricole",
+                                      style: TextStyle(
+                                        fontFamily: 'Chakra_Petch',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: Dimensions.font20(context),
+                                        color: Color.fromARGB(255, 15, 92, 17)
+                                      ),
+                                    ),
                                     Container(
                                       child:Column(
                                         children: [
@@ -184,7 +210,15 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                         ],
                                       )
                                     ),
-                                    BigText(text: "Fertilisants", size: Dimensions.font20(context), ),
+                                    Text(
+                                      "Fertilisants",
+                                      style: TextStyle(
+                                        fontFamily: 'Chakra_Petch',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: Dimensions.font20(context),
+                                        color: Color.fromARGB(255, 15, 92, 17)
+                                      ),
+                                    ),
                                     Text(""),
                                     Container(
                                     height: Dimensions.Pageview(context)*0.65,
@@ -197,7 +231,15 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                     ),
                                     ),
                                     SizedBox(height: Dimensions.height20(context),),
-                                    BigText(text: "Maladies", size: Dimensions.font20(context), ),
+                                    Text(
+                                      "Maladies",
+                                      style: TextStyle(
+                                        fontFamily: 'Chakra_Petch',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: Dimensions.font20(context),
+                                        color: Color.fromARGB(255, 15, 92, 17)
+                                      ),
+                                    ),
                                     Text(""),
                                     Container(
                                     height: Dimensions.Pageview(context)*0.65,
@@ -211,7 +253,15 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                     ),
 
                                     SizedBox(height: Dimensions.height20(context),),
-                                    BigText(text: "Soles", size: Dimensions.font20(context), ),
+                                    Text(
+                                      "Soles",
+                                      style: TextStyle(
+                                        fontFamily: 'Chakra_Petch',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: Dimensions.font20(context),
+                                        color: Color.fromARGB(255, 15, 92, 17)
+                                      ),
+                                    ),
                                     Text(""),
                                     Container(
                                     height: Dimensions.Pageview(context)*0.65,

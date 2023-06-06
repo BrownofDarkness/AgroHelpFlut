@@ -1,5 +1,6 @@
 import 'package:agrohelp/pages/drawer/Drawer_page.dart';
 import 'package:agrohelp/utils/dimentions.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -65,7 +66,7 @@ class _UserHomePageState extends State<UserHomePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF025592),
+        backgroundColor: Color.fromARGB(255, 15, 92, 17),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -104,11 +105,14 @@ class _UserHomePageState extends State<UserHomePage> {
       ),
       drawer: DrawerPage(),
       body: Container(
+        color: Color.fromARGB(255, 220, 238, 213),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //hello
             Container(
+              width: double.maxFinite,
+              color: Colors.white,
               padding: EdgeInsets.only(left: Dimensions.width20(context)),
                 child: Text(
                     "Hello",
@@ -121,6 +125,8 @@ class _UserHomePageState extends State<UserHomePage> {
             ),
             //welcome .....
             Container(
+              width: double.maxFinite,
+              color: Colors.white,
               padding: EdgeInsets.only(left: Dimensions.width20(context),top: Dimensions.width20(context)*0.2),
               child: Text(
                 "welcome on your Home",
@@ -133,63 +139,78 @@ class _UserHomePageState extends State<UserHomePage> {
               ),
             ),
             //space between, you can replace with a SizedBox
-            Text(""),
+            Container(
+              width: double.maxFinite,
+              color: Colors.white,
+              child: Text(""),
+            ),
             // what.... and see more
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(left: Dimensions.width20(context)),
-                    alignment: Alignment.centerLeft,
-                    height: Dimensions.height30(context),
-                    child: Text(
-                      "What are you looking for?",
-                      style: TextStyle(
-                          fontFamily: 'Chakra_Petch',
-                          fontWeight: FontWeight.w500
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: Dimensions.width30(context)*10,
-                  padding: EdgeInsets.only(right: Dimensions.width20(context)),
-                  alignment: Alignment.centerRight,
-                  height: Dimensions.height30(context),
-                  child: GestureDetector(
-                    onTap: (){
-
-                    },
+            Container(
+              width: double.maxFinite,
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
                     child: Container(
-                      alignment: Alignment.center,
-                      width: Dimensions.height30(context)*3,
+                      
+                      padding: EdgeInsets.only(left: Dimensions.width20(context)),
+                      alignment: Alignment.centerLeft,
                       height: Dimensions.height30(context),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Dimensions.radius20(context)),
-                        color: Color(0xFF025592),
-                      ),
                       child: Text(
-                        "see more",
+                        "What are you looking for?",
                         style: TextStyle(
-                            fontSize: Dimensions.height15(context),
                             fontFamily: 'Chakra_Petch',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white
+                            fontWeight: FontWeight.w500
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                  Container(
+                    color: Colors.white,
+                    width: Dimensions.width30(context)*10,
+                    padding: EdgeInsets.only(right: Dimensions.width20(context)),
+                    alignment: Alignment.centerRight,
+                    height: Dimensions.height30(context),
+                    child: GestureDetector(
+                      onTap: (){
+                       },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: Dimensions.height30(context)*3,
+                        height: Dimensions.height30(context),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(Dimensions.radius20(context)),
+                          color: Color.fromARGB(255, 15, 92, 17),
+                        ),
+                        child: Text(
+                          "see more",
+                          style: TextStyle(
+                              fontSize: Dimensions.height15(context),
+                              fontFamily: 'Chakra_Petch',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             
-            SizedBox(height: Dimensions.height10(context),),
+            Container(
+              width: double.maxFinite,
+              color: Colors.white,
+              child: SizedBox(height: Dimensions.height10(context),),
+            ),
             //Page view for recommended crops
             GetBuilder<CultureController>(builder: (cultures){
               return cultures.isrecload?Center(
                 child: CircularProgressIndicator()
               ) : Container(
+                width: double.maxFinite,
+                color: Colors.white,
               height: Dimensions.Pageview(context)*0.75,
               child: PageView.builder(
                 controller: pageController,
@@ -201,6 +222,24 @@ class _UserHomePageState extends State<UserHomePage> {
               );
             }),
             Container(
+              width: double.maxFinite,
+              // color: Colors.white,
+              child: GetBuilder<CultureController>(builder: (popularProducts){
+                return DotsIndicator(
+                  dotsCount: popularProducts.suggestedcultureList.isNotEmpty?popularProducts.suggestedcultureList.length:5,
+                  position: _currPagevalue,
+                  decorator: DotsDecorator(
+                    activeColor: Color.fromARGB(255, 21, 134, 24),
+                    size: const Size.square(9.0),
+                    activeSize: const Size(18.0, 9.0),
+                    activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                  ),
+                );
+              }),
+            ),
+            Container(
+              width: double.maxFinite,
+              color: Colors.white,
               padding: EdgeInsets.only(left: Dimensions.width20(context),top: Dimensions.width20(context)*0.2),
               child: Text(
                 "Popular Crops",
@@ -212,7 +251,11 @@ class _UserHomePageState extends State<UserHomePage> {
                 ),
               ),
             ),
-            SizedBox(height: Dimensions.height10(context),),
+            Container(
+              width: double.maxFinite,
+              color: Colors.white,
+              child: SizedBox(height: Dimensions.height10(context),),
+            ),
             Expanded(
 
               child: SingleChildScrollView(

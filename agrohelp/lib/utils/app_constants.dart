@@ -14,10 +14,10 @@ class AppConstants {
   static const String USER_URI = "/api/account/user/";
   static const String PARCEL_URI = "/api/core/parcel/";
   static const String LOGIN_URI = "/api/account/auth/";
+  static const String FORUM_URI = "/api/forum/";
 
   static const String TOKEN = "";
   static const String PHONE = "";
   static const String PASSWORD = "";
-  static const int PARCEL = 0;
   
 }

@@ -51,7 +51,7 @@ class RouteHelper{
   static String getForumDetails() => "$forumDetails";
   static String getInitial() => "$initial";
   static String getPopularFood(int pageId) => "$popularFood?pageId=$pageId";
-  static String getCropDetail(int id, String side) => "$cropDetail?id=$id&&side=$side";
+  static String getCropDetail(int id, String side, int index) => "$cropDetail?id=$id&&index=$index&&side=$side";
   static String getRecommendedFood(int id ) => "$recommendedFood?id=$id";
 
   static List <GetPage> routes= [
@@ -77,9 +77,10 @@ class RouteHelper{
       return RecommendedFoodDetail(id: int.parse(id!),);
     }, transition: Transition.fadeIn),
     GetPage(name: cropDetail, page: () {
-      var id = Get.parameters['id'];
+      var index = Get.parameters['index'];
       var side = Get.parameters['side'];
-      return CropDetailPage(id: int.parse(id!), side: side!.toString(),);
+      var id = Get.parameters['id'];
+      return CropDetailPage(index: int.parse(index!), side: side!.toString(),id: int.parse(id!),);
     }, transition: Transition.fadeIn),
 
     GetPage(name: home, page: () {

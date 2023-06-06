@@ -36,8 +36,7 @@ class _PopularCropState extends State<PopularCrop> {
           GestureDetector(
             onTap: (){
               print("object");
-                _loadressource(widget.culture["culture"].id);
-              Get.toNamed(RouteHelper.getCropDetail(widget.index,"p"));
+              Get.toNamed(RouteHelper.getCropDetail(widget.culture["culture"].id,"p",widget.index));
             },
             child: Container(
               height: Dimensions.height30(context)*6,

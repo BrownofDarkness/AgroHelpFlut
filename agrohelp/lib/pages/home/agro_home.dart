@@ -28,7 +28,7 @@ class _AgroHomeState extends State<AgroHome> {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: AssetImage(
-                  "assets/images/welcomeagro.jpeg"
+                  "assets/images/agri.jpg"
                 ),
 
               ),

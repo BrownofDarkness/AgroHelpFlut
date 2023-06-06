@@ -19,6 +19,9 @@ class AuthController extends GetxController implements GetxService{
   dynamic _user;
   dynamic get user => _user;
 
+  dynamic _userToken;
+  dynamic get userToken => _userToken;
+
   dynamic _parcel;
   dynamic get parcel => _parcel;
 
@@ -76,6 +79,7 @@ Future<void> getUserToken() async {
     String val = await authRepo.getUserToken();
     print(val);
     if(val != "None"){
+      _userToken = val;
       _isconnected = true;
     }
     update();

@@ -9,7 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/controllers/auth_controller.dart';
 import '../data/controllers/culture_controller.dart';
+import '../data/controllers/forum_controller.dart';
 import '../data/repository/auth_repo.dart';
+import '../data/repository/forum_repo.dart';
 import '../utils/app_constants.dart';
 
 Future<void> init() async{
@@ -21,12 +23,14 @@ Future<void> init() async{
   //repositories
   Get.lazyPut(()=>AuthRepo(apiClient: Get.find(), sharedPreferences: sharedPreferences));
   Get.lazyPut(()=>CultureRepo(apiClient: Get.find()));
+  Get.lazyPut(()=>ForumRepo(apiClient: Get.find()));
   Get.lazyPut(()=>PopularProductRepo(apiClient: Get.find()));
   Get.lazyPut(()=>RecommendedProductRepo(apiClient: Get.find()));
 
   //controllers
   Get.lazyPut(()=>AuthController(authRepo: Get.find()));
   Get.lazyPut(()=>CultureController(cultureRepo: Get.find()));
+  Get.lazyPut(()=>ForumController(forumRepo: Get.find()));
   Get.lazyPut(()=>PopularProductController(popularProductRepo: Get.find()));
   Get.lazyPut(()=>RecommendedProductController(recommendedProductRepo: Get.find()));
 

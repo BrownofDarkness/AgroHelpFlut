@@ -35,7 +35,7 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF025592),
+        backgroundColor: Color.fromARGB(255, 15, 92, 17),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -88,7 +88,7 @@ class _SearchPageState extends State<SearchPage> {
                     margin: EdgeInsets.only(left: Dimensions.width10(context)),
                     padding: EdgeInsets.only(left: Dimensions.width10(context)*2),
                     decoration: BoxDecoration(
-                      color: Color(0xFF025592),
+                      color: Color.fromARGB(255, 15, 92, 17),
                       borderRadius: BorderRadius.all(Radius.circular(Dimensions.radius20(context)))
                     ),
                     child: DropdownButtonFormField<String>(
@@ -106,7 +106,7 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                         fillColor: Colors.white
                       ),
-                      dropdownColor: Color(0xFF025592),
+                      dropdownColor: Color.fromARGB(255, 15, 92, 17),
                       icon: Icon(Icons.arrow_drop_down, color: Colors.white,),
                       iconSize: Dimensions.height30(context),
                       isExpanded: true,
@@ -126,7 +126,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                   Expanded(child: Container(
                     child: TextField(
-                      cursorColor: Color(0xFF025592),
+                      cursorColor: Color.fromARGB(255, 15, 92, 17),
                       style: TextStyle(
                           fontFamily: 'Chakra_Petch',
                         fontSize: Dimensions.height15(context)*1.2,
@@ -135,16 +135,16 @@ class _SearchPageState extends State<SearchPage> {
                       decoration:   InputDecoration(
                         hintText: "Rechercher",
                         border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF025592)),
+                          borderSide: BorderSide(color: Color.fromARGB(255, 15, 92, 17)),
                         ),
                         enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF025592)),
+                          borderSide: BorderSide(color: Color.fromARGB(255, 15, 92, 17)),
                         ),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF025592)),
+                          borderSide: BorderSide(color: Color.fromARGB(255, 15, 92, 17)),
                         ),
                         suffixIcon: IconButton(
-                          icon: Icon(Icons.search, color: Color(0xFF025592),),
+                          icon: Icon(Icons.search, color: Color.fromARGB(255, 15, 92, 17),),
                           onPressed: () {
                             setState(() {
                               search.clear();
