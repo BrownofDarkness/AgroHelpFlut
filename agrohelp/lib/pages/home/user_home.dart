@@ -33,7 +33,6 @@ class _UserHomePageState extends State<UserHomePage> {
   double _scaleFactor = 0.8;
 
   Future<void> _loadressource() async {
-    await Get.find<CultureController>().getRecommendedList();
     await Get.find<CultureController>().getPopularCultureList();
     await Get.find<CultureController>().getSuggestList(Get.find<CultureController>().parcel);
     await Get.find<AuthController>().getUser();

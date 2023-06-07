@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:agrohelp/data/controllers/auth_controller.dart';
 import 'package:agrohelp/model/forum_model.dart';
 import 'package:agrohelp/pages/drawer/Drawer_page.dart';
@@ -5,9 +8,10 @@ import 'package:agrohelp/utils/dimentions.dart';
 import 'package:agrohelp/widgets/forum_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'package:get/get.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../base/show_custom_snackBar.dart';
 import '../../data/controllers/culture_controller.dart';
@@ -22,7 +26,7 @@ class ForumPage extends StatefulWidget {
 
 class _ForumPageState extends State<ForumPage> {
   var question = TextEditingController();
-  IO.Socket? socket;
+   WebSocketChannel? channel;
 
   Future<void> _loadressource() async {
     await Get.find<ForumController>().getQuestions();
@@ -40,24 +44,22 @@ class _ForumPageState extends State<ForumPage> {
   }
 
   void _createForum(ForumController forumController){
-      String content = question.text.trim();
-      if(content.isEmpty){
-        ShowCustomSnackBar("type in your question", title: "Forum question");
-      }else{
-        ShowCustomSnackBar("All went well", title: "Perfect");
-        Forum forum = Forum(
-            content: content,
-        );
-        print(forum.content);
-        forumController.createForum(forum).then((status) {
-          if(status.isSucess==true){
-            ShowCustomSnackBar("user was successfully logged in ", title: "sing in", isError: false);
-          }else{
-            ShowCustomSnackBar(status.message,);
-          }
-        });
-      }
+    String content = question.text.trim();
+    if(content.isEmpty){
+      ShowCustomSnackBar("type in your question", title: "Forum question");
+    }else{
+      ShowCustomSnackBar("All went well", title: "Perfect");
+      
+      print(content);
+      forumController.createForum(content).then((status) {
+        if(status.isSucess==true){
+          ShowCustomSnackBar("user was successfully logged in ", title: "sing in", isError: false);
+        }else{
+          ShowCustomSnackBar(status.message,);
+        }
+      });
     }
+  }
 
     void initSocket() {
       // Spécifier l'URL du serveur WebSocket
@@ -65,24 +67,33 @@ class _ForumPageState extends State<ForumPage> {
       String url = 'ws://localhost:8000/ws/public_forum/?token=$userToken';
 
       // Créer une instance de SocketIO
-      socket = IO.io(url, <String, dynamic>{
-        'transports': ['websocket'],
-      });
+      channel = IOWebSocketChannel.connect(url);
+
+      
 
       // Écouter l'événement de connexion réussie
-      socket?.on('connect', (_) {
-        print('Connexion au socket établie');
-        // Effectuer des opérations supplémentaires ici après la connexion réussie
-      });
+      if (channel?.closeCode == null) {
+        // La connexion est établie
+        print('WebSocket connection is open');
+      }
 
-      // Écouter l'événement de connexion échouée
-      socket?.on('connect_error', (_) {
-        print('Échec de la connexion au socket');
-        // Effectuer des opérations supplémentaires ici en cas d'échec de connexion
-      });
 
-      // Se connecter au socket
-      socket!.connect();
+      channel?.stream.listen((dynamic message) {
+        dynamic jsonData = jsonDecode(message);
+        Map<String, dynamic> jsonMap = jsonData as Map<String, dynamic>;
+        if (jsonMap['message']['msg_type'] == "forum_created"){
+          Get.find<ForumController>().addNewForum(jsonMap['message']['data']);
+          print(jsonMap['message']['data']);
+        }
+
+        if (jsonMap['message']['msg_type'] == "forum_commented"){
+          Get.find<ForumController>().addNewForumComment(jsonMap['message']['data']);
+          print(jsonMap['message']['data']);
+        }
+
+      }, onDone: () {
+        print('WebSocket connection closed');
+      });
     }
 
   @override
@@ -95,7 +106,7 @@ class _ForumPageState extends State<ForumPage> {
   @override
   void dispose() {
     question.dispose();
-    socket?.disconnect();
+    channel?.sink.close();
     super.dispose();
   }
 
@@ -227,7 +238,7 @@ class _ForumPageState extends State<ForumPage> {
                       shrinkWrap: true,
                       itemCount: forumcontroller.forums.length,
                       itemBuilder: (context, index){
-                        return ForumItem(question:forumcontroller.forums[index]);
+                        return ForumItem(question:forumcontroller.forums[index],index: index,);
                     }),
                   )
                 );

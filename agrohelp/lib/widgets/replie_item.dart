@@ -1,31 +1,29 @@
 import 'package:agrohelp/model/forum_model.dart';
-import 'package:agrohelp/data/controllers/forum_controller.dart';
-import 'package:agrohelp/utils/dimentions.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class CommentItem extends StatefulWidget {
-  final Comments comment;
-  CommentItem({super.key, required this.comment});
+import '../utils/dimentions.dart';
+
+class ReplieItem extends StatefulWidget {
+  final Replies replie;
+  const ReplieItem({super.key, required this.replie});
 
   @override
-  State<CommentItem> createState() => _CommentItemState();
+  State<ReplieItem> createState() => _ReplieItemState();
 }
 
-class _CommentItemState extends State<CommentItem> {
+class _ReplieItemState extends State<ReplieItem> {
   @override
   Widget build(BuildContext context) {
-    
     return Container(
       width: Dimensions.screenWidth(context),
-      padding: EdgeInsets.only(right: Dimensions.width20(context), top: Dimensions.height15(context)),
+      padding: EdgeInsets.only(right: Dimensions.width20(context), top: Dimensions.height15(context), left: Dimensions.width30(context)*3),
       // color: Colors.redAccent,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(width: Dimensions.width30(context),),
           Container(
-            width: Dimensions.screenWidth(context)*0.90,
+            width: Dimensions.screenWidth(context)*0.75,
             decoration: BoxDecoration(
               // color: Colors.amber,
               borderRadius: BorderRadius.circular(Dimensions.radius20(context))
@@ -35,7 +33,6 @@ class _CommentItemState extends State<CommentItem> {
                 Container(
                   padding: EdgeInsets.only(left: Dimensions.width15(context)*0.5),
                   height: Dimensions.height20(context)*2,
-                  
                   child: Row(
                     children: [
                       CircleAvatar(
@@ -69,7 +66,7 @@ class _CommentItemState extends State<CommentItem> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                            widget.comment.author!.username!,
+                            widget.replie.author!.username!,
                             style: TextStyle(
                               fontFamily: 'Chakra_Petch',
                               fontSize: Dimensions.height15(context),
@@ -78,7 +75,7 @@ class _CommentItemState extends State<CommentItem> {
                             ),
                           ),
                           Text(
-                            widget.comment.author!.type!,
+                            widget.replie.author!.type!,
                             style: TextStyle(
                               fontFamily: 'Chakra_Petch',
                               fontSize: Dimensions.height15(context),
@@ -115,10 +112,10 @@ class _CommentItemState extends State<CommentItem> {
                         ),
                       ],
                     ),
-                    width: Dimensions.screenWidth(context)*0.75+Dimensions.width15(context)*0.5,
+                    width: Dimensions.screenWidth(context)*0.61,
                     padding: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context), top: Dimensions.height10(context),bottom: Dimensions.height10(context)),
                     child: Text(
-                      widget.comment.content!,
+                      widget.replie.content!,
                       style: TextStyle(
                         fontFamily: 'Chakra_Petch',
                         color: Colors.black,

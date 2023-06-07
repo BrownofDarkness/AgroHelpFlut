@@ -48,6 +48,7 @@ dependencies:
   flutter_map_location_marker: ^6.0.0
   socket_io: ^1.0.1
   socket_io_client: ^1.0.2
+  web_socket_channel: ^2.4.0
 
 dev_dependencies:
   flutter_test:

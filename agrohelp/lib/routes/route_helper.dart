@@ -1,3 +1,4 @@
+import 'package:agrohelp/model/forum_model.dart';
 import 'package:agrohelp/pages/food/popular_food.dart';
 import 'package:agrohelp/pages/food/recommended_food_detail.dart';
 import 'package:agrohelp/pages/forum/forum_details.dart';
@@ -10,6 +11,7 @@ import '../pages/account/account_page.dart';
 import '../pages/auth/sign_in_page.dart';
 import '../pages/auth/sing_up_page.dart';
 import '../pages/crops/crop_detail_page.dart';
+import '../pages/forum/forum_comment_replies.dart';
 import '../pages/home/agro_home.dart';
 import '../pages/home/home_page.dart';
 import '../pages/home/initial.dart';
@@ -32,6 +34,7 @@ class RouteHelper{
   static const String addParcel = "/add-parcel";
   static const String home = "/home";
   static const String forumDetails = "/forum-details";
+  static const String forumCommentReplies = "/forum-comment-replies";
   static const String popularFood = "/popular-food";
   static const String cropDetail = "/crop-detail";
   static const String recommendedFood = "/recommended-food";
@@ -48,7 +51,8 @@ class RouteHelper{
   static String getRegister() => "$register";
   static String getaddParcelPage() => "$addParcel";
   static String getHome(int id ) => "$home?parcel=$id";
-  static String getForumDetails() => "$forumDetails";
+  static String getForumDetails(int index) => "$forumDetails?forum=$index";
+  static String getForumCommentReplies(int forum, int comment) => "$forumCommentReplies?forum=$forum&&comment=$comment";
   static String getInitial() => "$initial";
   static String getPopularFood(int pageId) => "$popularFood?pageId=$pageId";
   static String getCropDetail(int id, String side, int index) => "$cropDetail?id=$id&&index=$index&&side=$side";
@@ -66,7 +70,6 @@ class RouteHelper{
     GetPage(name: register, page: ()=>SingUpPage(), transition: Transition.fadeIn),
     GetPage(name: initial, page: ()=>Initial()),
     GetPage(name: addParcel, page: ()=>AddParcelPage(), transition: Transition.fadeIn),
-    GetPage(name: forumDetails, page: ()=>ForumDetailsPage(),transition: Transition.fadeIn),
     GetPage(name: popularFood, page: (){
       var pageId = Get.parameters['pageId'];
       return PopularFoodDetail(pageId: int.parse(pageId!),);
@@ -86,6 +89,17 @@ class RouteHelper{
     GetPage(name: home, page: () {
       var id = Get.parameters['parcel'];
       return HomePage(id: int.parse(id!));
+    }, transition: Transition.fadeIn),
+
+    GetPage(name: forumDetails, page: () {
+      var forum = Get.parameters['forum'];
+      return ForumDetailsPage(forum: int.parse(forum!));
+    }, transition: Transition.fadeIn),
+
+    GetPage(name: forumCommentReplies, page: () {
+      var forum = Get.parameters['forum'];
+      var comment = Get.parameters['comment'];
+      return CommentReplies(forum: int.parse(forum!), comment: int.parse(comment!),);
     }, transition: Transition.fadeIn),
 
   ];
