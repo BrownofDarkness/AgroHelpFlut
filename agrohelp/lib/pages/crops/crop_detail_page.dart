@@ -4,13 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../data/controllers/auth_controller.dart';
-import '../../model/cultures_model.dart';
-import '../../routes/route_helper.dart';
-import '../../utils/colors.dart';
 import '../../utils/dimentions.dart';
-import '../../widgets/Recomended_item.dart';
-import '../../widgets/app_column.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
 import '../../widgets/fertlizer_view_item.dart';

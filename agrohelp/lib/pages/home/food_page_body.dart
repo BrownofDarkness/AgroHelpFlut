@@ -2,7 +2,6 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:agrohelp/data/controllers/popular_product_controller.dart';
-import 'package:agrohelp/pages/food/popular_food.dart';
 import 'package:agrohelp/utils/colors.dart';
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:agrohelp/widgets/big_text.dart';

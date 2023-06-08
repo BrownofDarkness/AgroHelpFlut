@@ -7,16 +7,9 @@ import 'package:get/get.dart';
 
 import '../../data/controllers/auth_controller.dart';
 import '../../data/controllers/culture_controller.dart';
-import '../../helper/text_cliper.dart';
 import '../../routes/route_helper.dart';
-import '../../utils/app_constants.dart';
-import '../../utils/colors.dart';
 import '../../widgets/Recomended_item.dart';
-import '../../widgets/app_column.dart';
-import '../../widgets/big_text.dart';
-import '../../widgets/icon_text_widget.dart';
 import '../../widgets/popular_crop.dart';
-import '../../widgets/small_text.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({Key? key}) : super(key: key);
@@ -31,6 +24,7 @@ class _UserHomePageState extends State<UserHomePage> {
   var _currPagevalue = 0.0;
   late bool start = false;
   double _scaleFactor = 0.8;
+  late bool show = false;
 
   Future<void> _loadressource() async {
     await Get.find<CultureController>().getPopularCultureList();
@@ -96,8 +90,31 @@ class _UserHomePageState extends State<UserHomePage> {
             ),
             Container(
               alignment: Alignment.centerRight,
-              width: Dimensions.width30(context)*3,
-              child: Icon(Icons.notifications, color: Colors.white54,size: Dimensions.height30(context),),
+              width: Dimensions.width30(context)*6,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      IconButton(
+                        onPressed: (){
+                          print("wheather");
+                          Get.toNamed(RouteHelper.getWheatherPage());
+                          
+                        },
+                        icon: Icon(Icons.cloud, color: Colors.white54,size: Dimensions.height30(context),),
+                      ),
+                    
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: (){
+                      print("dialog");
+                    },
+                    icon: Icon(Icons.notifications, color: Colors.white54,size: Dimensions.height30(context),),
+                  )
+                ],
+              )
             ),
           ],
         ),
@@ -390,5 +407,46 @@ class _UserHomePageState extends State<UserHomePage> {
       transform: matrix,
       child: RecommendedItem(culture: culture, index: index,),
     );
+  }
+
+  Widget _WheatherItem(bool visible) {
+      return Stack(
+        children: [
+          Positioned(
+            top: Dimensions.height20(context)*2.3,
+            left: Dimensions.width20(context),
+            right: Dimensions.width20(context),
+            child: Container(
+              color: Colors.white,
+              height: visible? 0:Dimensions.height30(context)*6,
+              width: visible? 0:Dimensions.screenWidth(context),
+              child: Text("data"),
+            )
+          )
+        ],
+      );
+  }
+}
+
+class WheatherScreenDialog extends Dialog {
+
+  const WheatherScreenDialog({super.key, });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+        children: [
+          Positioned(
+            top: Dimensions.height20(context)*2.3,
+            left: Dimensions.width20(context),
+            right: Dimensions.width20(context),
+            child: Container(
+              height: Dimensions.height30(context)*6,
+              width: Dimensions.screenWidth(context),
+              child: Text("data"),
+            )
+          )
+        ],
+      );
   }
 }

@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:agrohelp/data/controllers/forum_controller.dart';
-import 'package:agrohelp/model/forum_model.dart';
 import 'package:agrohelp/routes/route_helper.dart';
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:agrohelp/widgets/comment_item.dart';

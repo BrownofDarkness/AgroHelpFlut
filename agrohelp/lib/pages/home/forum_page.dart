@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:agrohelp/data/controllers/auth_controller.dart';
-import 'package:agrohelp/model/forum_model.dart';
 import 'package:agrohelp/pages/drawer/Drawer_page.dart';
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:agrohelp/widgets/forum_item.dart';

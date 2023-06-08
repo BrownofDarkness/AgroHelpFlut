@@ -5,15 +5,11 @@ import 'package:get/get.dart';
 
 import '../../base/show_custom_snackBar.dart';
 import '../../data/controllers/auth_controller.dart';
-import '../../model/response_model.dart';
 import '../../model/signUp_model.dart';
 import '../../routes/route_helper.dart';
 import '../../utils/dimentions.dart';
 
-import '../../utils/colors.dart';
 
-import '../../widgets/MyDropdown.dart';
-import '../../widgets/app_text_field.dart';
 import '../../widgets/big_text.dart';
 
 class SingUpPage extends StatefulWidget {

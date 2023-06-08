@@ -1,16 +1,47 @@
-import 'package:agrohelp/pages/home/initial.dart';
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 import '../../data/controllers/auth_controller.dart';
 import '../../helper/text_cliper.dart';
 import '../../routes/route_helper.dart';
-import '../../utils/colors.dart';
-import '../../widgets/app_icon.dart';
 
-class DrawerPage extends StatelessWidget {
+class DrawerPage extends StatefulWidget {
   const DrawerPage({super.key});
+
+  @override
+  State<DrawerPage> createState() => _DrawerPageState();
+}
+
+class _DrawerPageState extends State<DrawerPage> {
+  String apikey = "acbc1629d4192a8cb3c8e6c6abd33fe0";
+  //curl --compressed --request GET --url \
+  // 'https://api.tomorrow.io/v4/timelines?location=40.75872069597532,-73.98529171943665&fields=temperature&timesteps=1h&units=metric&apikey=8OF93hGvm4MZ7jKchsH255VjUurSgE6Q'
+  String apiUrl = 'https://api.tomorrow.io/v4/forecast';
+  // ?lat=44.34&lon=10.99&appid={API key}
+
+  Future<void> _getweather(String uri,{Map<String, String>? headers}) async {
+
+    try {
+      http.Response response = await http.get(
+        Uri.parse(uri),
+        headers: {"accept": "application/json"},
+      );
+      print(response.body[1]);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    Map parcel = Get.find<AuthController>().searchParcel();
+    print('location=${parcel["location"][1]},${parcel["location"][0]}');
+    //_getweather('$apiUrl?location=${parcel["location"][1]},${parcel["location"][0]}&timesteps=1d&units=metric&apikey=8OF93hGvm4MZ7jKchsH255VjUurSgE6Q');
+    // _getweather('https://api.tomorrow.io/v4/weather/forecast?location=${parcel["location"][1]}%2C${parcel["location"][0]}&timesteps=1d&units=metric&apikey=8OF93hGvm4MZ7jKchsH255VjUurSgE6Q');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,6 +201,7 @@ class DrawerPage extends StatelessWidget {
               onTap: () {
                 // Action à effectuer lorsque l'option Accueil est sélectionnée
                 Navigator.pop(context);// Ferme le Drawer
+                Get.toNamed(RouteHelper.getFavoritePage());
                 // Ajoutez votre logique de navigation ici
               },
             ),

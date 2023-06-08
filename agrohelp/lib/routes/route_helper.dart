@@ -1,9 +1,7 @@
-import 'package:agrohelp/model/forum_model.dart';
 import 'package:agrohelp/pages/food/popular_food.dart';
 import 'package:agrohelp/pages/food/recommended_food_detail.dart';
 import 'package:agrohelp/pages/forum/forum_details.dart';
 import 'package:agrohelp/pages/home/forum_page.dart';
-import 'package:agrohelp/pages/home/main_food_page.dart';
 import 'package:agrohelp/pages/home/search_page.dart';
 import 'package:get/get.dart';
 
@@ -13,12 +11,14 @@ import '../pages/auth/sing_up_page.dart';
 import '../pages/crops/crop_detail_page.dart';
 import '../pages/forum/forum_comment_replies.dart';
 import '../pages/home/agro_home.dart';
+import '../pages/home/favorite_crop_page.dart';
 import '../pages/home/home_page.dart';
 import '../pages/home/initial.dart';
 import '../pages/home/user_home.dart';
 import '../pages/parcel/add_parcel_page.dart';
 import '../pages/parcel/view_parcel.dart';
 import '../pages/splash/splash_page.dart';
+import '../pages/wheather/wheather_page.dart';
 class RouteHelper{
   static const String splashPage = "/splash-page";
   static const String initial = "/";
@@ -29,6 +29,8 @@ class RouteHelper{
   static const String userHome = "/user-home";
   static const String searchpage = "/search-page";
   static const String favorites = "/favorite-crops";
+  static const String favoritePage = "/favorite-page";
+  static const String wheatherPage = "/wheather-page";
   static const String forumPage = "/forum-page";
   static const String register = "/register";
   static const String addParcel = "/add-parcel";
@@ -46,6 +48,8 @@ class RouteHelper{
   static String getUserHome() => "$userHome";
   static String getSearchpage() => "$searchpage";
   static String getfavorites() => "$favorites";
+  static String getFavoritePage() => "$favoritePage";
+  static String getWheatherPage() => "$wheatherPage";
   static String getforumPage() => "$forumPage";
   static String getProfile() => "$profile";
   static String getRegister() => "$register";
@@ -66,6 +70,8 @@ class RouteHelper{
     GetPage(name: parcelView, page: ()=>ViewParcelList(), transition: Transition.fadeIn),
     GetPage(name: searchpage, page: ()=>SearchPage(), transition: Transition.fadeIn),
     GetPage(name: forumPage, page: ()=>ForumPage(), transition: Transition.fadeIn),
+    GetPage(name: favoritePage, page: ()=>FavoriteCropsPage(), transition: Transition.fadeIn),
+    GetPage(name: wheatherPage, page: ()=>WheatherPage(), transition: Transition.fadeIn),
     GetPage(name: profile, page: ()=>AccountPage(), transition: Transition.fadeIn),
     GetPage(name: register, page: ()=>SingUpPage(), transition: Transition.fadeIn),
     GetPage(name: initial, page: ()=>Initial()),

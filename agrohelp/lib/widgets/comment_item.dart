@@ -1,8 +1,6 @@
 import 'package:agrohelp/model/forum_model.dart';
-import 'package:agrohelp/data/controllers/forum_controller.dart';
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class CommentItem extends StatefulWidget {
   final Comments comment;

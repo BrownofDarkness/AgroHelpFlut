@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../routes/route_helper.dart';
-import '../../utils/colors.dart';
 import '../../utils/dimentions.dart';
-import '../../widgets/big_text.dart';
 import 'package:get/get.dart';
 
 class AgroHome extends StatefulWidget {

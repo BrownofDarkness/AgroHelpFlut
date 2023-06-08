@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:agrohelp/data/controllers/popular_product_controller.dart';
-import 'package:agrohelp/pages/home/food_page_body.dart';
-import 'package:agrohelp/pages/home/main_food_page.dart';
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:get/get.dart';
 import '../../utils/colors.dart';
@@ -10,8 +7,6 @@ import '../../widgets/app_column.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
 import '../../widgets/expandable_text_widget.dart';
-import '../../widgets/icon_text_widget.dart';
-import '../../widgets/small_text.dart';
 import 'package:agrohelp/routes/route_helper.dart';
 
 class PopularFoodDetail extends StatelessWidget {

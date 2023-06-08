@@ -2,7 +2,6 @@ import 'package:agrohelp/utils/dimentions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/app_icon.dart';
 import '../drawer/Drawer_page.dart';
 
 class SearchPage extends StatefulWidget {
@@ -22,7 +21,6 @@ class _SearchPageState extends State<SearchPage> {
   }
   @override
   Widget build(BuildContext context) {
-    late  bool _isTextEntered= false;
     String selectedOption = ""; //  =variable pour stocker la valeur sélectionnée
 
     List<String> options = ['culture', 'maladie',"insecticide"];

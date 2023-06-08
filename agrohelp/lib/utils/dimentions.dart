@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 class Dimensions{
   static double screenHeight(BuildContext context) =>
       MediaQuery.of(context).size.height;

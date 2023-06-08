@@ -2,22 +2,15 @@ import 'dart:async';
 
 import 'package:agrohelp/pages/home/forum_page.dart';
 import 'package:agrohelp/pages/home/search_page.dart';
-import 'package:agrohelp/pages/home/user_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:agrohelp/pages/order/order_page.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../data/controllers/auth_controller.dart';
 import '../../data/controllers/culture_controller.dart';
 import '../../utils/dimentions.dart';
 import '../drawer/Drawer_page.dart';
-import '../parcel/view_parcel.dart';
-import 'main_food_page.dart';
-import 'package:agrohelp/pages/account/account_page.dart';
-import 'package:agrohelp/pages/auth/sing_up_page.dart';
 import 'package:agrohelp/utils/colors.dart';
 
 

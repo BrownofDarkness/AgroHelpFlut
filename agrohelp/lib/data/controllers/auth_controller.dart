@@ -132,5 +132,16 @@ Future<void> getUserToken() async {
     }
     return add;
   }
+
+  Map searchParcel(){
+    Map parcel = {};
+    for(int i=0;i < _parcelList.length;i++ ){
+      if (_parcelList[i]["id"] == _parcel){
+        parcel = _parcelList[i];
+        break;
+      }
+    }
+    return parcel;
+  }
 }
 

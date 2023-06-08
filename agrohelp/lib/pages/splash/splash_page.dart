@@ -5,12 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:agrohelp/routes/route_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../data/controllers/auth_controller.dart';
-import '../../data/controllers/culture_controller.dart';
-import '../../data/controllers/popular_product_controller.dart';
-import '../../utils/app_constants.dart';
 import '../../utils/dimentions.dart';
 
 class SplashScreen extends StatefulWidget {
