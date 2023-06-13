@@ -1,3 +1,4 @@
+import 'package:agrohelp/model/response_model.dart';
 import 'package:get/get.dart';
 
 import '../../model/cultures_model.dart';
@@ -114,7 +115,8 @@ class CultureController extends GetxController{
     Response response =  await cultureRepo.getCulturePractices(id);
     Response response2  = await cultureRepo.getCultureFertlizers(id);
     Response response3  = await cultureRepo.getCultureDiseases(id);
-    print(response.body[0]);
+    Response response4  = await cultureRepo.getFavorableAreas(id);
+    print(response4.body["features"][0]['geometry']['coordinates'][0][0][1]);
     response.body.forEach((item){
         Map pract = {
         "name": item["name"],
@@ -143,12 +145,35 @@ class CultureController extends GetxController{
         };
         _cultureDetails["diseases"].add(dis);
     });
+
+    response4.body["features"].forEach((item){
+      Map soil = {
+        "name": item['properties']['soil']["type"],
+        "area": item['geometry']['coordinates'][0],
+        };
+      _cultureDetails["soils"].add(soil);
+    });
     update();
   }
 
   void setparcel(id){
     _parcel = id;
     update();
+  }
+
+  Future<ResponseModel> addParcel(Map parcel) async {
+    Response response = await cultureRepo.addParcel(parcel);
+    late ResponseModel responseModel;
+
+    if(response.statusCode == 201){
+      print(response.body["data"]['location']);
+      responseModel = ResponseModel(true, response.body["data"]['name']);
+
+    }else{
+      responseModel = ResponseModel(false, response.statusText!);
+    }
+    update();
+    return responseModel;
   }
 
 }

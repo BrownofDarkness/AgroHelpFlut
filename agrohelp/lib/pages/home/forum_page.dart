@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:agrohelp/data/controllers/auth_controller.dart';
 import 'package:agrohelp/pages/drawer/Drawer_page.dart';
+import 'package:agrohelp/utils/app_constants.dart';
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:agrohelp/widgets/forum_item.dart';
 import 'package:flutter/cupertino.dart';
@@ -62,7 +63,7 @@ class _ForumPageState extends State<ForumPage> {
     void initSocket() {
       // Spécifier l'URL du serveur WebSocket
       String userToken = Get.find<AuthController>().userToken;
-      String url = 'ws://localhost:8000/ws/public_forum/?token=$userToken';
+      String url = 'ws://${AppConstants.IP}:8000/ws/public_forum/?token=$userToken';
 
       // Créer une instance de SocketIO
       channel = IOWebSocketChannel.connect(url);
@@ -145,7 +146,12 @@ class _ForumPageState extends State<ForumPage> {
             Container(
               alignment: Alignment.centerRight,
               width: Dimensions.width30(context)*3,
-              child: Icon(Icons.notifications, color: Colors.white54,size: Dimensions.height30(context),),
+              child: IconButton(
+                    onPressed: (){
+                      print("dialog");
+                    },
+                    icon: Icon(Icons.notifications, color: Colors.white54,size: Dimensions.height30(context),),
+                  ),
             ),
           ],
         ),

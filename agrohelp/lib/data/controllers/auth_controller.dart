@@ -28,6 +28,9 @@ class AuthController extends GetxController implements GetxService{
   List<Map> _parcelList = [];
   List<Map> get parcelList => _parcelList;
 
+  Map _wheather = {};
+  Map get wheather => _wheather;
+
   Future<ResponseModel> registration(SingUpModel signUpModel) async {
     _isloading = true;
     Response response = await authRepo.registration(signUpModel);
@@ -142,6 +145,13 @@ Future<void> getUserToken() async {
       }
     }
     return parcel;
+  }
+
+  void setwheather(List<Map> list){
+    _wheather['parcel'] = _parcel;
+    _wheather['data'] = list;
+    print(_wheather);
+    update();
   }
 }
 

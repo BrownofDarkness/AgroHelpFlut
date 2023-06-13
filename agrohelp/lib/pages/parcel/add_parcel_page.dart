@@ -1,15 +1,13 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
+import 'dart:async';
+
+import 'package:agrohelp/data/controllers/culture_controller.dart';
+import 'package:agrohelp/routes/route_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../base/show_custom_snackBar.dart';
-import '../../data/controllers/auth_controller.dart';
 import '../../utils/dimentions.dart';
 import '../../widgets/big_text.dart';
 
@@ -25,28 +23,93 @@ class _AddParcelPageState extends State<AddParcelPage> {
   var sizeController = TextEditingController();
   var namefocus = FocusNode();
   var sizefocus = FocusNode();
-  var mapController = MapController();
-  LatLng _selectedPoint = LatLng(0, 0);
-  LatLng _currentPosition = LatLng(0, 0);
+  late LatLng _currentPosition = LatLng(0,0);
+  
+  Completer<GoogleMapController> _controller = Completer();
+
+  static final CameraPosition initialCameraPosition = const  CameraPosition( target: LatLng(7.369722, 12.354722), zoom: 8.0, );
+
+  final List<Marker> _markers = <Marker>[
+     Marker(
+      markerId: MarkerId("1"),
+      position: LatLng(7.369722, 12.354722),
+      infoWindow: InfoWindow(
+        title: "initial camera position.."
+      ),
+      
+    )
+  ];
+
+  Future<Position> getUserCurrentLocation() async{
+
+    await Geolocator.requestPermission().then((value) => {
+
+    });
+
+    return await Geolocator.getCurrentPosition();
+  }  
+
+  loadPosition(){
+    getUserCurrentLocation().then((value) async{
+      print("my current location");
+      print(value.latitude.toString()+" "+ value.longitude.toString());
+      _currentPosition = LatLng(value.latitude,value.longitude);
+      _markers.add(
+        Marker(
+          markerId: MarkerId("2"),
+          position: LatLng(value.latitude,value.longitude),
+          infoWindow: InfoWindow(
+            title: "my curent location"
+          )
+        )
+      );
+      CameraPosition cameraPosition = CameraPosition(
+        zoom: 14,
+        target: LatLng(value.latitude,value.longitude
+      ));
+
+      final GoogleMapController controller = await _controller.future;
+      controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+      setState(() {
+        
+      });
+    });
+  }
+
+   @override
+    void initState() {
+      super.initState();
+      loadPosition();
+    }
+
   @override
   Widget build(BuildContext context) {
 
-    void _login(AuthController authController){
+    void _addParcel(CultureController cultureController){
       String name = nameController.text.trim();
-      String size = sizeController.text.trim();
+      int size = int.parse(sizeController.text.trim());
       if(name.isEmpty){
         ShowCustomSnackBar("type in an parcel name adress", title: "Parcel Name");
-      }else if(size.isEmpty) {
+      }else if(size.isNaN) {
         ShowCustomSnackBar("type in your parcel size", title: "Parcel size");
+      }else if(_currentPosition == LatLng(0,0)) {
+        ShowCustomSnackBar("wait for géolocasation", title: "parcel location");
       }else{
-        ShowCustomSnackBar("All went well", title: "Perfect");
-        authController.login(name, size).then((status) {
+        Map parcel = {
+          "name": name,
+          "area": size,
+          "location": "srid=4326;POINT(${_currentPosition.longitude} ${_currentPosition.latitude})"
+        };
+        cultureController.addParcel(parcel).then((status){
           if(status.isSucess==true){
-            print("Success login");
+            ShowCustomSnackBar("parcel was succesfully added", title: "Add parcel", isError: false);
+            Get.toNamed(RouteHelper.getParcelView());
           }else{
             ShowCustomSnackBar(status.message,);
+            print(status.message);
           }
         });
+        
       }
     }
 
@@ -160,57 +223,11 @@ class _AddParcelPageState extends State<AddParcelPage> {
       }
     }
 
-    Future<void> _determinePosition() async {
-      bool serviceEnabled;
-      LocationPermission permission;
 
-      // Test if location services are enabled.
-      serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        // Location services are not enabled don't continue
-        // accessing the position and request users of the
-        // App to enable the location services.
-        return Future.error('Location services are disabled.');
-      }
-
-      permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          // Permissions are denied, next time you could try
-          // requesting permissions again (this is also where
-          // Android's shouldShowRequestPermissionRationale
-          // returned true. According to Android guidelines
-          // your App should show an explanatory UI now.
-          return Future.error('Location permissions are denied');
-        }
-      }
-
-      if (permission == LocationPermission.deniedForever) {
-        // Permissions are denied forever, handle appropriately.
-        return Future.error(
-            'Location permissions are permanently denied, we cannot request permissions.');
-      }
-
-      // When we reach here, permissions are granted and we can
-      // continue accessing the position of the device.
-      Position position = await Geolocator.getCurrentPosition();
-      setState(() {
-        _selectedPoint == LatLng(0, 0);
-        _currentPosition = LatLng(position.latitude, position.longitude) ;
-      });
-    }
-
-    double _zoomLevel = 8.0;
-
-    void _handleTap(LatLng point) {
-      setState(() {
-        _selectedPoint = point;
-      });
-    }
+  
     return Scaffold(
         backgroundColor: Colors.white,
-        body: GetBuilder<AuthController>(builder: (authcontroller){
+        body: GetBuilder<CultureController>(builder: (CultureController){
           return SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
@@ -244,107 +261,31 @@ class _AddParcelPageState extends State<AddParcelPage> {
                 SizedBox(height: Dimensions.height10(context)*2,),
                 Container(
                   color: Colors.transparent,
-                  height: Dimensions.screenHeight(context)*0.33,
+                  height: Dimensions.screenHeight(context)*0.4,
                   margin: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context)),
                   child: Column(
                     children: [
-                      Container(
-                        color: Colors.transparent,
-                        height: (Dimensions.screenHeight(context)*0.3)*0.1,
-                        child: Row(
-                          children: [
-                            Expanded(child: Container()),
-                            Container(
-                              alignment: Alignment.center,
-                              width: Dimensions.height30(context)*3.5,
-                              height: Dimensions.height30(context),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(Dimensions.radius20(context)),
-                                color: Color(0xFF025592),
-                              ),
-                              child: GestureDetector(
-                                // onTap: _determinePosition(),
-                                child: Text(
-                                  "geolocation",
-                                  style: TextStyle(
-                                      fontSize: Dimensions.height15(context),
-                                      fontFamily: 'Chakra_Petch',
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       SizedBox(height: Dimensions.height10(context),),
-                      Expanded(
-                          child: Container(
-                            color: Colors.black,
-                            child: FlutterMap(
-                              mapController: mapController,
-                              options: MapOptions(
-                                onTap:(position, point){
-                                  setState(() {
-                                    _selectedPoint = point;
-                                  });
-                                  print(point);
-                                } ,
-                                onMapReady: () {
-                                  mapController.mapEventStream.listen((evt) {});
-                                  // And any other `MapController` dependent non-movement methods
-                                },
-                                center: _currentPosition != LatLng(0, 0)?_currentPosition:LatLng(3.866667, 11.516667),
-                                zoom: 7,
-                              ),
-
-                              children: [
-                                TileLayer(
-                                  urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                                  subdomains: const ['a', 'b', 'c'],
-                                  userAgentPackageName: 'net.tlserver6y.flutter_map_location_marker.example',
-                                  maxZoom: 19,
-                                ),
-                                CurrentLocationLayer(
-                                  followOnLocationUpdate: FollowOnLocationUpdate.always,
-                                  turnOnHeadingUpdate: TurnOnHeadingUpdate.never,
-                                  style: LocationMarkerStyle(
-                                    marker: const DefaultLocationMarker(
-                                      child: Icon(
-                                        Icons.navigation,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    markerSize: const Size(40, 40),
-                                    markerDirection: MarkerDirection.heading,
-                                  ),
-                                ),
-                                MarkerLayer(
-                                  markers: [
-                                    if (_selectedPoint != LatLng(0, 0))
-                                      Marker(
-                                        point: _selectedPoint,
-                                        builder: (context) => Icon(Icons.location_on, color: Colors.green),
-                                      ),
-                                    if (_currentPosition != LatLng(0, 0))
-                                      Marker(
-                                        point: _currentPosition,
-                                        builder: (context) => Icon(Icons.location_on, color: Colors.blue),
-                                      ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
+                      Container(
+                        height: Dimensions.screenHeight(context)*0.35,
+                        color: Colors.black,
+                        child: GoogleMap(
+                          initialCameraPosition: initialCameraPosition,
+                          mapType: MapType.normal,
+                          markers: Set<Marker>.of(_markers),
+                          zoomControlsEnabled: false,
+                          onMapCreated: (GoogleMapController controller){
+                            _controller.complete(controller);
+                          },
+                        ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: Dimensions.screenHeight(context)*0.035,),
+                SizedBox(height: Dimensions.height15(context),),
                 GestureDetector(
                   onTap: (){
-                    _login(authcontroller);
+                    _addParcel(CultureController);
                   },
                   child: Container(
                     width: Dimensions.screenWidth(context)/1.5,

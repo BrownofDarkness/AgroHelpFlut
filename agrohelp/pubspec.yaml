@@ -51,6 +51,9 @@ dependencies:
   web_socket_channel: ^2.4.0
   http: ^0.13.6
   weather_icons: ^3.0.0
+  intl: ^0.18.1
+  google_maps_flutter: ^2.3.0
+  palette_generator: ^0.3.3+2
 
 dev_dependencies:
   flutter_test:

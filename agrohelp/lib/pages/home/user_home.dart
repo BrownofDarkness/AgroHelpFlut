@@ -90,7 +90,7 @@ class _UserHomePageState extends State<UserHomePage> {
             ),
             Container(
               alignment: Alignment.centerRight,
-              width: Dimensions.width30(context)*6,
+              width: Dimensions.width30(context)*8,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -100,7 +100,6 @@ class _UserHomePageState extends State<UserHomePage> {
                         onPressed: (){
                           print("wheather");
                           Get.toNamed(RouteHelper.getWheatherPage());
-                          
                         },
                         icon: Icon(Icons.cloud, color: Colors.white54,size: Dimensions.height30(context),),
                       ),
@@ -242,7 +241,7 @@ class _UserHomePageState extends State<UserHomePage> {
               // color: Colors.white,
               child: GetBuilder<CultureController>(builder: (popularProducts){
                 return DotsIndicator(
-                  dotsCount: popularProducts.suggestedcultureList.isNotEmpty?popularProducts.suggestedcultureList.length:5,
+                  dotsCount: popularProducts.suggestedcultureList.isNotEmpty?popularProducts.suggestedcultureList.length:3,
                   position: _currPagevalue,
                   decorator: DotsDecorator(
                     activeColor: Color.fromARGB(255, 21, 134, 24),

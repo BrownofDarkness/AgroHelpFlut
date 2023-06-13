@@ -40,7 +40,7 @@ class _CommentItemState extends State<CommentItem> {
                         backgroundColor: Colors.grey,
                         child: Icon(Icons.person, color: Colors.white,),
                       ),
-                      SizedBox(width: Dimensions.width30(context),),
+                      SizedBox(width: Dimensions.width30(context)*0.55,),
                       Expanded(
                         child: Container(
                           padding: EdgeInsets.only(left: Dimensions.width15(context), right: Dimensions.width15(context)),

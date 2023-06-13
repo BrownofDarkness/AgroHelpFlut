@@ -2,10 +2,12 @@ import 'package:agrohelp/pages/parcel/view_parcel.dart';
 import 'package:agrohelp/routes/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'helper/dependences.dart' as dep;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  initializeDateFormatting('fr_FR');
   await dep.init();
   runApp(const MyApp());
 }

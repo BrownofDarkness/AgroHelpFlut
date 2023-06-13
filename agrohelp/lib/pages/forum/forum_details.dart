@@ -13,6 +13,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../base/show_custom_snackBar.dart';
 import '../../data/controllers/auth_controller.dart';
+import '../../utils/app_constants.dart';
 import '../../utils/colors.dart';
 
 
@@ -33,7 +34,7 @@ class _ForumDetailsPageState extends State<ForumDetailsPage> {
       // Spécifier l'URL du serveur WebSocket
       String userToken = Get.find<AuthController>().userToken;
       int forumId = Get.find<ForumController>().getForumId(widget.forum);
-      String url = 'ws://localhost:8000/ws/forum_chat/$forumId/?token=$userToken';
+      String url = 'ws://${AppConstants.IP}:8000/ws/forum_chat/$forumId/?token=$userToken';
 
       // Créer une instance de SocketIO
       channel = IOWebSocketChannel.connect(url);
@@ -105,7 +106,7 @@ class _ForumDetailsPageState extends State<ForumDetailsPage> {
       return Container(
         child: Column(
           children: [
-            SizedBox(height: Dimensions.height20(context),),
+            SizedBox(height: Dimensions.height20(context)*2,),
             Row(
                 children: [
                   IconButton(
@@ -215,77 +216,82 @@ class _ForumDetailsPageState extends State<ForumDetailsPage> {
                 ),
               )
             ),
+            Container(
+              decoration: BoxDecoration(
+              color: Color.fromARGB(255, 203, 213, 224),
+              ),
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(width: Dimensions.height10(context),),
+                        Expanded(
+                          child: Container(
+                          child: TextField(
+                            controller: controller,
+                            maxLines: null,
+                            onSubmitted: (String value) {
+                              controller.text += '\n';
+                            },
+                            cursorColor: Color(0xFF025592),
+                            style: TextStyle(
+                              fontFamily: 'Chakra_Petch',
+                              fontSize: Dimensions.height15(context),
+                              fontWeight: FontWeight.w600
+                            ),
+                            decoration:   InputDecoration(
+                              contentPadding: EdgeInsets.only(top: Dimensions.height10(context)*0.5, left: Dimensions.height10(context)*0.8),
+                              hintText: "make a comment",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(Dimensions.radius20(context))*0.6,
+                                borderSide: BorderSide(
+                                  width: 2.0,
+                                  color: Color.fromARGB(255, 44, 131, 231),
+                                )
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(Dimensions.radius20(context)*0.6),
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color.fromARGB(255, 44, 131, 231),
+                                )
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(Dimensions.radius20(context)*0.6),
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color.fromARGB(255, 44, 131, 231),
+                                )
+                              ),
+                            ),
+                          )
+                        )
+                        ),
+                        Container(
+                          child: IconButton(
+                            onPressed: () {
+                              print(controller.text);
+                              createForumComent();
+                              controller.clear();
+                            },
+                            icon: Icon(Icons.send),
+                            iconSize: Dimensions.height20(context),
+                            color: Color(0xFF025592),
+                          )
+                          ),
+                      ],
+                    )
+                  ],
+                )
+              ),
+              
+            ),
           ],
         ),
       );
     }),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-        color: Color.fromARGB(255, 203, 213, 224),
-        ),
-        child: Row(
-          children: [
-            SizedBox(width: Dimensions.height10(context)*0.5,),
-            Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                height: Dimensions.height20(context)*3,
-              child: TextField(
-                controller: controller,
-                maxLines: null,
-                onSubmitted: (String value) {
-                  controller.text += '\n';
-                },
-                cursorColor: Color(0xFF025592),
-                style: TextStyle(
-                  fontFamily: 'Chakra_Petch',
-                  fontSize: Dimensions.height15(context),
-                  fontWeight: FontWeight.w600
-                ),
-                decoration:   InputDecoration(
-                  contentPadding: EdgeInsets.only(top: Dimensions.height10(context)*0.5, left: Dimensions.height10(context)*0.8),
-                  hintText: "make a comment",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Dimensions.radius20(context))*0.6,
-                    borderSide: BorderSide(
-                      width: 2.0,
-                      color: Color.fromARGB(255, 44, 131, 231),
-                    )
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Dimensions.radius20(context)*0.6),
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color.fromARGB(255, 44, 131, 231),
-                    )
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Dimensions.radius20(context)*0.6),
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color.fromARGB(255, 44, 131, 231),
-                    )
-                  ),
-                ),
-              )
-            )
-            ),
-            Container(
-              child: IconButton(
-                onPressed: () {
-                  print(controller.text);
-                  createForumComent();
-                  controller.clear();
-                },
-                icon: Icon(Icons.send),
-                iconSize: Dimensions.height20(context),
-                color: Color(0xFF025592),
-              )
-              ),
-          ],
-        ),
-        
-      ),
     );
   }
 }

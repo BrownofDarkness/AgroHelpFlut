@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:agrohelp/utils/dimentions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 import '../../data/controllers/auth_controller.dart';
 
@@ -16,7 +20,93 @@ class WheatherPage extends StatefulWidget {
 class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMixin {
 
   late TabController _tabController;
-  late bool _isloading = false;
+
+  late bool _isloading = true;
+
+  List<Map> Wheathers = [];
+
+  String apikey = "acbc1629d4192a8cb3c8e6c6abd33fe0";
+  //curl --compressed --request GET --url \
+  // 'https://api.tomorrow.io/v4/timelines?location=40.75872069597532,-73.98529171943665&fields=temperature&timesteps=1h&units=metric&apikey=8OF93hGvm4MZ7jKchsH255VjUurSgE6Q'
+  String apiUrl = 'https://api.tomorrow.io/v4/forecast';
+  // ?lat=44.34&lon=10.99&appid={API key}
+
+  Future<void> _getweather(String uri,{Map<String, String>? headers}) async {
+    
+    
+      if (Get.find<AuthController>().wheather.isNotEmpty&&Get.find<AuthController>().wheather['parcel'] == Get.find<AuthController>().parcel&&Get.find<AuthController>().wheather['data'][0]['day'] == DateFormat('EEEE', 'fr_FR').format(DateTime.now())){
+        setState(() {
+          Wheathers = Get.find<AuthController>().wheather['data'];
+          print('data was re used');
+          _isloading = false;
+        });
+      }else{
+        try {
+          http.Response response = await http.get(
+            Uri.parse(uri),
+            headers: {"accept": "application/json"},
+          );
+          dynamic jsonData = jsonDecode(response.body);
+          Map<String, dynamic> jsonMap = jsonData as Map<String, dynamic>;
+          setState(() {
+            for (int i = 0; i < jsonMap["timelines"]["daily"].length; i++) {
+              Map wheat = {};
+              //jour
+              wheat["day"] = DateFormat('EEEE', 'fr_FR').format(DateTime.parse(jsonMap["timelines"]["daily"][i]["time"]));
+              print('ok day $i');
+
+              //températures
+              wheat["temperature"] = {};
+              wheat["temperature"]["max"] = (jsonMap["timelines"]["daily"][i]["values"]["temperatureMax"]).toInt();
+              wheat["temperature"]["avg"] = (jsonMap["timelines"]["daily"][i]["values"]["temperatureAvg"]).toInt();
+              wheat["temperature"]["min"] = (jsonMap["timelines"]["daily"][i]["values"]["temperatureMin"]).toInt();
+              print('ok temperature $i');
+
+              // précipitaions
+              wheat["précipitations"] = {};
+              wheat["précipitations"]["max"] = jsonMap["timelines"]["daily"][i]["values"]["rainIntensityMax"];
+              wheat["précipitations"]["avg"] = jsonMap["timelines"]["daily"][i]["values"]["rainIntensityAvg"];
+              wheat["précipitations"]["min"] = jsonMap["timelines"]["daily"][i]["values"]["rainIntensityMin"];
+              print('ok pprecipitation $i');
+
+              //vent
+              wheat["vent"] = {};
+              wheat["vent"]["max"] = jsonMap["timelines"]["daily"][i]["values"]["windSpeedMax"];
+              wheat["vent"]["avg"] = jsonMap["timelines"]["daily"][i]["values"]["windSpeedAvg"];
+              wheat["vent"]["min"] = jsonMap["timelines"]["daily"][i]["values"]["windSpeedMin"];
+              print('ok vent $i');
+              
+              //humidité
+              wheat["humidité"] = {};
+              wheat["humidité"]["max"] = double.parse('${jsonMap["timelines"]["daily"][i]["values"]["humidityMax"]}');
+              wheat["humidité"]["avg"] = double.parse('${jsonMap["timelines"]["daily"][i]["values"]["humidityAvg"]}');
+              wheat["humidité"]["min"] = double.parse('${jsonMap["timelines"]["daily"][i]["values"]["humidityMin"]}');
+              print('ok humid $i');
+
+              Wheathers.add(wheat);
+              Get.find<AuthController>().setwheather(Wheathers);
+              print('ok added $i');
+            }
+            _isloading = false;
+          });
+        } catch (e) {
+          print(e.toString());
+        }
+      }
+      
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    Map parcel = Get.find<AuthController>().searchParcel();
+    print('location=${parcel["location"][1]},${parcel["location"][0]}');
+    //_getweather('$apiUrl?location=${parcel["location"][1]},${parcel["location"][0]}&timesteps=1d&units=metric&apikey=8OF93hGvm4MZ7jKchsH255VjUurSgE6Q');
+    _getweather('https://api.tomorrow.io/v4/weather/forecast?location=${parcel["location"][1]}%2C${parcel["location"][0]}&timesteps=1d&units=metric&apikey=8OF93hGvm4MZ7jKchsH255VjUurSgE6Q');
+  }
+
+  late int active = 0;
 
   List<bool> choosed = [
     true,
@@ -26,38 +116,8 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
     false,
   ];
 
-  String apikey = "acbc1629d4192a8cb3c8e6c6abd33fe0";
-  //curl --compressed --request GET --url \
-  // 'https://api.tomorrow.io/v4/timelines?location=40.75872069597532,-73.98529171943665&fields=temperature&timesteps=1h&units=metric&apikey=8OF93hGvm4MZ7jKchsH255VjUurSgE6Q'
-  String apiUrl = 'https://api.tomorrow.io/v4/forecast';
-  // ?lat=44.34&lon=10.99&appid={API key}
-
-  Future<void> _getweather(String uri,{Map<String, String>? headers}) async {
-    _isloading = true;
-    try {
-      http.Response response = await http.get(
-        Uri.parse(uri),
-        headers: {"accept": "application/json"},
-      );
-      print(response.body[1]);
-    } catch (e) {
-      print(e.toString());
-    }
-    setState(() {
-      _isloading = false;
-    });
-  }
 
 
-  @override
-  void initState(){
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-    Map parcel = Get.find<AuthController>().searchParcel();
-    print('location=${parcel["location"][1]},${parcel["location"][0]}');
-    //_getweather('$apiUrl?location=${parcel["location"][1]},${parcel["location"][0]}&timesteps=1d&units=metric&apikey=8OF93hGvm4MZ7jKchsH255VjUurSgE6Q');
-    // _getweather('https://api.tomorrow.io/v4/weather/forecast?location=${parcel["location"][1]}%2C${parcel["location"][0]}&timesteps=1d&units=metric&apikey=8OF93hGvm4MZ7jKchsH255VjUurSgE6Q');
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +127,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
         
         child: Column(
             children: [
-              SizedBox(height: Dimensions.height20(context),),
+              SizedBox(height: Dimensions.height20(context)*2,),
                 Row(
                     children: [
                       IconButton(
@@ -140,7 +200,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                             ),
                           ),
                           Text(
-                            "jeudi",
+                            Wheathers[active]["day"].toString(),
                             style: TextStyle(
                               fontSize: Dimensions.height20(context),
                               fontFamily: 'Chakra_Petch',
@@ -171,34 +231,27 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                 // color: Colors.green,
                 child: Row(
                   children: [
-                    Container(
-                      width: Dimensions.screenWidth(context)*0.6+Dimensions.width30(context)*5+Dimensions.width15(context),
-                      // color: Colors.cyan,
-                      child: Row(
+                    Row(
                         children: [
                           Container(
                             // color: Colors.amber,
                             alignment: Alignment.topLeft,
-                            width: ((Dimensions.screenWidth(context)*0.6)/3)-Dimensions.width30(context)*1.5,
+                            width: ((Dimensions.screenWidth(context)*0.6)/3)-Dimensions.width30(context)*2.5+Dimensions.width30(context),
                             child: Image.asset(
-                                'assets/images/meteorology.png',
+                                'assets/images/meteorology 2.png',
                                 width: Dimensions.height20(context)*6,
                                 height: Dimensions.height20(context)*6,
                               )
                           ),
-                          SizedBox(width: Dimensions.width15(context),),
                           Container(
-                            
-                            width: ((Dimensions.screenWidth(context)*0.6)/3)+Dimensions.width30(context)*2.5,
                             child: Row(
                               children: [
                                 Container(
                                   
-                                  width: ((Dimensions.screenWidth(context)*0.6)/3)*0.7,
                                   alignment: Alignment.center,
                                   height: Dimensions.screenHeight(context)*0.15,
                                   child: Text(
-                                    "22",
+                                    Wheathers[active]["temperature"]['avg'].toString(),
                                     style: TextStyle(
                                       fontSize: Dimensions.height20(context)*2.5,
                                       fontFamily: 'Chakra_Petch',
@@ -214,7 +267,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                   child: Column(
                                     children: [
                                       Container(
-                                        width: (((Dimensions.screenWidth(context)*0.6)/3)*0.3)+Dimensions.width10(context),
+                                        
                                         alignment: Alignment.topLeft,
                                         height: (Dimensions.screenHeight(context)*0.15)*0.4,
                                         child: Text(
@@ -236,14 +289,12 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                           ),
                           Container(
                             padding: EdgeInsets.all(Dimensions.height10(context)),
-                            // color: Colors.amber,
-                            width: (Dimensions.screenWidth(context)*0.6)/3+Dimensions.width30(context)*4,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Précipitaions: 34%",
+                                  "Précipitaions: ${Wheathers[active]["précipitations"]['avg'].toString()}%",
                                   style: TextStyle(
                                     fontSize: Dimensions.height15(context),
                                     fontFamily: 'Chakra_Petch',
@@ -252,7 +303,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                   ), 
                                 ),
                                 Text(
-                                  "Humidité: 36%",
+                                  "Humidité: ${Wheathers[active]["humidité"]['avg'].toString()} %",
                                   style: TextStyle(
                                     fontSize: Dimensions.height15(context),
                                     fontFamily: 'Chakra_Petch',
@@ -261,7 +312,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                   ), 
                                 ),
                                 Text(
-                                  "Vent: 3km/h",
+                                  "Vent: ${Wheathers[active]["vent"]['avg'].toString()} km/h",
                                   style: TextStyle(
                                     fontSize: Dimensions.height15(context),
                                     fontFamily: 'Chakra_Petch',
@@ -274,7 +325,6 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                           )
                         ],
                       ),
-                    ),
                     Expanded(child: Container()),
                   ],
                 ),
@@ -282,7 +332,6 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
               Container(
                 alignment: Alignment.topLeft,
                 width: double.maxFinite,
-                height: Dimensions.screenHeight(context)*0.35,
                 // color: Colors.amber,
                 child: Column(
                   children: [
@@ -300,9 +349,9 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                         tabs: [
                           Tab(
                             child: Text(
-                                "Température",
+                                "température",
                                 style: TextStyle(
-                                  fontSize: Dimensions.height15(context),
+                                  fontSize: Dimensions.height15(context)*0.85,
                                   fontFamily: 'Chakra_Petch',
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white,
@@ -311,9 +360,9 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                           ),
                           Tab(
                             child: Text(
-                              "Précipitaions",
+                              "précipitaions",
                               style: TextStyle(
-                                fontSize: Dimensions.height15(context),
+                                fontSize: Dimensions.height15(context)*0.85,
                                 fontFamily: 'Chakra_Petch',
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,
@@ -322,9 +371,9 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                           ),
                           Tab(
                             child: Text(
-                              "Vent",
+                              "vent",
                               style: TextStyle(
-                                fontSize: Dimensions.height15(context),
+                                fontSize: Dimensions.height15(context)*0.85,
                                 fontFamily: 'Chakra_Petch',
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white,
@@ -380,7 +429,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child:  Text(
-                                          "22°C",
+                                          "${Wheathers[active]["temperature"]['max'].toString()} °C",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -405,7 +454,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child: Text(
-                                          "Avreage",
+                                          "Moyenne",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -427,7 +476,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child:  Text(
-                                          "22°C",
+                                          "${Wheathers[active]["temperature"]['avg'].toString()}°C",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -474,7 +523,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child:  Text(
-                                          "22°C",
+                                          "${Wheathers[active]["temperature"]['min'].toString()} °C",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -526,7 +575,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child:  Text(
-                                          "22 %",
+                                          "${Wheathers[active]["précipitations"]['max'].toString()} %",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -551,7 +600,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child: Text(
-                                          "Avreage",
+                                          "Moyenne",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -573,7 +622,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child:  Text(
-                                          "22 %",
+                                          "${Wheathers[active]["précipitations"]['avg'].toString()} %",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -620,7 +669,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child:  Text(
-                                          "22 %",
+                                          "${Wheathers[active]["précipitations"]['min'].toString()} %",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -663,7 +712,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.6,
                                         alignment: Alignment.center,
                                         child: Image.asset(
-                                          'assets/images/wind-direction.png',
+                                          'assets/images/windy.png',
                                           width: Dimensions.height20(context)*5,
                                           height: Dimensions.height20(context)*5,
                                         ),
@@ -672,7 +721,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child:  Text(
-                                          "22 Km/h",
+                                          "${Wheathers[active]["vent"]['max'].toString()} Km/h",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -697,7 +746,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child: Text(
-                                          "Avreage",
+                                          "Moyenne",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -710,7 +759,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.6,
                                         alignment: Alignment.center,
                                         child: Image.asset(
-                                          'assets/images/wind-direction.png',
+                                          'assets/images/windy.png',
                                           width: Dimensions.height20(context)*5,
                                           height: Dimensions.height20(context)*5,
                                         ),
@@ -719,7 +768,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child:  Text(
-                                          "22 Km/h",
+                                          "${Wheathers[active]["vent"]['avg'].toString()} Km/h",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -757,7 +806,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.6,
                                         alignment: Alignment.center,
                                         child: Image.asset(
-                                          'assets/images/wind-direction.png',
+                                          'assets/images/windy.png',
                                           width: Dimensions.height20(context)*5,
                                           height: Dimensions.height20(context)*5,
                                         ),
@@ -766,7 +815,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                         height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.8)*0.2,
                                         alignment: Alignment.center,
                                         child:  Text(
-                                          "22 Km/h",
+                                          "${Wheathers[active]["vent"]['min'].toString()} Km/h",
                                           style: TextStyle(
                                             fontSize: Dimensions.height15(context),
                                             fontFamily: 'Chakra_Petch',
@@ -797,6 +846,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                       GestureDetector(
                         onTap: (){
                           setState(() {
+                            active = i;
                             for(int j=0;j<5;j++){
                               if (j==i) {
                                 choosed[j] = true;
@@ -820,7 +870,7 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                 height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.5)*0.2,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  "Vendredi",
+                                  "${Wheathers[i]["day"].substring(0, 3)}.",
                                   style: TextStyle(
                                     fontSize: Dimensions.height15(context),
                                     fontFamily: 'Chakra_Petch',
@@ -834,30 +884,30 @@ class _WheatherPageState extends State<WheatherPage> with TickerProviderStateMix
                                 alignment: Alignment.center,
                                 child: Image.asset(
                                   'assets/images/storm.png',
-                                  width: Dimensions.height20(context)*3,
-                                  height: Dimensions.height20(context)*3,
+                                  width: Dimensions.height20(context)*2.5,
+                                  height: Dimensions.height20(context)*2.5,
                                 ),
                                         ),
                               Container(
                                 height: (((Dimensions.screenHeight(context)*0.35)*0.834)*0.5)*0.2,
                                 alignment: Alignment.center,
-                                padding: EdgeInsets.only(left:Dimensions.height10(context), right: Dimensions.height10(context)),
+                                padding: EdgeInsets.only(left:Dimensions.height10(context)*0.8, right: Dimensions.height10(context)*0.8),
                                 child:  Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "22 °C",
+                                      "${Wheathers[i]["temperature"]['max'].toString()} °C",
                                       style: TextStyle(
-                                        fontSize: Dimensions.height15(context)*0.8,
+                                        fontSize: Dimensions.height15(context)*0.6,
                                         fontFamily: 'Chakra_Petch',
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
                                       ),
                                     ),
                                     Text(
-                                      "19 °C",
+                                      "${Wheathers[i]["temperature"]['min'].toString()} °C",
                                       style: TextStyle(
-                                        fontSize: Dimensions.height15(context)*0.8,
+                                        fontSize: Dimensions.height15(context)*0.6,
                                         fontFamily: 'Chakra_Petch',
                                         fontWeight: FontWeight.w500,
                                         color: Color.fromARGB(117, 240, 236, 224),

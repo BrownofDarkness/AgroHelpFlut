@@ -9,6 +9,9 @@ import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
 import '../../widgets/fertlizer_view_item.dart';
 import '../../widgets/illness_view_item.dart';
+import '../../widgets/soil_area_item.dart';
+import 'package:palette_generator/palette_generator.dart';
+
 
 class CropDetailPage extends StatefulWidget {
   final int index;
@@ -34,17 +37,27 @@ class _CropDetailPageState extends State<CropDetailPage> {
 
   double _height(BuildContext context) =>
       Dimensions.pageViewContainer(context)*0.65;
+  
+  late PaletteGenerator paletteGenerator;
+  late Color? mainColor = Color.fromARGB(255, 220, 238, 213);
 
   Future<void> _loadressource(int id ) async {
+    paletteGenerator = await PaletteGenerator.fromImageProvider(NetworkImage(Get.find<CultureController>().suggestedcultureList[widget.index]['culture'].photo));
+    setState(() {
+      mainColor = paletteGenerator.lightMutedColor?.color != null?paletteGenerator.lightMutedColor?.color:Color.fromARGB(255, 220, 238, 213);
+    });
     await Get.find<CultureController>().getCulturedetails(id);
   }
+
+
   
    
 
    
   @override
-  void initState(){
+  void initState() {
     super.initState();
+    
     _loadressource(widget.id);
     fertiliseController.addListener(() {
       setState(() {
@@ -76,7 +89,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: mainColor,
       body: GetBuilder<CultureController>(builder: (cultures){
         Map culture = widget.side == "r"?cultures.suggestedcultureList[widget.index]:cultures.popularcultureList[widget.index];
         return Stack(
@@ -125,7 +138,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                       topRight: Radius.circular(Dimensions.radius30(context)*2),
                       topLeft: Radius.circular(Dimensions.radius30(context)*2)
                   ),
-                  color: Colors.white,
+                  color: mainColor,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -261,9 +274,9 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                     height: Dimensions.Pageview(context)*0.65,
                                     child: PageView.builder(
                                       controller: soilsController,
-                                      itemCount: cultures.cultureDetails['fertilizers'].length,
+                                      itemCount: cultures.cultureDetails['soils'].length,
                                       itemBuilder: (context, position){
-                                      return _buildPageItem3(position,cultures.cultureDetails['fertilizers'][position]);
+                                      return _buildPageItem3(position,cultures.cultureDetails['soils'][position]);
                                       }
                                     ),
                                     ),
@@ -337,7 +350,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
     );
   }
 
-  Widget _buildPageItem3(int index ,fertlise,) {
+  Widget _buildPageItem3(int index ,soil,) {
     Matrix4 matrix = Matrix4.identity();
     double currScale, currTrans;
 
@@ -360,136 +373,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
 
     return Transform(
       transform: matrix,
-      child: ViewItem(fertlizer: fertlise, index: index,),
+      child: SoilAreaItem(soil: soil, index: index,),
     );
   }
 }
-/*ListView(
-padding: EdgeInsets.zero,
-children: [
-Container(
-alignment: Alignment.center,
-height: Dimensions.height30(context)*1.6,
-child: ListTile(
-title: Text(
-'description',
-style: TextStyle(
-fontSize: Dimensions.height15(context),
-fontFamily: 'Chakra_Petch',
-fontWeight: FontWeight.w700,
-),
-),
-onTap: () {
-// Action à effectuer lorsque l'option Accueil est sélectionnée
-Navigator.pop(context);// Ferme le Drawer
-Get.toNamed(RouteHelper.getProfile());
-// Ajoutez votre logique de navigation ici
-},
-),
-),
-Divider( // Ajoute une ligne de séparation avec une bordure en bas
-color: Colors.white, // Couleur de la ligne de séparation
-thickness: Dimensions.height10(context)*0.1, // Épaisseur de la ligne de séparation
-indent: Dimensions.width10(context), // Retrait de la ligne de séparation à gauche
-endIndent: Dimensions.width10(context), // Retrait de la ligne de séparation à droite
-),
-Container(
-height: Dimensions.height30(context)*1.6,
-child: ListTile(
-title: Text(
-'practise',
-style: TextStyle(
-fontSize: Dimensions.height15(context),
-fontFamily: 'Chakra_Petch',
-fontWeight: FontWeight.w700,
-),
-),
-onTap: () {
-// Action à effectuer lorsque l'option Accueil est sélectionnée
-// Ferme le Drawer
-// Ajoutez votre logique de navigation ici
-},
-),
-),
-Divider( // Ajoute une ligne de séparation avec une bordure en bas
-color: Colors.white, // Couleur de la ligne de séparation
-thickness: Dimensions.height10(context)*0.1, // Épaisseur de la ligne de séparation
-indent: Dimensions.width10(context), // Retrait de la ligne de séparation à gauche
-endIndent: Dimensions.width10(context), // Retrait de la ligne de séparation à droite
-),
-Container(
-height: Dimensions.height30(context)*1.6,
-child: ListTile(
-title: Text(
-'fertiliser',
-style: TextStyle(
-fontSize: Dimensions.height15(context),
-fontFamily: 'Chakra_Petch',
-fontWeight: FontWeight.w700,
-),
-),
-onTap: () {
-
-},
-),
-),
-Divider( // Ajoute une ligne de séparation avec une bordure en bas
-color: Colors.white, // Couleur de la ligne de séparation
-thickness: Dimensions.height10(context)*0.1, // Épaisseur de la ligne de séparation
-indent: Dimensions.width10(context), // Retrait de la ligne de séparation à gauche
-endIndent: Dimensions.width10(context), // Retrait de la ligne de séparation à droite
-),
-Container(
-height: Dimensions.height30(context)*1.6,
-child: ListTile(
-title: Text(
-'insecticide',
-style: TextStyle(
-fontSize: Dimensions.height15(context),
-fontFamily: 'Chakra_Petch',
-fontWeight: FontWeight.w700,
-),
-),
-onTap: () {
-
-},
-),
-),
-Divider( // Ajoute une ligne de séparation avec une bordure en bas
-color: Colors.white, // Couleur de la ligne de séparation
-thickness: Dimensions.height10(context)*0.1, // Épaisseur de la ligne de séparation
-indent: Dimensions.width10(context), // Retrait de la ligne de séparation à gauche
-endIndent: Dimensions.width10(context), // Retrait de la ligne de séparation à droite
-),
-
-Container(
-height: Dimensions.height30(context)*1.6,
-child: ListTile(
-title: Text(
-'soils',
-style: TextStyle(
-fontSize: Dimensions.height15(context),
-fontFamily: 'Chakra_Petch',
-fontWeight: FontWeight.w700,
-),
-),
-onTap: () {
-// Action à effectuer lorsque l'option Paramètres est sélectionnée
-Navigator.pop(context); // Ferme le Drawer
-// Ajoutez votre logique de navigation ici
-},
-),
-),
-Divider( // Ajoute une ligne de séparation avec une bordure en bas
-color: Colors.white, // Couleur de la ligne de séparation
-thickness: Dimensions.height10(context)*0.1, // Épaisseur de la ligne de séparation
-indent: Dimensions.width10(context), // Retrait de la ligne de séparation à gauche
-endIndent: Dimensions.width10(context), // Retrait de la ligne de séparation à droite
-),
-Container(
-height: double.maxFinite,
-color: Colors.white,
-),
-// Ajoutez d'autres options de navigation ListTile ici
-],
-),*/

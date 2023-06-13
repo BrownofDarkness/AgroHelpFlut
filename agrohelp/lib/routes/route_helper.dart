@@ -9,11 +9,13 @@ import '../pages/account/account_page.dart';
 import '../pages/auth/sign_in_page.dart';
 import '../pages/auth/sing_up_page.dart';
 import '../pages/crops/crop_detail_page.dart';
+import '../pages/crops/soil_area_map.dart';
 import '../pages/forum/forum_comment_replies.dart';
 import '../pages/home/agro_home.dart';
 import '../pages/home/favorite_crop_page.dart';
 import '../pages/home/home_page.dart';
 import '../pages/home/initial.dart';
+import '../pages/home/map_testing.dart';
 import '../pages/home/user_home.dart';
 import '../pages/parcel/add_parcel_page.dart';
 import '../pages/parcel/view_parcel.dart';
@@ -23,6 +25,8 @@ class RouteHelper{
   static const String splashPage = "/splash-page";
   static const String initial = "/";
   static const String welcome = "/welcome";
+  static const String test = "/test";
+  static const String area = "/area";
   static const String login = "/login";
   static const String parcelView = "/parcel-view";
   static const String profile = "/profile";
@@ -48,6 +52,7 @@ class RouteHelper{
   static String getUserHome() => "$userHome";
   static String getSearchpage() => "$searchpage";
   static String getfavorites() => "$favorites";
+  static String gettest() => "$test";
   static String getFavoritePage() => "$favoritePage";
   static String getWheatherPage() => "$wheatherPage";
   static String getforumPage() => "$forumPage";
@@ -55,6 +60,7 @@ class RouteHelper{
   static String getRegister() => "$register";
   static String getaddParcelPage() => "$addParcel";
   static String getHome(int id ) => "$home?parcel=$id";
+  static String getArea(int id ) => "$area?soil=$id";
   static String getForumDetails(int index) => "$forumDetails?forum=$index";
   static String getForumCommentReplies(int forum, int comment) => "$forumCommentReplies?forum=$forum&&comment=$comment";
   static String getInitial() => "$initial";
@@ -66,6 +72,7 @@ class RouteHelper{
     GetPage(name: splashPage, page: ()=>SplashScreen()),
     GetPage(name: welcome, page: ()=>AgroHome()),
     GetPage(name: login, page: ()=>SingInPage(), transition: Transition.fadeIn),
+    GetPage(name: test, page: ()=>MapTesting(), transition: Transition.fadeIn),
     GetPage(name: userHome, page: ()=>UserHomePage(), transition: Transition.fadeIn),
     GetPage(name: parcelView, page: ()=>ViewParcelList(), transition: Transition.fadeIn),
     GetPage(name: searchpage, page: ()=>SearchPage(), transition: Transition.fadeIn),
@@ -106,6 +113,11 @@ class RouteHelper{
       var forum = Get.parameters['forum'];
       var comment = Get.parameters['comment'];
       return CommentReplies(forum: int.parse(forum!), comment: int.parse(comment!),);
+    }, transition: Transition.fadeIn),
+
+    GetPage(name: area, page: () {
+      var id = Get.parameters['soil'];
+      return SoilAreaMap(soil: int.parse(id!));
     }, transition: Transition.fadeIn),
 
   ];

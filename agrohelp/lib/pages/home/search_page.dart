@@ -65,7 +65,12 @@ class _SearchPageState extends State<SearchPage> {
             Container(
               alignment: Alignment.centerRight,
               width: Dimensions.width30(context)*3,
-              child: Icon(Icons.notifications, color: Colors.white54,size: Dimensions.height30(context),),
+              child: IconButton(
+                    onPressed: (){
+                      print("dialog");
+                    },
+                    icon: Icon(Icons.notifications, color: Colors.white54,size: Dimensions.height30(context),),
+                  )
             ),
           ],
         ),
