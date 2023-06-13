@@ -107,7 +107,7 @@ class _PopularCropState extends State<PopularCrop> {
                       height: Dimensions.height30(context)*2.5,
                       decoration: BoxDecoration(
                       ),
-                      child: StarsItem(fav: widget.culture["favorite"],rec: false,cult: widget.culture["culture"].id,),
+                      child: StarsItem(fav: widget.culture["favorite"],rec: false,cult: widget.culture["culture"].id,detail: false,),
                     ),
                   )
                 ],

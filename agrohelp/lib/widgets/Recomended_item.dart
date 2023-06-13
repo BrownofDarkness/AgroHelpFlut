@@ -67,7 +67,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
         Positioned(
           top: Dimensions.height10(context),
           right: Dimensions.width20(context)*3.5,
-          child: StarsItem(fav: widget.culture["favorite"],rec: true,cult: widget.culture["culture"].id,),
+          child: StarsItem(fav: widget.culture["favorite"],rec: true,cult: widget.culture["culture"].id,detail: false,),
         ),
         Positioned(
           top: Dimensions.height30(context)*5,

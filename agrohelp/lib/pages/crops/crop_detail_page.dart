@@ -12,6 +12,8 @@ import '../../widgets/illness_view_item.dart';
 import '../../widgets/soil_area_item.dart';
 import 'package:palette_generator/palette_generator.dart';
 
+import '../../widgets/stars_item.dart';
+
 
 class CropDetailPage extends StatefulWidget {
   final int index;
@@ -121,7 +123,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                         Get.back();
                       },
                       child: AppIcon(icon: Icons.arrow_back_ios,)),
-                  AppIcon(icon: Icons.add_reaction_outlined,),
+                  StarsItem(fav: culture["favorite"],rec: widget.side == "r"?true:false,cult: culture["culture"].id,detail: true,),
                 ],
               )
           ),
@@ -252,7 +254,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                     height: Dimensions.Pageview(context)*0.65,
                                     child: PageView.builder(
                                       controller: illnessController,
-                                      itemCount: cultures.cultureDetails['diseases'].length??0,
+                                      itemCount: cultures.cultureDetails['diseases'].length,
                                       itemBuilder: (context, position){
                                       return _buildPageItem2(position,cultures.cultureDetails['diseases'][position]);
                                       }

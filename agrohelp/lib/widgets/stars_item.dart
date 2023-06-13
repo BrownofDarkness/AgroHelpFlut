@@ -5,12 +5,14 @@ import 'package:get/get.dart';
 import '../base/show_custom_snackBar.dart';
 import '../routes/route_helper.dart';
 import '../utils/dimentions.dart';
+import 'app_icon.dart';
 
 class StarsItem extends StatefulWidget {
   late bool fav;
   final bool rec;
   final int cult;
-  StarsItem({super.key, required this.rec, required this.fav, required this.cult});
+  final bool detail;
+  StarsItem({super.key, required this.rec, required this.fav, required this.cult, required this.detail});
 
   @override
   State<StarsItem> createState() => _StarsItemState();
@@ -119,7 +121,7 @@ class _StarsItemState extends State<StarsItem> {
             }
 
           },
-          child:widget.fav? Icon(Icons.star, color: widget.rec?Colors.yellowAccent:Colors.redAccent,size: Dimensions.width30(context)*1.7,): Icon(Icons.star_border_purple500_outlined, color: widget.rec?Colors.white:Colors.grey,size: Dimensions.width30(context)*1.8,)
+          child:widget.detail?(widget.fav&&widget.rec?AppIcon(icon: Icons.playlist_remove_rounded,iconColor: Color.fromARGB(255, 88, 9, 6),):AppIcon(icon: Icons.add_reaction_outlined)):(widget.fav? Icon(Icons.star, color: widget.rec?Colors.yellowAccent:Colors.redAccent,size: Dimensions.width30(context)*1.7,): Icon(Icons.star_border_purple500_outlined, color: widget.rec?Colors.white:Colors.grey,size: Dimensions.width30(context)*1.8,))
       );
     });
   }

@@ -30,6 +30,8 @@ class CultureController extends GetxController{
   Map _cultureDetails = {
     "practises":[],
     "fertilizers":[],
+    "diseases" : [],
+    "soils" : [],
   };
   Map get cultureDetails => _cultureDetails;
   
