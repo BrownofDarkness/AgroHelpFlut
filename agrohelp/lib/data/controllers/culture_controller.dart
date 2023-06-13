@@ -67,8 +67,8 @@ class CultureController extends GetxController{
 
       response.body.forEach((item){
         Map recom = {
-        "culture": Culture.fromJson(item),
-        "favorite": false,
+        "culture": Culture.fromJson(item['culture']),
+        "favorite": item['favorite'],
         };
         _suggestedcultureList.add(recom);
       });
@@ -168,6 +168,34 @@ class CultureController extends GetxController{
     if(response.statusCode == 201){
       print(response.body["data"]['location']);
       responseModel = ResponseModel(true, response.body["data"]['name']);
+
+    }else{
+      responseModel = ResponseModel(false, response.statusText!);
+    }
+    update();
+    return responseModel;
+  }
+
+  Future<ResponseModel> addCultureToParcel(int culture) async {
+    Response response = await cultureRepo.addCultureToParcel(_parcel, culture);
+    late ResponseModel responseModel;
+
+    if(response.statusCode == 201){
+      print(response.body["message"]);
+
+      _suggestedcultureList.forEach((element) {
+        if (element["culture"].id==culture) {
+          print('element find on recommended');
+          element['favorite']= true;
+        }
+      });
+       _popularcultureList.forEach((element) {
+        if (element["culture"].id==culture) {
+          print('element find on popular');
+          element['favorite']= true;
+        }
+      });
+      responseModel = ResponseModel(true, response.body["message"]);
 
     }else{
       responseModel = ResponseModel(false, response.statusText!);

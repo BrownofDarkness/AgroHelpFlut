@@ -285,7 +285,7 @@ class _UserHomePageState extends State<UserHomePage> {
                         Row(
                           children: [
                             PopularCrop(index: i, culture: cultures.popularcultureList[i],),
-                            if (i+1 < 5)...[
+                            if (i+1 < cultures.popularcultureList.length)...[
                               SizedBox(width: Dimensions.width20(context)*1.2,),
                               PopularCrop(index: i+1, culture: cultures.popularcultureList[i+1]),
                             ]

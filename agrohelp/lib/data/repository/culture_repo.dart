@@ -18,6 +18,10 @@ class CultureRepo extends GetxService{
     return await apiClient.postData(AppConstants.PARCEL_URI, parcel);
   }
 
+  Future<Response> addCultureToParcel(int parcel, int culture) async {
+    return await apiClient.postData("${AppConstants.PARCEL_URI}$parcel/add_cultures/", {"ids": [culture]});
+  }
+
   Future<Response> getPopularCulture() async {
     return await apiClient.getData(AppConstants.POPULAR_CULTURE_URI);
   }

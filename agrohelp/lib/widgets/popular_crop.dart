@@ -1,3 +1,4 @@
+import 'package:agrohelp/widgets/stars_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -106,92 +107,7 @@ class _PopularCropState extends State<PopularCrop> {
                       height: Dimensions.height30(context)*2.5,
                       decoration: BoxDecoration(
                       ),
-                      child: GestureDetector(
-                          onTap: (){
-                            if (!widget.culture["favorite"]){
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Mon pop-up'),
-                                    content: Text('Contenu du pop-up'),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text('Cancel', style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),),
-                                        style: ElevatedButton.styleFrom(
-
-                                          backgroundColor: Colors.red, // Couleur de fond du bouton
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          setState(() {
-                                            widget.culture["favorite"] = true;
-                                            print(widget.culture["favorite"]);
-                                          });
-                                        },
-                                        child: Text('add', style: TextStyle(
-                                          color: Colors.green,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            }else{
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Mon pop-up'),
-                                    content: Text('Contenu du pop-up'),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text('Cancel', style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.red, // Couleur de fond du bouton
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          setState(() {
-                                            widget.culture["favorite"] = false;
-                                            print(widget.culture["favorite"]);
-                                          });
-                                        },
-                                        child: Text('remove', style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            }
-
-                          },
-                          child:widget.culture["favorite"]? Icon(Icons.star, color: Colors.redAccent,size: Dimensions.width30(context)*1.7,): Icon(Icons.star_border_purple500_outlined, color: Colors.grey,size: Dimensions.width30(context)*2,)
-                      ),
+                      child: StarsItem(fav: widget.culture["favorite"],rec: false,cult: widget.culture["culture"].id,),
                     ),
                   )
                 ],

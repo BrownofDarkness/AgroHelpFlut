@@ -252,7 +252,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                     height: Dimensions.Pageview(context)*0.65,
                                     child: PageView.builder(
                                       controller: illnessController,
-                                      itemCount: cultures.cultureDetails['diseases'].length,
+                                      itemCount: cultures.cultureDetails['diseases'].length??0,
                                       itemBuilder: (context, position){
                                       return _buildPageItem2(position,cultures.cultureDetails['diseases'][position]);
                                       }
