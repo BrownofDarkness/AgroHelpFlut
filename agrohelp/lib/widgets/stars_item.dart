@@ -23,7 +23,18 @@ class _StarsItemState extends State<StarsItem> {
   void _addCultureToParcel(CultureController cultureController){
     cultureController.addCultureToParcel(widget.cult).then((status){
       if(status.isSucess==true){
-        ShowCustomSnackBar("culture was succesfully added", title: "Add culture", isError: false);
+        ShowCustomSnackBar("culture was succesfully added on your active parcel", title: "Add culture", isError: false);
+      }else{
+        ShowCustomSnackBar(status.message,);
+        print(status.message);
+      }
+    });
+  }
+
+  void _removeCultureToParcel(CultureController cultureController){
+    cultureController.removeCultureToParcel(widget.cult).then((status){
+      if(status.isSucess==true){
+        ShowCustomSnackBar("culture was succesfully removed from your active parcel", title: "remove culture", isError: false);
       }else{
         ShowCustomSnackBar(status.message,);
         print(status.message);
@@ -36,6 +47,7 @@ class _StarsItemState extends State<StarsItem> {
     return GetBuilder<CultureController>(builder: (CultureController){
       return GestureDetector(
           onTap: (){
+            print(widget.fav);
             if (!widget.fav){
               showDialog(
                 context: context,
@@ -102,7 +114,7 @@ class _StarsItemState extends State<StarsItem> {
                           onPressed: () {
                             Navigator.of(context).pop();
                             setState(() {
-                              widget.fav = false;
+                              _removeCultureToParcel(CultureController);
                               print(widget.fav);
                             });
                           },

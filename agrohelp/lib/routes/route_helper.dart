@@ -9,6 +9,7 @@ import '../pages/account/account_page.dart';
 import '../pages/auth/sign_in_page.dart';
 import '../pages/auth/sing_up_page.dart';
 import '../pages/crops/crop_detail_page.dart';
+import '../pages/crops/search_crop_details.dart';
 import '../pages/crops/soil_area_map.dart';
 import '../pages/forum/forum_comment_replies.dart';
 import '../pages/home/agro_home.dart';
@@ -43,6 +44,7 @@ class RouteHelper{
   static const String forumCommentReplies = "/forum-comment-replies";
   static const String popularFood = "/popular-food";
   static const String cropDetail = "/crop-detail";
+  static const String searchCropDetail = "/search-crop-detail";
   static const String recommendedFood = "/recommended-food";
 
   static String getSplashPage() => "$splashPage";
@@ -66,6 +68,7 @@ class RouteHelper{
   static String getInitial() => "$initial";
   static String getPopularFood(int pageId) => "$popularFood?pageId=$pageId";
   static String getCropDetail(int id, String side, int index) => "$cropDetail?id=$id&&index=$index&&side=$side";
+  static String getSearchCropDetail(int id,int index) => "$searchCropDetail?id=$id&&index=$index";
   static String getRecommendedFood(int id ) => "$recommendedFood?id=$id";
 
   static List <GetPage> routes= [
@@ -97,6 +100,12 @@ class RouteHelper{
       var side = Get.parameters['side'];
       var id = Get.parameters['id'];
       return CropDetailPage(index: int.parse(index!), side: side!.toString(),id: int.parse(id!),);
+    }, transition: Transition.fadeIn),
+
+    GetPage(name: searchCropDetail, page: () {
+      var index = Get.parameters['index'];
+      var id = Get.parameters['id'];
+      return SearchCropDetails(index: int.parse(index!), id: int.parse(id!),);
     }, transition: Transition.fadeIn),
 
     GetPage(name: home, page: () {

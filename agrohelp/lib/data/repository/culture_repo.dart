@@ -14,12 +14,30 @@ class CultureRepo extends GetxService{
     return await apiClient.getData("${AppConstants.PARCEL_URI}$id/suggest_culture/");
   }
 
+  Future<Response> search(String filter, String content) async {
+    String filt  = "";
+    if (filter == "culture") {
+      filt = "culture";
+    }
+    if (filter == "maladie") {
+      filt = "disease";
+    }
+    if (filter == "fertlisant") {
+      filt = "fertilizer";
+    }
+    return await apiClient.getData("${AppConstants.SEARCH_URI}?$filt=$content");
+  }
+
   Future<Response> addParcel(Map parcel) async {
     return await apiClient.postData(AppConstants.PARCEL_URI, parcel);
   }
 
   Future<Response> addCultureToParcel(int parcel, int culture) async {
     return await apiClient.postData("${AppConstants.PARCEL_URI}$parcel/add_cultures/", {"ids": [culture]});
+  }
+
+  Future<Response> removeCultureToParcel(int parcel, int culture) async {
+    return await apiClient.postData("${AppConstants.PARCEL_URI}$parcel/remove_cultures/", {"ids": [culture]});
   }
 
   Future<Response> getPopularCulture() async {

@@ -20,9 +20,10 @@ class SmallText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontFamily: 'Roboto',
+        fontFamily: 'Chakra_Petch',
         color: color,
         fontSize: size==0?Dimensions.height15(context):size,
+        fontWeight: FontWeight.w600,
         height: height,
       ),
     );

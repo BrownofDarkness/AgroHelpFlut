@@ -21,11 +21,20 @@ class CultureController extends GetxController{
   bool _popload = false;
   bool get ispopload => _popload;
 
+  bool _searching = false;
+  bool get searching => _searching;
+
   dynamic _parcel;
   dynamic get parcel => _parcel;
 
   dynamic _culture;
   dynamic get culture => _culture;
+
+  Map _search = {
+    "filter": "",
+    "results":[],
+  };
+  Map get search => _search;
 
   Map _cultureDetails = {
     "practises":[],
@@ -109,6 +118,53 @@ class CultureController extends GetxController{
     update();
   }
 
+  Future<void> searchResult(String filter, String content) async {
+    _searching = true;
+    update();
+    Response response =  await cultureRepo.search(filter, content);
+    print(response.body["results"]);
+    if (filter == "culture") {
+      search["filter"] = "culture";
+      _search['results'].clear();
+      print("cult");
+      response.body["results"].forEach((item){
+        _search['results'].add(Culture.fromJson(item));
+      });
+    }
+    if (filter == "maladie") {
+      search["filter"] = "maladie";
+      _search['results'].clear();
+      print("mald");
+      response.body["results"].forEach((item){
+         Map dis = {
+        "image": item["image"],
+        "disease_name": item["disease_name"],
+        "solution": item["solution"],
+        "description": item["description"],
+        };
+        _search['results'].add(dis);
+      });
+    }
+    if (filter == "fertlisant") {
+      search["filter"] = "fertlisant";
+      _search['results'].clear();
+      print("fert");
+      response.body["results"].forEach((item){
+        Map fert = {
+        "name": item["name"],
+        "composition": item["composition"],
+        "type": item["type"],
+        "image": item["image"],
+        "description": item["description"],
+        };
+        _search['results'].add(fert);
+      });
+    }
+    print(_search);
+    _searching = false;
+    update();
+  }
+
   Future<void> getCulturedetails(int id) async {
     _cultureDetails["practises"] = [];
     _cultureDetails["fertilizers"] = [];
@@ -133,6 +189,7 @@ class CultureController extends GetxController{
         "name": item["name"],
         "composition": item["composition"],
         "type": item["type"],
+        "image": item["image"],
         "description": item["description"],
         };
         _cultureDetails["fertilizers"].add(fert);
@@ -204,6 +261,44 @@ class CultureController extends GetxController{
     }
     update();
     return responseModel;
+  }
+
+  Future<ResponseModel> removeCultureToParcel(int culture) async {
+    Response response = await cultureRepo.removeCultureToParcel(_parcel, culture);
+    late ResponseModel responseModel;
+
+    if(response.statusCode == 404){
+      print(response.body["message"]);
+
+      _suggestedcultureList.forEach((element) {
+        if (element["culture"].id==culture) {
+          print('element find on recommended');
+          element['favorite']= false;
+        }
+      });
+      //  _popularcultureList.forEach((element) {
+      //   if (element["culture"].id==culture) {
+      //     print('element find on popular');
+      //     element['favorite']= false;
+      //   }
+      // });
+      responseModel = ResponseModel(true, response.body["message"]);
+
+    }else{
+      responseModel = ResponseModel(false, response.statusText!);
+    }
+    update();
+    return responseModel;
+  }
+
+  bool checkIfPopisRec(int culture){
+    bool agree = false;
+    for (int i=0;i<_suggestedcultureList.length; i++){
+      if (_suggestedcultureList[i]["culture"].id == culture) {
+        agree = _suggestedcultureList[i]["favorite"];
+      }
+    }
+    return agree;
   }
 
 }

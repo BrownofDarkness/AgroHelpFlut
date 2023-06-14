@@ -40,9 +40,9 @@ class _ViewItemState extends State<ViewItem> {
             image: DecorationImage(
               fit: BoxFit.cover,
               // ici on devrait utiliser NetworkImage si elle vienne du serveur
-              image: AssetImage(
-                "assets/images/funfood.jpeg"
-              )
+              image: NetworkImage(
+               "${AppConstants.BASE_URL}${widget.fertlizer['image']}",
+              ),
             ),
           ),
         ),
@@ -112,9 +112,9 @@ class _ViewItemState extends State<ViewItem> {
                                   color: Colors.red,
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: AssetImage(
-                                      "assets/images/funfood.jpeg"
-                                    )
+                                    image:NetworkImage(
+                                      "${AppConstants.BASE_URL}${widget.fertlizer['image']}",
+                                    ),
                                   )
                                 ),
                               ),

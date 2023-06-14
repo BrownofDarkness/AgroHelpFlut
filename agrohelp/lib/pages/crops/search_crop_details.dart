@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../model/cultures_model.dart';
+import '../../utils/app_constants.dart';
 import '../../utils/dimentions.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
@@ -15,17 +17,16 @@ import 'package:palette_generator/palette_generator.dart';
 import '../../widgets/stars_item.dart';
 
 
-class CropDetailPage extends StatefulWidget {
+class SearchCropDetails extends StatefulWidget {
   final int index;
   final int id;
-  final String side;
-  const CropDetailPage({Key? key, required this.index, required this.id, required this.side}) : super(key: key);
+  const SearchCropDetails({Key? key, required this.index, required this.id}) : super(key: key);
 
   @override
-  State<CropDetailPage> createState() => _CropDetailPageState();
+  State<SearchCropDetails> createState() => _SearchCropDetailsState();
 }
 
-class _CropDetailPageState extends State<CropDetailPage> {
+class _SearchCropDetailsState extends State<SearchCropDetails> {
   PageController fertiliseController = PageController(viewportFraction: 0.85);
   PageController illnessController = PageController(viewportFraction: 0.85);
   PageController soilsController = PageController(viewportFraction: 0.85);
@@ -93,7 +94,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
     return Scaffold(
       backgroundColor: mainColor,
       body: GetBuilder<CultureController>(builder: (cultures){
-        Map culture = widget.side == "r"?cultures.suggestedcultureList[widget.index]:cultures.popularcultureList[widget.index];
+        Culture culture = cultures.search['results'][widget.index];
         return Stack(
         children: [
           //background Image
@@ -106,7 +107,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(culture['culture'].photo),
+                    image: NetworkImage("${AppConstants.BASE_URL}${culture.photo}"),
                   ),
                 ),
               )),
@@ -123,7 +124,6 @@ class _CropDetailPageState extends State<CropDetailPage> {
                         Get.back();
                       },
                       child: AppIcon(icon: Icons.arrow_back_ios,)),
-                  StarsItem(fav: widget.side == "r"?culture["favorite"]:cultures.checkIfPopisRec(culture["culture"].id),rec: widget.side == "r"?true:cultures.checkIfPopisRec(culture["culture"].id),cult: culture["culture"].id,detail: true,),
                 ],
               )
           ),
@@ -146,7 +146,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      culture['culture'].name,
+                      culture.name!,
                       style: TextStyle(
                         fontFamily: 'Chakra_Petch',
                         fontWeight: FontWeight.w700,
@@ -154,7 +154,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                         color: Color.fromARGB(255, 15, 92, 17)
                       ),
                     ),
-                    BigText(text: culture['culture'].category, size: Dimensions.font16(context), ),
+                    BigText(text: culture.category!, size: Dimensions.font16(context), ),
                     SizedBox(height: Dimensions.height10(context),),
                     Expanded(
                         child: Container(
@@ -177,7 +177,7 @@ class _CropDetailPageState extends State<CropDetailPage> {
                                     ),
                                     Container(
                                       child:  BigText(
-                                        text: "\t\t\t${culture['culture'].description}",
+                                        text: "\t\t\t${culture.description}",
                                         size: Dimensions.font16(context)*0.8,
                                       ),
                                     ),

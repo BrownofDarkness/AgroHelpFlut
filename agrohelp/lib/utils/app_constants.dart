@@ -3,7 +3,7 @@ class AppConstants {
   static const String APP_VERSION = "1";
 
 
-  static const String IP = "192.168.1.187";
+  static const String IP = "192.168.1.188";
   static const String BASE_URL = "http://$IP:8000";
   static const String POPULAR_PRODUCT_URI = "/api/v1/products/popular";
   static const String CULTURE_URI = "/api/core/culture/";
@@ -14,6 +14,7 @@ class AppConstants {
   //auth endpoints
   static const String USER_URI = "/api/account/user/";
   static const String PARCEL_URI = "/api/core/parcel/";
+   static const String SEARCH_URI = "/api/core/search/";
   static const String LOGIN_URI = "/api/account/auth/";
   static const String FORUM_URI = "/api/forum/";
 
