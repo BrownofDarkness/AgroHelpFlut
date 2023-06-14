@@ -80,99 +80,99 @@ class _IllnessViewItemState extends State<IllnessViewItem> {
               child: GestureDetector(
                 onTap: () {
                   showDialog(
-                        context: context,
-                    
-                        builder: (BuildContext context) {
-                          return FullScreenDialog(
+                    context: context,
+                
+                    builder: (BuildContext context) {
+                      return FullScreenDialog(
+                        
+                        content: Column(children: [
+                          Container(
+                            alignment: Alignment.topCenter,
+                            height: Dimensions.height30(context)*3,
+                            child: Row(children: [
+                            Container(
+                              width: Dimensions.screenWidth(context)-Dimensions.width20(context)*9,
+                            ),
                             
-                            content: Column(children: [
-                              Container(
-                                alignment: Alignment.topCenter,
-                                height: Dimensions.height30(context)*3,
-                                child: Row(children: [
-                                Container(
-                                  width: Dimensions.screenWidth(context)-Dimensions.width20(context)*9,
-                                ),
-                                
-                                Container(
-                                  alignment: Alignment.center,
-                                  width: Dimensions.width20(context)*9,
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: AppIcon(icon: Icons.close,backgroundColor: Colors.transparent,iconsize: Dimensions.height30(context), size: Dimensions.height30(context),)
-                                  )
-                                ),
-                                ],
-                                )
-                              ),
-                              Container(
-                                width: Dimensions.screenWidth(context),
-                                height: Dimensions.pageViewContainer(context),
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                      "${AppConstants.BASE_URL}${widget.illness['image']}"
-                                    ),
-                                  )
-                                ),
-                              ),
-                              SizedBox(height: Dimensions.height15(context),),
-                              Expanded(
-                                child: Container(
-                                padding: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context)),
-                                width: Dimensions.screenWidth(context),
-                                child: Container(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            '${widget.illness["disease_name"]}',
-                                            style: TextStyle(
-                                              fontFamily: 'Chakra_Petch',
-                                              fontSize: Dimensions.height15(context)*1.2,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                        
-                                        SizedBox(height: Dimensions.height10(context),),
-                                        Text(
-                                          'Description : \n\t\t\t${widget.illness["description"]}',
-                                          style: TextStyle(
-                                            fontFamily: 'Chakra_Petch',
-                                            fontSize: Dimensions.height15(context)*1.2,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        SizedBox(height: Dimensions.height10(context),),
-                                        Text(
-                                          'Solutions : \n\t\t\t${widget.illness["solution"]}',
-                                          style: TextStyle(
-                                            fontFamily: 'Chakra_Petch',
-                                            fontSize: Dimensions.height15(context)*1.2,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        SizedBox(height: Dimensions.height10(context),),
-                                    ]),
-                                                          )
-                                                            )
-                                                      )
+                            Container(
+                              alignment: Alignment.center,
+                              width: Dimensions.width20(context)*9,
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).pop();
+                                },
+                                child: AppIcon(icon: Icons.close,backgroundColor: Colors.transparent,iconsize: Dimensions.height30(context), size: Dimensions.height30(context),)
                               )
-                            ],)
-                          );
-                        }
-                        );
+                            ),
+                            ],
+                            )
+                          ),
+                          Container(
+                            width: Dimensions.screenWidth(context),
+                            height: Dimensions.pageViewContainer(context),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  "${AppConstants.BASE_URL}${widget.illness['image']}"
+                                ),
+                              )
+                            ),
+                          ),
+                          SizedBox(height: Dimensions.height15(context),),
+                          Expanded(
+                            child: Container(
+                            padding: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context)),
+                            width: Dimensions.screenWidth(context),
+                            child: Container(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        '${widget.illness["disease_name"]}',
+                                        style: TextStyle(
+                                          fontFamily: 'Chakra_Petch',
+                                          fontSize: Dimensions.height15(context)*1.2,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    
+                                    SizedBox(height: Dimensions.height10(context),),
+                                    Text(
+                                      'Description : \n\t\t\t${widget.illness["description"]}',
+                                      style: TextStyle(
+                                        fontFamily: 'Chakra_Petch',
+                                        fontSize: Dimensions.height15(context)*1.2,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(height: Dimensions.height10(context),),
+                                    Text(
+                                      'Solutions : \n\t\t\t${widget.illness["solution"]}',
+                                      style: TextStyle(
+                                        fontFamily: 'Chakra_Petch',
+                                        fontSize: Dimensions.height15(context)*1.2,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(height: Dimensions.height10(context),),
+                                ]),
+                                                      )
+                                                        )
+                                                  )
+                          )
+                        ],)
+                      );
+                    }
+                  );
                 },
                 child: Text(
                           tronk(
