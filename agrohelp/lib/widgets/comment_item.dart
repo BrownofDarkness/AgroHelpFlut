@@ -40,7 +40,7 @@ class _CommentItemState extends State<CommentItem> {
                         backgroundColor: Colors.grey,
                         child: Icon(Icons.person, color: Colors.white,),
                       ),
-                      SizedBox(width: Dimensions.width30(context)*0.55,),
+                      SizedBox(width: Dimensions.width30(context),),
                       Expanded(
                         child: Container(
                           padding: EdgeInsets.only(left: Dimensions.width15(context), right: Dimensions.width15(context)),
@@ -113,7 +113,7 @@ class _CommentItemState extends State<CommentItem> {
                         ),
                       ],
                     ),
-                    width: Dimensions.screenWidth(context)*0.75+Dimensions.width15(context)*0.5,
+                    width: Dimensions.screenWidth(context)*0.75+Dimensions.width15(context)*0.7,
                     padding: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context), top: Dimensions.height10(context),bottom: Dimensions.height10(context)),
                     child: Text(
                       widget.comment.content!,
