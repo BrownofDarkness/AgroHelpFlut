@@ -5,7 +5,7 @@ import '../../model/signUp_model.dart';
 import '../../model/user_model.dart';
 import '../repository/auth_repo.dart';
 
-class AuthController extends GetxController implements GetxService{
+class AuthController extends GetxController implements GetxService {
   final AuthRepo authRepo;
 
   AuthController({required this.authRepo});
@@ -36,35 +36,36 @@ class AuthController extends GetxController implements GetxService{
     Response response = await authRepo.registration(signUpModel);
     late ResponseModel responseModel;
 
-    if(response.statusCode == 200){
+    if (response.statusCode == 201) {
       authRepo.saveToken(response.body["token"]);
       responseModel = ResponseModel(true, response.body["token"]);
-    }else{
+    } else {
       responseModel = ResponseModel(false, response.statusText!);
     }
     _isloading = false;
     update();
     return responseModel;
   }
+
   Future<void> hello() async {
     Response response = await authRepo.hello();
     update();
     print(" hello: ${response.body}");
   }
 
-  Future<ResponseModel> login(String email , String password) async {
+  Future<ResponseModel> login(String email, String password) async {
     _isloading = true;
     Response response = await authRepo.login(email, password);
     late ResponseModel responseModel;
     print("1: ${response.statusCode}");
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       print(response.body);
       print(_isconnected);
       authRepo.saveToken(response.body["token"]);
       responseModel = ResponseModel(true, response.body["token"]);
       _isconnected = true;
       update();
-    }else{
+    } else {
       responseModel = ResponseModel(false, response.statusText!);
       print(response.body);
     }
@@ -74,61 +75,60 @@ class AuthController extends GetxController implements GetxService{
     return responseModel;
   }
 
-  saveNumberAndPassword(String number , String password) async {
+  saveNumberAndPassword(String number, String password) async {
     authRepo.saveNumberAndPassword(number, password);
   }
 
-Future<void> getUserToken() async {
+  Future<void> getUserToken() async {
     String val = await authRepo.getUserToken();
     print(val);
-    if(val != "None"){
+    if (val != "None") {
       _userToken = val;
       _isconnected = true;
     }
     update();
-    
   }
 
-  bool clearSharedData(){
+  bool clearSharedData() {
     _isconnected = false;
     update();
     return authRepo.clearSharedData();
   }
 
-  Future <void> getUser() async{
+  Future<void> getUser() async {
     Response response = await authRepo.me();
     print(response.body[0]);
     _user = User.fromJson(response.body[0]);
     update();
   }
 
-  void setparcel(id){
+  void setparcel(id) {
     _parcel = id;
     update();
   }
 
   Future<void> getUserParcels() async {
     _parcelList = [];
-    Response response =  await authRepo.getUserParcels();
-    response.body.forEach((item){
-        Map parcel = {
+    Response response = await authRepo.getUserParcels();
+    response.body.forEach((item) {
+      Map parcel = {
         "id": item["id"],
         "name": item["name"],
         "area": item["area"],
         "location": item["location"]["coordinates"],
-        };
-        if (check(parcel, _parcelList)){
-          _parcelList.add(parcel);
-        }
+      };
+      if (check(parcel, _parcelList)) {
+        _parcelList.add(parcel);
+      }
     });
     print(_parcelList);
     update();
   }
 
-  bool check(Map parcel, List<Map> list){
+  bool check(Map parcel, List<Map> list) {
     bool add = true;
-    for(int i=0;i < list.length;i++ ){
-      if (list[i]["id"] == parcel['id']){
+    for (int i = 0; i < list.length; i++) {
+      if (list[i]["id"] == parcel['id']) {
         add = false;
         break;
       }
@@ -136,10 +136,10 @@ Future<void> getUserToken() async {
     return add;
   }
 
-  Map searchParcel(){
+  Map searchParcel() {
     Map parcel = {};
-    for(int i=0;i < _parcelList.length;i++ ){
-      if (_parcelList[i]["id"] == _parcel){
+    for (int i = 0; i < _parcelList.length; i++) {
+      if (_parcelList[i]["id"] == _parcel) {
         parcel = _parcelList[i];
         break;
       }
@@ -147,11 +147,10 @@ Future<void> getUserToken() async {
     return parcel;
   }
 
-  void setwheather(List<Map> list){
+  void setwheather(List<Map> list) {
     _wheather['parcel'] = _parcel;
     _wheather['data'] = list;
     print(_wheather);
     update();
   }
 }
-

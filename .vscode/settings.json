@@ -1,3 +1,4 @@
 {
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
+    "cmake.sourceDirectory": "C:/Users/WIL_BROWN/Documents/Travaux perso/AgroHelpFlut/agrohelp/linux/flutter"
 }
