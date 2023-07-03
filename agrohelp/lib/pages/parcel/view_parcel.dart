@@ -99,7 +99,7 @@ class _ViewParcelListState extends State<ViewParcelList> {
                             height: Dimensions.pageViewContainer(context)*0.8,
                             margin: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context)*1.5),
                             padding: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context)),
-                            width: Dimensions.pageViewContainer(context)*0.75,
+                            width: Dimensions.pageViewContainer(context)*0.7,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(Dimensions.radius30(context)),
                               color: Color.fromARGB(255, 51, 53, 133),
@@ -136,7 +136,7 @@ class _ViewParcelListState extends State<ViewParcelList> {
                               height: Dimensions.pageViewContainer(context)*0.8,
                               margin: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context)*1.5),
                               padding: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context)),
-                              width: Dimensions.pageViewContainer(context)*0.75,
+                              width: Dimensions.pageViewContainer(context)*0.7,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(Dimensions.radius30(context)),
                                 color: Color.fromARGB(255, 51, 53, 133),
