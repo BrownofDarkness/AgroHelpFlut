@@ -46,13 +46,11 @@ class _ForumPageState extends State<ForumPage> {
     if (content.isEmpty) {
       ShowCustomSnackBar("type in your question", title: "Forum question");
     } else {
-      ShowCustomSnackBar("All went well", title: "Perfect");
-
       print(content);
       forumController.createForum(content).then((status) {
         if (status.isSucess == true) {
-          ShowCustomSnackBar("user was successfully logged in ",
-              title: "sing in", isError: false);
+          ShowCustomSnackBar("your question was succesfully posted",
+              title: "Forum", isError: false);
         } else {
           ShowCustomSnackBar(
             status.message,
