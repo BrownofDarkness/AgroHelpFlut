@@ -294,9 +294,8 @@ class _SingUpPageState extends State<SingUpPage> {
                     items: dropdownOptions,
                     onChanged: (String? value) {
                       setState(() {
-                        selectedOption = value.toString().isEmpty
-                            ? selectedOption
-                            : value.toString();
+                        selectedOption =
+                            value.toString().isEmpty ? type : value.toString();
                         type = selectedOption;
                       });
                       print(selectedOption);

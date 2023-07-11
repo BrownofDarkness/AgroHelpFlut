@@ -15,15 +15,14 @@ class SearchMaladieItem extends StatefulWidget {
 }
 
 class _SearchMaladieItemState extends State<SearchMaladieItem> {
-
-  String tronk(text, textHeight){
+  String tronk(text, textHeight) {
     String firstHalf;
-    if(text.length > textHeight){
-        firstHalf = text.substring(0, textHeight.toInt())+" ...";
-      }else{
-        firstHalf = text;
-      }
-      return firstHalf;
+    if (text.length > textHeight) {
+      firstHalf = text.substring(0, textHeight.toInt()) + " ...";
+    } else {
+      firstHalf = text;
+    }
+    return firstHalf;
   }
 
   @override
@@ -31,115 +30,124 @@ class _SearchMaladieItemState extends State<SearchMaladieItem> {
     return GestureDetector(
       onTap: () {
         showDialog(
-          context: context,
-      
-          builder: (BuildContext context) {
-            return FullScreenDialog(
-              
-              content: Column(children: [
-                Container(
-                  alignment: Alignment.topCenter,
-                  height: Dimensions.height30(context)*3,
-                  child: Row(children: [
+            context: context,
+            builder: (BuildContext context) {
+              return FullScreenDialog(
+                  content: Column(
+                children: [
                   Container(
-                    width: Dimensions.screenWidth(context)-Dimensions.width20(context)*9,
-                  ),
-                  
-                  Container(
-                    alignment: Alignment.center,
-                    width: Dimensions.width20(context)*9,
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).pop();
-                      },
-                      child: AppIcon(icon: Icons.close,backgroundColor: Colors.transparent,iconsize: Dimensions.height30(context), size: Dimensions.height30(context),)
-                    )
-                  ),
-                  ],
-                  )
-                ),
-                Container(
-                  width: Dimensions.screenWidth(context),
-                  height: Dimensions.pageViewContainer(context),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                        "${AppConstants.BASE_URL}${widget.diesease['image']}"
-                      ),
-                    )
-                  ),
-                ),
-                SizedBox(height: Dimensions.height15(context),),
-                Expanded(
-                  child: Container(
-                  padding: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context)),
-                  width: Dimensions.screenWidth(context),
-                  child: Container(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      alignment: Alignment.topCenter,
+                      height: Dimensions.height30(context) * 3,
+                      child: Row(
                         children: [
                           Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              '${widget.diesease["disease_name"]}',
-                              style: TextStyle(
-                                fontFamily: 'Chakra_Petch',
-                                fontSize: Dimensions.height15(context)*1.2,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                              ),
-                            ),
+                            width: Dimensions.screenWidth(context) -
+                                Dimensions.width20(context) * 9,
                           ),
-                          
-                          SizedBox(height: Dimensions.height10(context),),
-                          Text(
-                            'Description : \n\t\t\t${widget.diesease["description"]}',
-                            style: TextStyle(
-                              fontFamily: 'Chakra_Petch',
-                              fontSize: Dimensions.height15(context)*1.2,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(height: Dimensions.height10(context),),
-                          Text(
-                            'Solutions : \n\t\t\t${widget.diesease["solution"]}',
-                            style: TextStyle(
-                              fontFamily: 'Chakra_Petch',
-                              fontSize: Dimensions.height15(context)*1.2,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(height: Dimensions.height10(context),),
-                      ]),
-                                            )
-                                              )
-                                        )
-                )
-              ],)
-            );
-          }
-        );
+                          Container(
+                              alignment: Alignment.center,
+                              width: Dimensions.width20(context) * 9,
+                              child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: AppIcon(
+                                    icon: Icons.close,
+                                    backgroundColor: Colors.transparent,
+                                    iconsize: Dimensions.height30(context),
+                                    size: Dimensions.height30(context),
+                                  ))),
+                        ],
+                      )),
+                  Container(
+                    width: Dimensions.screenWidth(context),
+                    height: Dimensions.pageViewContainer(context),
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage("${widget.diesease['image']}"),
+                        )),
+                  ),
+                  SizedBox(
+                    height: Dimensions.height15(context),
+                  ),
+                  Expanded(
+                      child: Container(
+                          padding: EdgeInsets.only(
+                              left: Dimensions.width20(context),
+                              right: Dimensions.width20(context)),
+                          width: Dimensions.screenWidth(context),
+                          child: Container(
+                              child: SingleChildScrollView(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      '${widget.diesease["disease_name"]}',
+                                      style: TextStyle(
+                                        fontFamily: 'Chakra_Petch',
+                                        fontSize:
+                                            Dimensions.height15(context) * 1.2,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Dimensions.height10(context),
+                                  ),
+                                  Text(
+                                    'Description : \n\t\t\t${widget.diesease["description"]}',
+                                    style: TextStyle(
+                                      fontFamily: 'Chakra_Petch',
+                                      fontSize:
+                                          Dimensions.height15(context) * 1.2,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Dimensions.height10(context),
+                                  ),
+                                  Text(
+                                    'Solutions : \n\t\t\t${widget.diesease["solution"]}',
+                                    style: TextStyle(
+                                      fontFamily: 'Chakra_Petch',
+                                      fontSize:
+                                          Dimensions.height15(context) * 1.2,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Dimensions.height10(context),
+                                  ),
+                                ]),
+                          ))))
+                ],
+              ));
+            });
       },
       child: Container(
-        margin: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context),bottom: Dimensions.height10(context)),
+        margin: EdgeInsets.only(
+            left: Dimensions.width20(context),
+            right: Dimensions.width20(context),
+            bottom: Dimensions.height10(context)),
         child: Row(
           children: [
             Container(
-              width:120,
+              width: 120,
               height: 120,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius20(context)),
+                borderRadius:
+                    BorderRadius.circular(Dimensions.radius20(context)),
                 color: Color.fromARGB(255, 220, 238, 213),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(
-                    "${AppConstants.BASE_URL}${widget.diesease['image']}"
-                  ),
+                  image: NetworkImage("${widget.diesease['image']}"),
                 ),
               ),
             ),
@@ -154,14 +162,25 @@ class _SearchMaladieItemState extends State<SearchMaladieItem> {
                   color: Color.fromARGB(255, 220, 238, 213),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(left: Dimensions.width10(context), right: Dimensions.width10(context)),
+                  padding: EdgeInsets.only(
+                      left: Dimensions.width10(context),
+                      right: Dimensions.width10(context)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      BigText(text: widget.diesease['disease_name'], size: Dimensions.font16(context),),
-                      SizedBox(height: Dimensions.height10(context),),
-                      SmallText(text: tronk(widget.diesease["description"], Dimensions.height20(context)), color: Colors.grey,),
+                      BigText(
+                        text: widget.diesease['disease_name'],
+                        size: Dimensions.font16(context),
+                      ),
+                      SizedBox(
+                        height: Dimensions.height10(context),
+                      ),
+                      SmallText(
+                        text: tronk(widget.diesease["description"],
+                            Dimensions.height20(context)),
+                        color: Colors.grey,
+                      ),
                     ],
                   ),
                 ),
@@ -186,5 +205,5 @@ class FullScreenDialog extends Dialog {
       constraints: BoxConstraints.expand(),
       child: content,
     );
-}
+  }
 }

@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
 import 'package:agrohelp/data/api/api_client.dart';
 import 'package:agrohelp/utils/app_constants.dart';
-class CultureRepo extends GetxService{
+
+class CultureRepo extends GetxService {
   final ApiClient apiClient;
 
   CultureRepo({required this.apiClient});
@@ -11,11 +12,13 @@ class CultureRepo extends GetxService{
   }
 
   Future<Response> getSuggestCulture(int id) async {
-    return await apiClient.getData("${AppConstants.PARCEL_URI}$id/suggest_culture/");
+    return await apiClient
+        .getData("${AppConstants.PARCEL_URI}$id/suggest_culture/");
   }
 
   Future<Response> search(String filter, String content) async {
-    String filt  = "";
+    String filt = "";
+    print(filter);
     if (filter == "culture") {
       filt = "culture";
     }
@@ -25,6 +28,7 @@ class CultureRepo extends GetxService{
     if (filter == "fertlisant") {
       filt = "fertilizer";
     }
+    print("${AppConstants.SEARCH_URI}?${filt}=$content");
     return await apiClient.getData("${AppConstants.SEARCH_URI}?$filt=$content");
   }
 
@@ -33,11 +37,17 @@ class CultureRepo extends GetxService{
   }
 
   Future<Response> addCultureToParcel(int parcel, int culture) async {
-    return await apiClient.postData("${AppConstants.PARCEL_URI}$parcel/add_cultures/", {"ids": [culture]});
+    return await apiClient
+        .postData("${AppConstants.PARCEL_URI}$parcel/add_cultures/", {
+      "ids": [culture]
+    });
   }
 
   Future<Response> removeCultureToParcel(int parcel, int culture) async {
-    return await apiClient.postData("${AppConstants.PARCEL_URI}$parcel/remove_cultures/", {"ids": [culture]});
+    return await apiClient
+        .postData("${AppConstants.PARCEL_URI}$parcel/remove_cultures/", {
+      "ids": [culture]
+    });
   }
 
   Future<Response> getPopularCulture() async {
@@ -53,7 +63,8 @@ class CultureRepo extends GetxService{
   }
 
   Future<Response> getCultureFertlizers(int id) async {
-    return await apiClient.getData("${AppConstants.CULTURE_URI}$id/fertilizers/");
+    return await apiClient
+        .getData("${AppConstants.CULTURE_URI}$id/fertilizers/");
   }
 
   Future<Response> getCultureDiseases(int id) async {
@@ -61,6 +72,7 @@ class CultureRepo extends GetxService{
   }
 
   Future<Response> getFavorableAreas(int id) async {
-    return await apiClient.getData("${AppConstants.CULTURE_URI}$id/favorable_areas/");
+    return await apiClient
+        .getData("${AppConstants.CULTURE_URI}$id/favorable_areas/");
   }
 }

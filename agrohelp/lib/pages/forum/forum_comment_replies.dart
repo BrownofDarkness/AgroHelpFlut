@@ -58,7 +58,8 @@ class _CommentRepliesState extends State<CommentReplies> {
   void createForumComent() {
     String content = controller.text.trim();
     if (content.isEmpty) {
-      ShowCustomSnackBar("type in your comment", title: "Forum Comment");
+      ShowCustomSnackBar("type in a replie before submitting",
+          title: "Comment replie");
     } else {
       int forumId = Get.find<ForumController>().forums[widget.forum].id;
       dynamic CommentId = Get.find<ForumController>()

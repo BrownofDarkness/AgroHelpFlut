@@ -59,7 +59,8 @@ class _ForumDetailsPageState extends State<ForumDetailsPage> {
   void createForumComent() {
     String content = controller.text.trim();
     if (content.isEmpty) {
-      ShowCustomSnackBar("type in your comment", title: "Forum Comment");
+      ShowCustomSnackBar("type in a comment before submitting",
+          title: "Forum Comment");
     } else {
       int forumId = Get.find<ForumController>().getForumId(widget.forum);
       // Créez un objet JSON

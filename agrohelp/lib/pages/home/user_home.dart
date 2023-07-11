@@ -19,7 +19,6 @@ class UserHomePage extends StatefulWidget {
 }
 
 class _UserHomePageState extends State<UserHomePage> {
-  
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPagevalue = 0.0;
   late bool start = false;
@@ -27,17 +26,15 @@ class _UserHomePageState extends State<UserHomePage> {
   late bool show = false;
 
   Future<void> _loadressource() async {
-    await Get.find<CultureController>().getPopularCultureList();
-    await Get.find<CultureController>().getSuggestList(Get.find<CultureController>().parcel);
     await Get.find<AuthController>().getUser();
+    await Get.find<CultureController>().getPopularCultureList();
+    await Get.find<CultureController>()
+        .getSuggestList(Get.find<CultureController>().parcel);
   }
 
-
-
-  double _height(BuildContext context) =>
-      Dimensions.pageViewContainer(context);
+  double _height(BuildContext context) => Dimensions.pageViewContainer(context);
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _loadressource();
     pageController.addListener(() {
@@ -45,11 +42,10 @@ class _UserHomePageState extends State<UserHomePage> {
         _currPagevalue = pageController.page!;
       });
     });
-
   }
 
   @override
-  void dispose(){
+  void dispose() {
     pageController.dispose();
     super.dispose();
   }
@@ -63,7 +59,11 @@ class _UserHomePageState extends State<UserHomePage> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.menu, color: Colors.white54,size: Dimensions.height30(context),),
+              icon: Icon(
+                Icons.menu,
+                color: Colors.white54,
+                size: Dimensions.height30(context),
+              ),
               onPressed: () {
                 Scaffold.of(context).openDrawer(); // Ouvre le drawer
               },
@@ -77,7 +77,8 @@ class _UserHomePageState extends State<UserHomePage> {
             Expanded(
               child: Container(
                 alignment: Alignment.center,
-                child: Text("Home",
+                child: Text(
+                  "Home",
                   style: TextStyle(
                     fontFamily: 'Chakra_Petch',
                     color: Colors.white60,
@@ -85,36 +86,41 @@ class _UserHomePageState extends State<UserHomePage> {
                   ),
                   overflow: TextOverflow.visible,
                 ),
-
               ),
             ),
             Container(
-              alignment: Alignment.centerRight,
-              width: Dimensions.width30(context)*8,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      IconButton(
-                        onPressed: (){
-                          print("wheather");
-                          Get.toNamed(RouteHelper.getWheatherPage());
-                        },
-                        icon: Icon(Icons.cloud, color: Colors.white54,size: Dimensions.height30(context),),
+                alignment: Alignment.centerRight,
+                width: Dimensions.width30(context) * 8,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            print("wheather");
+                            Get.toNamed(RouteHelper.getWheatherPage());
+                          },
+                          icon: Icon(
+                            Icons.cloud,
+                            color: Colors.white54,
+                            size: Dimensions.height30(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        print("dialog");
+                      },
+                      icon: Icon(
+                        Icons.notifications,
+                        color: Colors.white54,
+                        size: Dimensions.height30(context),
                       ),
-                    
-                    ],
-                  ),
-                  IconButton(
-                    onPressed: (){
-                      print("dialog");
-                    },
-                    icon: Icon(Icons.notifications, color: Colors.white54,size: Dimensions.height30(context),),
-                  )
-                ],
-              )
-            ),
+                    )
+                  ],
+                )),
           ],
         ),
       ),
@@ -129,28 +135,28 @@ class _UserHomePageState extends State<UserHomePage> {
               width: double.maxFinite,
               color: Colors.white,
               padding: EdgeInsets.only(left: Dimensions.width20(context)),
-                child: Text(
-                    "Hello",
-                    style: TextStyle(
-                        fontSize: Dimensions.height30(context)*1.2,
-                        fontFamily: 'Chakra_Petch',
-                        fontWeight: FontWeight.w500
-                    ),
-                ),
+              child: Text(
+                "Hello",
+                style: TextStyle(
+                    fontSize: Dimensions.height30(context) * 1.2,
+                    fontFamily: 'Chakra_Petch',
+                    fontWeight: FontWeight.w500),
+              ),
             ),
             //welcome .....
             Container(
               width: double.maxFinite,
               color: Colors.white,
-              padding: EdgeInsets.only(left: Dimensions.width20(context),top: Dimensions.width20(context)*0.2),
+              padding: EdgeInsets.only(
+                  left: Dimensions.width20(context),
+                  top: Dimensions.width20(context) * 0.2),
               child: Text(
                 "welcome on your Home",
                 style: TextStyle(
                     fontSize: Dimensions.height20(context),
                     fontFamily: 'Chakra_Petch',
                     fontWeight: FontWeight.w500,
-                    color: Colors.grey
-                ),
+                    color: Colors.grey),
               ),
             ),
             //space between, you can replace with a SizedBox
@@ -168,34 +174,34 @@ class _UserHomePageState extends State<UserHomePage> {
                 children: [
                   Expanded(
                     child: Container(
-                      
-                      padding: EdgeInsets.only(left: Dimensions.width20(context)),
+                      padding:
+                          EdgeInsets.only(left: Dimensions.width20(context)),
                       alignment: Alignment.centerLeft,
                       height: Dimensions.height30(context),
                       child: Text(
                         "What are you looking for?",
                         style: TextStyle(
                             fontFamily: 'Chakra_Petch',
-                            fontWeight: FontWeight.w500
-                        ),
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
                   Container(
                     color: Colors.white,
-                    width: Dimensions.width30(context)*10,
-                    padding: EdgeInsets.only(right: Dimensions.width20(context)),
+                    width: Dimensions.width30(context) * 10,
+                    padding:
+                        EdgeInsets.only(right: Dimensions.width20(context)),
                     alignment: Alignment.centerRight,
                     height: Dimensions.height30(context),
                     child: GestureDetector(
-                      onTap: (){
-                       },
+                      onTap: () {},
                       child: Container(
                         alignment: Alignment.center,
-                        width: Dimensions.height30(context)*3,
+                        width: Dimensions.height30(context) * 3,
                         height: Dimensions.height30(context),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(Dimensions.radius20(context)),
+                          borderRadius: BorderRadius.circular(
+                              Dimensions.radius20(context)),
                           color: Color.fromARGB(255, 15, 92, 17),
                         ),
                         child: Text(
@@ -204,8 +210,7 @@ class _UserHomePageState extends State<UserHomePage> {
                               fontSize: Dimensions.height15(context),
                               fontFamily: 'Chakra_Petch',
                               fontWeight: FontWeight.w500,
-                              color: Colors.white
-                          ),
+                              color: Colors.white),
                         ),
                       ),
                     ),
@@ -213,41 +218,46 @@ class _UserHomePageState extends State<UserHomePage> {
                 ],
               ),
             ),
-            
+
             Container(
               width: double.maxFinite,
               color: Colors.white,
-              child: SizedBox(height: Dimensions.height10(context),),
+              child: SizedBox(
+                height: Dimensions.height10(context),
+              ),
             ),
             //Page view for recommended crops
-            GetBuilder<CultureController>(builder: (cultures){
-              return cultures.isrecload?Center(
-                child: CircularProgressIndicator()
-              ) : Container(
-                width: double.maxFinite,
-                color: Colors.white,
-              height: Dimensions.Pageview(context)*0.75,
-              child: PageView.builder(
-                controller: pageController,
-                itemCount: cultures.suggestedcultureList.length,
-                itemBuilder: (context, position){
-                return _buildPageItem(position,cultures.suggestedcultureList[position]);
-                }
-              ),
-              );
+            GetBuilder<CultureController>(builder: (cultures) {
+              return cultures.isrecload
+                  ? Center(child: CircularProgressIndicator())
+                  : Container(
+                      width: double.maxFinite,
+                      color: Colors.white,
+                      height: Dimensions.Pageview(context) * 0.75,
+                      child: PageView.builder(
+                          controller: pageController,
+                          itemCount: cultures.suggestedcultureList.length,
+                          itemBuilder: (context, position) {
+                            return _buildPageItem(position,
+                                cultures.suggestedcultureList[position]);
+                          }),
+                    );
             }),
             Container(
               width: double.maxFinite,
               // color: Colors.white,
-              child: GetBuilder<CultureController>(builder: (popularProducts){
+              child: GetBuilder<CultureController>(builder: (popularProducts) {
                 return DotsIndicator(
-                  dotsCount: popularProducts.suggestedcultureList.isNotEmpty?popularProducts.suggestedcultureList.length:3,
+                  dotsCount: popularProducts.suggestedcultureList.isNotEmpty
+                      ? popularProducts.suggestedcultureList.length
+                      : 3,
                   position: _currPagevalue,
                   decorator: DotsDecorator(
                     activeColor: Color.fromARGB(255, 21, 134, 24),
                     size: const Size.square(9.0),
                     activeSize: const Size(18.0, 9.0),
-                    activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                    activeShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0)),
                   ),
                 );
               }),
@@ -255,50 +265,64 @@ class _UserHomePageState extends State<UserHomePage> {
             Container(
               width: double.maxFinite,
               color: Colors.white,
-              padding: EdgeInsets.only(left: Dimensions.width20(context),top: Dimensions.width20(context)*0.2),
+              padding: EdgeInsets.only(
+                  left: Dimensions.width20(context),
+                  top: Dimensions.width20(context) * 0.2),
               child: Text(
                 "Popular Crops",
                 style: TextStyle(
                     fontSize: Dimensions.height20(context),
                     fontFamily: 'Chakra_Petch',
                     fontWeight: FontWeight.w500,
-                    color: Colors.grey
-                ),
+                    color: Colors.grey),
               ),
             ),
             Container(
               width: double.maxFinite,
               color: Colors.white,
-              child: SizedBox(height: Dimensions.height10(context),),
+              child: SizedBox(
+                height: Dimensions.height10(context),
+              ),
             ),
             Expanded(
-
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Container(
-                  padding: EdgeInsets.only(left: Dimensions.width20(context)),
-                  child: GetBuilder<CultureController>(builder: (cultures){
-                    return Column(
+                child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Container(
+                padding: EdgeInsets.only(left: Dimensions.width20(context)),
+                child: GetBuilder<CultureController>(builder: (cultures) {
+                  return Column(
                     children: [
-                      SizedBox(height: Dimensions.height10(context),),
-                      for (int i = 0; i < cultures.popularcultureList.length; i += 2)...[
+                      SizedBox(
+                        height: Dimensions.height10(context),
+                      ),
+                      for (int i = 0;
+                          i < cultures.popularcultureList.length;
+                          i += 2) ...[
                         Row(
                           children: [
-                            PopularCrop(index: i, culture: cultures.popularcultureList[i],),
-                            if (i+1 < cultures.popularcultureList.length)...[
-                              SizedBox(width: Dimensions.width20(context)*1.2,),
-                              PopularCrop(index: i+1, culture: cultures.popularcultureList[i+1]),
+                            PopularCrop(
+                              index: i,
+                              culture: cultures.popularcultureList[i],
+                            ),
+                            if (i + 1 < cultures.popularcultureList.length) ...[
+                              SizedBox(
+                                width: Dimensions.width20(context) * 1.2,
+                              ),
+                              PopularCrop(
+                                  index: i + 1,
+                                  culture: cultures.popularcultureList[i + 1]),
                             ]
                           ],
                         ),
-                        SizedBox(height: Dimensions.height10(context),)
+                        SizedBox(
+                          height: Dimensions.height10(context),
+                        )
                       ]
                     ],
                   );
-                  }),
-                ),
-              )
-            )
+                }),
+              ),
+            ))
             // listView for most cultivated crops
             /*Expanded(
               child: SingleChildScrollView(
@@ -381,7 +405,8 @@ class _UserHomePageState extends State<UserHomePage> {
       ),
     );
   }
-  Widget _buildPageItem(int index ,culture) {
+
+  Widget _buildPageItem(int index, culture) {
     Matrix4 matrix = Matrix4.identity();
     double currScale, currTrans;
 
@@ -389,7 +414,8 @@ class _UserHomePageState extends State<UserHomePage> {
       currScale = 1 - (_currPagevalue - index) * (1 - _scaleFactor);
       currTrans = _height(context) * (1 - currScale) / 2;
     } else if (index == _currPagevalue.floor() + 1) {
-      currScale = _scaleFactor + (_currPagevalue - index + 1) * (1 - _scaleFactor);
+      currScale =
+          _scaleFactor + (_currPagevalue - index + 1) * (1 - _scaleFactor);
       currTrans = _height(context) * (1 - currScale) / 2;
     } else if (index == _currPagevalue.floor() - 1) {
       currScale = 1 - (_currPagevalue - index) * (1 - _scaleFactor);
@@ -404,48 +430,50 @@ class _UserHomePageState extends State<UserHomePage> {
 
     return Transform(
       transform: matrix,
-      child: RecommendedItem(culture: culture, index: index,),
+      child: RecommendedItem(
+        culture: culture,
+        index: index,
+      ),
     );
   }
 
   Widget _WheatherItem(bool visible) {
-      return Stack(
-        children: [
-          Positioned(
-            top: Dimensions.height20(context)*2.3,
+    return Stack(
+      children: [
+        Positioned(
+            top: Dimensions.height20(context) * 2.3,
             left: Dimensions.width20(context),
             right: Dimensions.width20(context),
             child: Container(
               color: Colors.white,
-              height: visible? 0:Dimensions.height30(context)*6,
-              width: visible? 0:Dimensions.screenWidth(context),
+              height: visible ? 0 : Dimensions.height30(context) * 6,
+              width: visible ? 0 : Dimensions.screenWidth(context),
               child: Text("data"),
-            )
-          )
-        ],
-      );
+            ))
+      ],
+    );
   }
 }
 
 class WheatherScreenDialog extends Dialog {
-
-  const WheatherScreenDialog({super.key, });
+  const WheatherScreenDialog({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-        children: [
-          Positioned(
-            top: Dimensions.height20(context)*2.3,
+      children: [
+        Positioned(
+            top: Dimensions.height20(context) * 2.3,
             left: Dimensions.width20(context),
             right: Dimensions.width20(context),
             child: Container(
-              height: Dimensions.height30(context)*6,
+              height: Dimensions.height30(context) * 6,
               width: Dimensions.screenWidth(context),
               child: Text("data"),
-            )
-          )
-        ],
-      );
+            ))
+      ],
+    );
   }
 }

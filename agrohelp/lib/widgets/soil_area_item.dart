@@ -1,13 +1,7 @@
-import 'dart:async';
-
-import 'package:agrohelp/data/controllers/auth_controller.dart';
 import 'package:agrohelp/routes/route_helper.dart';
-import 'package:agrohelp/utils/app_constants.dart';
 import 'package:agrohelp/utils/dimentions.dart';
-import 'package:agrohelp/widgets/app_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SoilAreaItem extends StatefulWidget {
   final index;
@@ -19,24 +13,21 @@ class SoilAreaItem extends StatefulWidget {
 }
 
 class _SoilAreaItemState extends State<SoilAreaItem> {
-
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
-  
   }
 
-
-  String tronk(text, textHeight){
+  String tronk(text, textHeight) {
     String firstHalf;
-    if(text.length > textHeight){
-        firstHalf = text.substring(0, textHeight.toInt()-10)+" .....";
-      }else{
-        firstHalf = text;
-      }
-      return firstHalf;
+    if (text.length > textHeight) {
+      firstHalf = text.substring(0, textHeight.toInt() - 10) + " .....";
+    } else {
+      firstHalf = text;
+    }
+    return firstHalf;
   }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -51,42 +42,44 @@ class _SoilAreaItemState extends State<SoilAreaItem> {
             image: DecorationImage(
               fit: BoxFit.cover,
               // ici on devrait utiliser NetworkImage si elle vienne du serveur
-              image: AssetImage(
-                "assets/images/funfood.jpeg"
-              ),
+              image: AssetImage("assets/images/areas.jpeg"),
             ),
           ),
         ),
 
         //front shadow on image
         Positioned(
-            child: GestureDetector(
-              onTap: (){
-                print("object");
-                
-               
-              },
-              child: Container(
-                height: Dimensions.pageViewContainer(context),
-                margin: EdgeInsets.only(left: 10, right: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.radius30(context)),
-                  color: Color.fromRGBO(0, 70, 0, 0.4),
-                ),
+          child: GestureDetector(
+            onTap: () {
+              print("object");
+            },
+            child: Container(
+              height: Dimensions.pageViewContainer(context),
+              margin: EdgeInsets.only(left: 10, right: 10),
+              decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.circular(Dimensions.radius30(context)),
+                color: Color.fromRGBO(0, 70, 0, 0.4),
               ),
             ),
+          ),
         ),
-        
+
         Positioned(
           child: Align(
             child: Container(
               height: Dimensions.pageViewContainer(context),
-              margin: EdgeInsets.only(left: Dimensions.width20(context), right: Dimensions.width20(context)*1.5),
-              padding: EdgeInsets.only(top: Dimensions.width20(context)*1.5, bottom: Dimensions.width20(context)*1.5,left: Dimensions.width15(context)*3, right: Dimensions.width10(context)*2),
-              
+              margin: EdgeInsets.only(
+                  left: Dimensions.width20(context),
+                  right: Dimensions.width20(context) * 1.5),
+              padding: EdgeInsets.only(
+                  top: Dimensions.width20(context) * 1.5,
+                  bottom: Dimensions.width20(context) * 1.5,
+                  left: Dimensions.width15(context) * 3,
+                  right: Dimensions.width10(context) * 2),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius30(context)),
-                
+                borderRadius:
+                    BorderRadius.circular(Dimensions.radius30(context)),
               ),
               child: GestureDetector(
                 onTap: () {
@@ -95,13 +88,11 @@ class _SoilAreaItemState extends State<SoilAreaItem> {
                 child: Container(
                   alignment: Alignment.center,
                   child: Text(
-                    tronk(
-                      widget.soil["name"],
-                      Dimensions.pageViewContainer(context)*0.7
-                    ),
+                    tronk(widget.soil["name"],
+                        Dimensions.pageViewContainer(context) * 0.7),
                     style: TextStyle(
                       fontFamily: 'Chakra_Petch',
-                      fontSize: Dimensions.height15(context)*1.2,
+                      fontSize: Dimensions.height15(context) * 1.2,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
@@ -128,5 +119,5 @@ class FullScreenDialog extends Dialog {
       constraints: BoxConstraints.expand(),
       child: content,
     );
-}
+  }
 }

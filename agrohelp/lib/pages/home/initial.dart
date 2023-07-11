@@ -1,4 +1,4 @@
-import 'package:agrohelp/pages/home/agro_home.dart';
+import 'package:agrohelp/pages/home/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +14,6 @@ class Initial extends StatefulWidget {
 }
 
 class _InitialState extends State<Initial> {
-
   Future<void> _loadressource() async {
     await Get.find<AuthController>().getUserToken();
   }
@@ -28,9 +27,11 @@ class _InitialState extends State<Initial> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CultureController>(builder: (cultures){
-        return GetBuilder<AuthController>(builder: (authcontroller){
-          return (authcontroller.isconnected? ViewParcelList():AgroHome());
+    return GetBuilder<CultureController>(builder: (cultures) {
+      return GetBuilder<AuthController>(builder: (authcontroller) {
+        return (authcontroller.isconnected
+            ? ViewParcelList()
+            : WelcomeScreen());
       });
     });
   }

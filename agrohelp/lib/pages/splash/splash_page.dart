@@ -15,29 +15,22 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin{
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController controller;
   late bool ok;
 
-
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    controller = AnimationController(
-        vsync: this,
-        duration: const Duration(seconds: 2)
-    )..forward();
-    animation = CurvedAnimation(
-        parent: controller,
-        curve: Curves.linear
-    );
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2))
+          ..forward();
+    animation = CurvedAnimation(parent: controller, curve: Curves.linear);
 
-    Timer(
-      const Duration(seconds: 3),
-        ()=> Get.offNamed(RouteHelper.getInitial())
-    );
+    Timer(const Duration(seconds: 3),
+        () => Get.offNamed(RouteHelper.getInitial()));
   }
 
   @override
@@ -45,17 +38,18 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ScaleTransition(scale: animation,
-              child: Center(child: Image.asset("assets/images/logo.png", width: Dimensions.width20(context)*15,))
-            ),
-            Center(child: Image.asset("assets/images/bestfood2.jpeg", width: Dimensions.width20(context)*15,)),
-          ],
-        )
-      ),
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ScaleTransition(
+              scale: animation,
+              child: Center(
+                  child: Image.asset(
+                "assets/images/agrologo.png",
+                width: Dimensions.width20(context) * 15,
+              ))),
+        ],
+      )),
     );
   }
-
 }

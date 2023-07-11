@@ -21,6 +21,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   var search = TextEditingController();
+  String search_type = "";
 
   @override
   void dispose() {
@@ -145,12 +146,11 @@ class _SearchPageState extends State<SearchPage> {
                         isExpanded: true,
                         items: dropdownOptions,
                         onChanged: (String? value) {
-                          setState(() {
-                            selectedOption = value.toString().isEmpty
-                                ? selectedOption
-                                : value.toString();
-                            print(selectedOption);
-                          });
+                          print("this is ${value.toString()}");
+                          selectedOption = value.toString().isEmpty
+                              ? selectedOption
+                              : value.toString();
+                          print(selectedOption);
                         },
                       ),
                     ),
@@ -188,6 +188,7 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                           onPressed: () {
                             setState(() {
+                              print("this is ${selectedOption.toString()}");
                               _search(
                                   selectedOption, search.text.trim(), cultures);
                               search.clear();
